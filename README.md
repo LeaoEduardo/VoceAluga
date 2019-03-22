@@ -7,5 +7,5 @@
 - No Ubuntu: export CLASSPATH=$CLASSPATH:path/mysql-connector-java-version.jar
 - No Windows usa-se o Painel de controle do sistema para acessar as variáveis do sistema
 - Em vez de incluir na variável do sistema, é possível também adicionar o pacote .jar na hora de executar o programa com 
-algo semelhante a isso (rodando a classe main <code>Exemplo</code>, incluida neste rep):<br>
-<code>java -cp mysql-connector-java-version/mysql-connector-java-version.jar:. Exemplo</code>
+algo semelhante a isso (rodando a classe main <code>ExemploSQL</code>, incluida neste rep):<br>
+<code>java -cp mysql-connector-java-version/mysql-connector-java-version.jar:. ExemploSQL</code>
