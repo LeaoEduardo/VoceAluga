@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TelaClienteController">
+   <children>
+      <Text layoutX="299.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tela do Cliente">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Text>
+      <Text layoutX="83.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="tf_nome" layoutX="170.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="525.7294921875">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="83.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CPF:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="tf_cpf" layoutX="138.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="240.7294921875">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="83.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data de Nascimento:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="tf_dataNasc" layoutX="308.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="184.740234375">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="83.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nacionalidade:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="tf_nacionalidade" layoutX="244.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="248.7294921875">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="83.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telefone:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="tf_telefone" layoutX="194.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="240.7294921875">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="83.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CNH:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="tf_cnh" layoutX="150.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="240.7294921875">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="83.0" layoutY="445.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Validade da CNH:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="tf_validadeCNH" layoutX="279.0" layoutY="445.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="161.7294921875">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Button layoutX="307.0" layoutY="499.0" mnemonicParsing="false" onAction="#reservarCarro" prefHeight="72.0" prefWidth="211.0" text="Reservar carro" />
+      <Button layoutX="605.0" layoutY="33.0" mnemonicParsing="false" onAction="#apagarRegistro" prefHeight="31.0" prefWidth="162.0" text="Apagar este registro" textFill="RED" />
+      <Button layoutX="573.0" layoutY="500.0" mnemonicParsing="false" onAction="#cancelarReserva" prefHeight="31.0" prefWidth="168.0" text="Cancelar reserva" />
+      <Button layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#voltar" prefHeight="61.0" prefWidth="127.0" text="Voltar" />
+      <Button layoutX="83.0" layoutY="500.0" mnemonicParsing="false" onAction="#historico" prefHeight="31.0" prefWidth="162.0" text="Histórico de locações" />
+      <Button layoutX="83.0" layoutY="541.0" mnemonicParsing="false" onAction="#contratempos" prefHeight="31.0" prefWidth="162.0" text="Contratempos" />
+      <Button layoutX="573.0" layoutY="541.0" mnemonicParsing="false" onAction="#apoliceSeguros" prefHeight="31.0" prefWidth="168.0" text="Apólice de seguros" />
+   </children>
+</AnchorPane>

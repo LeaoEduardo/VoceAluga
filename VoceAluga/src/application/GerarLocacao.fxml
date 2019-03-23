@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GerarLocacaoController">
+   <children>
+      <TextField fx:id="tf_cpf" layoutX="315.0" layoutY="245.0" promptText="XXX.XXX.XXX-XX" />
+      <Text layoutX="288.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gerar Locação">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Text>
+      <Text layoutX="178.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CPF do cliente:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Button layoutX="505.0" layoutY="245.0" mnemonicParsing="false" onAction="#pesquisarCliente" text="Pesquisar cliente" />
+      <Button layoutX="349.0" layoutY="386.0" mnemonicParsing="false" onAction="#novoCliente" prefHeight="70.0" prefWidth="102.0" text="Novo cliente" />
+      <Button layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#voltar" prefHeight="61.0" prefWidth="127.0" text="Voltar" />
+   </children>
+</AnchorPane>

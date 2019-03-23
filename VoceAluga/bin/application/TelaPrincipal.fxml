@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TelaPrincipalController">
+   <children>
+      <Text layoutX="269.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sistema Você-Aluga" wrappingWidth="281.0">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Text>
+      <Text layoutX="218.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu Principal" textAlignment="CENTER" wrappingWidth="383.7294921875">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Text>
+      <Button layoutX="307.0" layoutY="199.0" mnemonicParsing="false" onAction="#gerarLocacao" prefHeight="53.0" prefWidth="206.0" text="Gerar Locação" />
+      <Button layoutX="307.0" layoutY="291.0" mnemonicParsing="false" onAction="#ativarLocacao" prefHeight="53.0" prefWidth="206.0" text="Ativar Locação" />
+      <Button layoutX="307.0" layoutY="387.0" mnemonicParsing="false" onAction="#consultasGerais" prefHeight="53.0" prefWidth="206.0" text="Consultas Gerais" />
+      <Button layoutX="24.0" layoutY="552.0" mnemonicParsing="false" onAction="#sair" prefHeight="25.0" prefWidth="66.0" text="Sair" />
+      <Text layoutX="24.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuário:" />
+      <Label fx:id="tf_username" layoutX="85.0" layoutY="18.0" text="nome de usuario" />
+      <Text layoutX="39.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nível:" />
+      <Label fx:id="tf_nivel" layoutX="85.0" layoutY="43.0" text="Agente/Gerente" />
+   </children>
+</AnchorPane>
