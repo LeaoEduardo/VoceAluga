@@ -41,6 +41,15 @@ public class LoginFuncionarioController {
     	if (usuario.equals("user") && senha.equals("123")) {
     		
     		// O nivel do usuario (agente/gerente) deve ser pego do BD
+    		nivel = "Funcionario";
+    		Contexto.getInstancia().setUsuario(usuario);
+    		Contexto.getInstancia().setNivel(nivel);
+    		main.showTelaPrincipal();
+    	}
+    	
+    	else if (usuario.equals("admin") && senha.equals("123")) {
+    		
+    		// O nivel do usuario (agente/gerente) deve ser pego do BD
     		nivel = "Gerente";
     		Contexto.getInstancia().setUsuario(usuario);
     		Contexto.getInstancia().setNivel(nivel);
@@ -52,7 +61,7 @@ public class LoginFuncionarioController {
     		// Caso nao esteja
 		    Alert alert = new Alert(AlertType.ERROR);
 		    alert.setTitle("Erro");
-		    alert.setHeaderText("O nome de usuário ou a senha estão incorretos.");
+		    alert.setHeaderText("O nome de usuario ou a senha estao incorretos.");
 		    alert.setContentText("Tente novamente.");
 		    alert.showAndWait();
 		    tf_username.setText("");

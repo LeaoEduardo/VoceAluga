@@ -74,15 +74,15 @@ public class TelaClienteController {
     	// Aqui sera feita a remoção do cadastro do usuário do BD
     	
     	Alert alert = new Alert(AlertType.CONFIRMATION);
-    	alert.setTitle("Confirmar ação");
-    	alert.setHeaderText("Este registro será apagado");
+    	alert.setTitle("Confirmar acao");
+    	alert.setHeaderText("Este registro sera apagado");
     	alert.setContentText("Tem certeza de que deseja apagar este registro?");
     	Optional<ButtonType> result = alert.showAndWait();
     	
     	if (result.get() == ButtonType.OK) {
     	    // ... user chose OK
     		// apaga registro do cliente
-    		main.showGerarLocacao();
+    		main.showTelaPrincipal();
     	}
     		
     	else {
@@ -117,6 +117,6 @@ public class TelaClienteController {
     @FXML
     void voltar(ActionEvent event) throws IOException {
     	
-    	main.showGerarLocacao();
+    	main.showTelaPrincipal();
     }
 }
