@@ -13,7 +13,7 @@ algo semelhante a isso (rodando a classe main <code>ExemploSQL</code>, incluida 
 
 ## JavaFX no eclipse
 - No eclipse: Help -> Install New Software...
-- Em Work With colocar a opção com o seu eclipse+ http://download.eclipse.org/releases/
+- Em Work With colocar a opção com o seu eclipse+ http://download.eclipse.org/releases/  , por exemplo: Neon-http://download.eclipse.org/releases/neon
 - Filtrar texto com "e(fx)clipse"
 - Selecionar e(fx)clipse - IDE e baixar
 
