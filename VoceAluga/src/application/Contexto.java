@@ -15,6 +15,7 @@ public class Contexto {
     private String usuario = new String();
     private String nivel = new String();
     private String cpfCliente = new String();
+    private String filial = new String();
 
     public String getUsuario() {
         return usuario;
@@ -28,6 +29,10 @@ public class Contexto {
     	return cpfCliente;
     }
     
+    public String getFilial() {
+    	return filial;
+    }
+    
     public void setUsuario(String usuario) {
     	this.usuario = usuario;
     }
@@ -38,5 +43,9 @@ public class Contexto {
     
     public void setCpfCliente(String cpfCliente) {
     	this.cpfCliente = cpfCliente;
+    }
+    
+    public void setFilial(String filial) {
+    	this.filial = filial;
     }
 }

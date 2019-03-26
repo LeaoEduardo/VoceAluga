@@ -3,9 +3,11 @@ package application;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -13,6 +15,7 @@ public class Main extends Application {
 	
 	private Stage primaryStage;
     private static BorderPane rootLayout;
+    
     
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -23,6 +26,7 @@ public class Main extends Application {
         initRootLayout();
         showLoginFuncionario();
 	}
+	
 	
 	public void initRootLayout() throws IOException {
 
@@ -35,6 +39,7 @@ public class Main extends Application {
             primaryStage.show();
     }
 
+	
 	public void showLoginFuncionario() throws IOException {
 		
             // Carrega o login de funcionario.
@@ -44,19 +49,18 @@ public class Main extends Application {
             rootLayout.setCenter(loginFuncionario);
     }
 	
+	
 	public void showTelaPrincipal() throws IOException {
 		
-		// Carrega o menu principal
+		// Carrega o menu principal funcionario
 		AnchorPane telaPrincipal = FXMLLoader.load(getClass().getResource("TelaPrincipal.fxml"));
 		rootLayout.setCenter(telaPrincipal);
+	
+		
 	}
 	
-	public void showGerarLocacao() throws IOException {
-		
-		// Carrega a página de gerar locacao
-		AnchorPane gerarLocacao = FXMLLoader.load(getClass().getResource("GerarLocacao.fxml"));
-		rootLayout.setCenter(gerarLocacao);
-	}
+	
+	
 	
 	public void showTelaCliente() throws IOException {
 		
@@ -64,6 +68,7 @@ public class Main extends Application {
 		AnchorPane telaCliente = FXMLLoader.load(getClass().getResource("TelaCliente.fxml"));
 		rootLayout.setCenter(telaCliente);
 	}
+	
 	
 	public static void main(String[] args) {
 		launch(args);
