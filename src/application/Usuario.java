@@ -7,9 +7,10 @@ public class Usuario {
 	private int nivel;
 	
 	public Usuario(String usuario, String nomeNivel, int nivel ) {
+		
 		this.usuario = usuario;
-		this.nivel = nivel;
 		this.nomeNivel = nomeNivel;
+		this.nivel = nivel;
 	}
 
 	public String getUsuario() {

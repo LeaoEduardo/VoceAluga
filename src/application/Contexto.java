@@ -3,8 +3,6 @@ package application;
 public class Contexto {
 	
 	// Essa classe eh usada para fazer a integracao de dados entre os diferentes controllers (classes)
-	// No caso, ela guarda o usuario e o nivel do funcionario logado no momento
-	// Guarda tambem o cpf inserido na pesquisa de cliente
 	
     private final static Contexto instancia = new Contexto();
 
@@ -13,23 +11,12 @@ public class Contexto {
     }
     
     private Usuario usuario;
-    
-    public void setUsuario(String user, String nomeNivel, int nivel) {
-    	usuario = new Usuario(user,nomeNivel,nivel);
-    }
-
-    //private String usuario = new String();
-    private String nivel = new String();
     private String cpfCliente = new String();
     private String passaporteCliente = new String();
     private String filial = new String();
 
     public Usuario getUsuario() {
         return usuario;
-    }
-    
-    public String getNivel() {
-        return nivel;
     }
     
     public String getCpfCliente() {
@@ -44,12 +31,12 @@ public class Contexto {
     	return filial;
     }
     
-    public void setUsuario(Usuario usuario) {
-    	this.usuario = usuario;
+    public void setUsuario(String user, String nomeNivel, int nivel) {
+    	this.usuario = new Usuario(user,nomeNivel,nivel);
     }
     
-    public void setNivel(String nivel) {
-    	this.nivel = nivel;
+    public void setUsuario(Usuario usuario) {
+    	this.usuario = usuario;
     }
     
     public void setCpfCliente(String cpfCliente) {

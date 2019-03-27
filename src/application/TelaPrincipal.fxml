@@ -55,7 +55,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab fx:id="abaCarro" text="Carros">
+            <Tab fx:id="abaVeiculos" text="Veículos">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -97,16 +97,16 @@
             <Label fx:id="tf_nivel" text="tf_nivel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Label layoutX="441.0" layoutY="6.0" prefHeight="111.0" prefWidth="348.0" text="Você     Aluga">
+      <Label layoutX="441.0" layoutY="6.0" prefHeight="111.0" prefWidth="348.0" text="Você     Aluga" AnchorPane.rightAnchor="11.0">
          <font>
             <Font name="Arial Black" size="46.0" />
          </font>
       </Label>
-      <ImageView fitHeight="48.0" fitWidth="58.0" layoutX="578.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="48.0" fitWidth="58.0" layoutX="578.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="164.74353790283203">
          <image>
             <Image url="@../../car-icon-hi.png" />
          </image>
       </ImageView>
-      <Button layoutX="742.0" mnemonicParsing="false" onAction="#sair" prefHeight="21.0" prefWidth="58.0" text="Sair" />
+      <Button layoutX="742.0" mnemonicParsing="false" onAction="#sair" prefHeight="21.0" prefWidth="58.0" text="Sair" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>

@@ -27,20 +27,20 @@
                   <Font size="20.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="tf_password" onKeyReleased="#processaLoginEnter" promptText="Senha" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+            <PasswordField fx:id="tf_password" onAction="#processaLoginEnter" promptText="Senha" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
             </PasswordField>
-            <Button mnemonicParsing="false" onAction="#processaLoginBoton" prefHeight="42.0" prefWidth="263.0" text="Entrar" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#processaLoginBotao" prefHeight="42.0" prefWidth="263.0" text="Entrar" GridPane.columnSpan="3" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Label layoutX="118.0" layoutY="69.0" prefHeight="159.0" prefWidth="625.0" text="Você    Aluga" textAlignment="CENTER">
+      <Label layoutX="118.0" layoutY="69.0" prefHeight="159.0" prefWidth="625.0" text="Você    Aluga" textAlignment="CENTER" AnchorPane.bottomAnchor="372.0" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="69.0">
          <font>
             <Font name="Arial Bold" size="95.0" />
          </font>
       </Label>
-      <ImageView fitHeight="78.0" fitWidth="97.0" layoutX="352.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="78.0" fitWidth="97.0" layoutX="352.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="413.0" AnchorPane.leftAnchor="352.0" AnchorPane.rightAnchor="354.958251953125" AnchorPane.topAnchor="109.0">
          <image>
             <Image url="@../../car-icon-hi.png" />
          </image>

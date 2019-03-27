@@ -27,31 +27,42 @@ public class LoginFuncionarioController {
     private TextField tf_username;
 
     @FXML
-	void processaLoginBoton(ActionEvent event) throws IOException {
-    	this.FazerLogin();    	
+	void processaLoginBotao(ActionEvent event) throws IOException {
+    	this.fazerLogin();    	
     }
     
     @FXML
 	void processaLoginEnter(ActionEvent event) throws IOException {
-    	this.FazerLogin();    	
+    	this.fazerLogin();
     }
 
-    private void FazerLogin() throws IOException {
+    private void fazerLogin() throws IOException {
+    	
     	String usuario = tf_username.getText();
     	String senha = tf_password.getText();
-    	String nivel = new String();
     		
     	// Prints de teste
         System.out.println(usuario);
     	System.out.println(senha);
     	
     	ConnectionSQL con = new ConnectionSQL();
+    	
     	// Aqui deve ser feito o teste para checar se o funcionario esta cadastrado no BD
     	if (con.LoginFuncionario(usuario, senha)) {
     		
     		// O nivel do usuario (agente/gerente) deve ser pego do BD
     		main.showTelaPrincipal();
     	}
+    	
+    	/* else if (usuario.equals("user") && senha.equals("123")) {
+    		Contexto.getInstancia().setUsuario("user", "Agente", 2);
+    		main.showTelaPrincipal();
+    	}
+    	
+    	else if (usuario.equals("admin") && senha.equals("123")) {
+    		Contexto.getInstancia().setUsuario("admin", "Gerente", 1);
+    		main.showTelaPrincipal();
+    	} */
     	
     	else {
     		

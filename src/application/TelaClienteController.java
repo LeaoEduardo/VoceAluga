@@ -6,10 +6,10 @@ import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.ButtonType;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -52,8 +52,6 @@ public class TelaClienteController {
     	// CPF/Passaporte inserido na pesquisa efetuada anteriormente na tela gerar locacao
         cpf = Contexto.getInstancia().getCpfCliente();
         passaporte = Contexto.getInstancia().getPassaporteCliente();
-        //System.out.println("cpf: " + cpf);
-        //System.out.println("passaporte: " + passaporte);
     	
     	// Abaixo os dados do cliente devem ser carregados do BD, a partir do CPF/Passaporte acima
         
@@ -106,7 +104,7 @@ public class TelaClienteController {
     	
     	// Abre a janela de cadastro de novo cliente 
     	Stage stage = new Stage();
-    	AnchorPane atualizarCliente = FXMLLoader.load(getClass().getResource("AtualizarCliente.fxml"));
+    	Parent atualizarCliente = FXMLLoader.load(getClass().getResource("AtualizarCliente.fxml"));
     	Scene scene = new Scene(atualizarCliente);
     	
     	stage.setTitle("Atualizar registro de cliente");
@@ -126,13 +124,8 @@ public class TelaClienteController {
     	Optional<ButtonType> result = alert.showAndWait();
     	
     	if (result.get() == ButtonType.OK) {
-    	    // ... user chose OK
     		// apaga registro do cliente
     		main.showTelaPrincipal();
-    	}
-    		
-    	else {
-    	    // ... user chose CANCEL or closed the dialog
     	}
     }
     
@@ -162,7 +155,6 @@ public class TelaClienteController {
     
     @FXML
     void voltar(ActionEvent event) throws IOException {
-    	
     	main.showTelaPrincipal();
     }
 }

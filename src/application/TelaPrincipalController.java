@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -15,7 +16,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class TelaPrincipalController {
@@ -41,7 +41,7 @@ public class TelaPrincipalController {
     private TabPane telaPrincipalTabPane;
     
     @FXML
-    private Tab abaCarro;
+    private Tab abaVeiculos;
     
     @FXML
     private Tab abaFuncionarios;
@@ -59,19 +59,17 @@ public class TelaPrincipalController {
     	tf_username.setText(usuario.getUsuario());
     	tf_nivel.setText(usuario.getNomeNivel());
 		tf_filial.setText(filial);
-    	
 		
     	if (usuario.getNivel() != 1) {
-    		//telaPrincipalTabPane.getTabs().add(abaCarro);
-        	abaCarro.setDisable(true);
-        	abaFuncionarios.setDisable(true);
+    		
+    		TabPane tabPane = abaVeiculos.getTabPane();
+        	tabPane.getTabs().remove(abaVeiculos);
+        	tabPane.getTabs().remove(abaFuncionarios);
         }
     }
     
     @FXML
     void pesquisarCliente(ActionEvent event) throws IOException {
-    	
-    	// Mudar tela principal para selecionar entre pesquisa por CPF ou passaporte
     	
     	if (cb_cpfPassaporte.getSelectionModel().getSelectedIndex() == 0) {
     		
@@ -142,7 +140,7 @@ public class TelaPrincipalController {
     	
     	// Abre a janela de cadastro de novo cliente 
     	Stage stage = new Stage();
-    	AnchorPane novoCliente = FXMLLoader.load(getClass().getResource("NovoCliente.fxml"));
+    	Parent novoCliente = FXMLLoader.load(getClass().getResource("NovoCliente.fxml"));
     	Scene scene = new Scene(novoCliente);
     	
     	stage.setTitle("Cadastro de cliente");
@@ -164,7 +162,6 @@ public class TelaPrincipalController {
     
     @FXML
     void sair(ActionEvent event) throws IOException {
-    	
     	main.showLoginFuncionario();
     }
 }

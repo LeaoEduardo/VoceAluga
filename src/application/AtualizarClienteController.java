@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -17,6 +18,8 @@ import javafx.stage.Stage;
 
 public class AtualizarClienteController {
 
+	private Main main = new Main();
+	
 	@FXML
     private TextField tf_nome;
 	@FXML
@@ -84,7 +87,7 @@ public class AtualizarClienteController {
     }
     
     @FXML
-    void atualizarCliente(ActionEvent event) {
+    void atualizarCliente(ActionEvent event) throws IOException {
 
     	String nome = tf_nome.getText();
     	String cpf = Contexto.getInstancia().getCpfCliente();
@@ -122,6 +125,8 @@ public class AtualizarClienteController {
         	
         	// // Aqui os dados alterados do cliente deverao ser armazenados no BD
         	// (nome,cpf/passaporte,dataNasc,nacionalidade,telefone,cnh,validadeCNH)
+        	Contexto.getInstancia().setCpfCliente(cpf);
+        	Contexto.getInstancia().setPassaporteCliente(passaporte);
         	
         	// Prints de teste
         	System.out.println("nome: " + nome);
@@ -139,6 +144,7 @@ public class AtualizarClienteController {
 	        alert.showAndWait();
 	        Stage stage = (Stage) botaoAtualizarCliente.getScene().getWindow();
 	        stage.close();
+	        main.showTelaCliente();
         }
     }
 

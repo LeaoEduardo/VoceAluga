@@ -5,68 +5,48 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 
 public class Main extends Application {
+    
+	public static void main(String[] args) {
+		launch(args);
+	}
 	
-	private Stage primaryStage;
-    private static BorderPane rootLayout;
-    
-    
+	private static Stage primaryStage;
+	
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		
-		this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Sistema VoceAluga");
+		Main.primaryStage = primaryStage;
+        primaryStage.setTitle("Sistema VoceAluga");
         
-        initRootLayout();
         showLoginFuncionario();
+        primaryStage.show();
 	}
 	
-	
-	public void initRootLayout() throws IOException {
-
-            // Carrega o root layout do arquivo fxml.
-            rootLayout = FXMLLoader.load(getClass().getResource("RootLayout.fxml"));
-            
-            // Mostra a scene (cena) contendo o root layout.
-            Scene scene = new Scene(rootLayout);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-    }
-
-	
 	public void showLoginFuncionario() throws IOException {
-		
-            // Carrega o login de funcionario.
-            AnchorPane loginFuncionario = FXMLLoader.load(getClass().getResource("LoginFuncionario.fxml"));
-            
-            // Define o login de funcionario dentro do root layout.
-            rootLayout.setCenter(loginFuncionario);
-    }
-	
+
+		// Carrega o login de funcionario.
+		Parent loginFuncionario = FXMLLoader.load(getClass().getResource("LoginFuncionario.fxml"));
+		Scene scene = new Scene(loginFuncionario);
+		primaryStage.setScene(scene);
+	}
 	
 	public void showTelaPrincipal() throws IOException {
 		
 		// Carrega o menu principal funcionario
-		AnchorPane telaPrincipal = FXMLLoader.load(getClass().getResource("TelaPrincipal.fxml"));
-		rootLayout.setCenter(telaPrincipal);		
+		Parent telaPrincipal = FXMLLoader.load(getClass().getResource("TelaPrincipal.fxml"));
+		Scene scene = new Scene(telaPrincipal);
+        primaryStage.setScene(scene);	
 	}
-	
-	
-	
 	
 	public void showTelaCliente() throws IOException {
 		
 		// Carrega a tela do cliente
-		AnchorPane telaCliente = FXMLLoader.load(getClass().getResource("TelaCliente.fxml"));
-		rootLayout.setCenter(telaCliente);
-	}
-	
-	
-	public static void main(String[] args) {
-		launch(args);
+		Parent telaCliente = FXMLLoader.load(getClass().getResource("TelaCliente.fxml"));
+		Scene scene = new Scene(telaCliente);
+        primaryStage.setScene(scene);
 	}
 }
