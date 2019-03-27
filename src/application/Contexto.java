@@ -11,14 +11,20 @@ public class Contexto {
     public static Contexto getInstancia() {
         return instancia;
     }
+    
+    private Usuario usuario;
+    
+    public void setUsuario(String user, String nomeNivel, int nivel) {
+    	usuario = new Usuario(user,nomeNivel,nivel);
+    }
 
-    private String usuario = new String();
+    //private String usuario = new String();
     private String nivel = new String();
     private String cpfCliente = new String();
     private String passaporteCliente = new String();
     private String filial = new String();
 
-    public String getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
     
@@ -38,7 +44,7 @@ public class Contexto {
     	return filial;
     }
     
-    public void setUsuario(String usuario) {
+    public void setUsuario(Usuario usuario) {
     	this.usuario = usuario;
     }
     

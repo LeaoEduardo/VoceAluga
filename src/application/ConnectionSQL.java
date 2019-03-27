@@ -72,7 +72,7 @@ public class ConnectionSQL{
     
     public boolean LoginFuncionario(String User, String senha) {
     	
-    	String query = "Select * from funcionario where User = '"+User+"' and Senha = '"+senha+"'";
+    	String query = "Select f.User, tf.Id as IdNivel, tf.Nombre from funcionario f inner join tipofuncionario tf on f.IdTipo = tf.Id where User = '"+User+"' and Senha = '"+senha+"'";
 
     	if(OpenConnection()) {
             try {
@@ -86,6 +86,11 @@ public class ConnectionSQL{
             	//while (rs.next()) {
                     //String coffeeName = rs.getString("COF_NAME");
             	if (result.next()) {
+            		Contexto.getInstancia().setUsuario(
+            				result.getString("User"), 
+            				result.getString("Nombre"), 
+            				Integer.parseInt(result.getString("IdNivel"))
+            				);
                     return true;
                 }
             } catch (Exception e) {

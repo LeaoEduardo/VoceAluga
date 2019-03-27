@@ -27,8 +27,16 @@ public class LoginFuncionarioController {
     private TextField tf_username;
 
     @FXML
-	void processaLogin(ActionEvent event) throws IOException {
-    	
+	void processaLoginBoton(ActionEvent event) throws IOException {
+    	this.FazerLogin();    	
+    }
+    
+    @FXML
+	void processaLoginEnter(ActionEvent event) throws IOException {
+    	this.FazerLogin();    	
+    }
+
+    private void FazerLogin() throws IOException {
     	String usuario = tf_username.getText();
     	String senha = tf_password.getText();
     	String nivel = new String();
@@ -42,18 +50,6 @@ public class LoginFuncionarioController {
     	if (con.LoginFuncionario(usuario, senha)) {
     		
     		// O nivel do usuario (agente/gerente) deve ser pego do BD
-    		nivel = "Funcionario";
-    		Contexto.getInstancia().setUsuario(usuario);
-    		Contexto.getInstancia().setNivel(nivel);
-    		main.showTelaPrincipal();
-    	}
-    	
-    	else if (usuario.equals("admin") && senha.equals("123")) {
-    		
-    		// O nivel do usuario (agente/gerente) deve ser pego do BD
-    		nivel = "Gerente";
-    		Contexto.getInstancia().setUsuario(usuario);
-    		Contexto.getInstancia().setNivel(nivel);
     		main.showTelaPrincipal();
     	}
     	

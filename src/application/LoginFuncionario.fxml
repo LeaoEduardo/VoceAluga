@@ -27,12 +27,12 @@
                   <Font size="20.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="tf_password" promptText="Senha" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+            <PasswordField fx:id="tf_password" onKeyReleased="#processaLoginEnter" promptText="Senha" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
             </PasswordField>
-            <Button mnemonicParsing="false" onAction="#processaLogin" prefHeight="42.0" prefWidth="263.0" text="Entrar" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#processaLoginBoton" prefHeight="42.0" prefWidth="263.0" text="Entrar" GridPane.columnSpan="3" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Label layoutX="118.0" layoutY="69.0" prefHeight="159.0" prefWidth="625.0" text="Você    Aluga" textAlignment="CENTER">

@@ -54,14 +54,14 @@ public class TelaPrincipalController {
         cb_cpfPassaporte.setItems(escolhas);
         cb_cpfPassaporte.getSelectionModel().selectFirst();
        
-    	String usuario = Contexto.getInstancia().getUsuario();
-    	String nivel = Contexto.getInstancia().getNivel();
+    	Usuario usuario = Contexto.getInstancia().getUsuario();
     	String filial = Contexto.getInstancia().getFilial();
-    	tf_username.setText(usuario);
-    	tf_nivel.setText(nivel);
+    	tf_username.setText(usuario.getUsuario());
+    	tf_nivel.setText(usuario.getNomeNivel());
 		tf_filial.setText(filial);
     	
-    	if (nivel.equals("agente")) {
+		
+    	if (usuario.getNivel() != 1) {
     		//telaPrincipalTabPane.getTabs().add(abaCarro);
         	abaCarro.setDisable(true);
         	abaFuncionarios.setDisable(true);

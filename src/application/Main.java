@@ -52,9 +52,7 @@ public class Main extends Application {
 		
 		// Carrega o menu principal funcionario
 		AnchorPane telaPrincipal = FXMLLoader.load(getClass().getResource("TelaPrincipal.fxml"));
-		rootLayout.setCenter(telaPrincipal);
-	
-		
+		rootLayout.setCenter(telaPrincipal);		
 	}
 	
 	
