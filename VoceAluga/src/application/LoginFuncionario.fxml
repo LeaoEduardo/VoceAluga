@@ -35,12 +35,12 @@
             <Button mnemonicParsing="false" onAction="#processaLogin" prefHeight="42.0" prefWidth="263.0" text="Entrar" GridPane.columnSpan="3" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Label layoutX="120.0" layoutY="66.0" prefHeight="159.0" prefWidth="597.0" text="Você     Aluga">
+      <Label layoutX="118.0" layoutY="69.0" prefHeight="159.0" prefWidth="625.0" text="Você    Aluga" textAlignment="CENTER">
          <font>
-            <Font name="Constantia Bold" size="96.0" />
+            <Font name="Arial Bold" size="95.0" />
          </font>
       </Label>
-      <ImageView fitHeight="78.0" fitWidth="97.0" layoutX="353.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="78.0" fitWidth="97.0" layoutX="352.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../car-icon-hi.png" />
          </image>

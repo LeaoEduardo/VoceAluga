@@ -9,13 +9,13 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.NovoClienteController">
    <children>
-      <Text layoutX="117.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Novo Cliente">
+      <Text layoutX="103.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Novo Cliente">
          <font>
-            <Font name="System Bold" size="26.0" />
+            <Font name="Arial Black" size="26.0" />
          </font>
       </Text>
-      <Button fx:id="botaoCadastrarCliente" layoutX="113.0" layoutY="360.0" mnemonicParsing="false" onAction="#cadastrarCliente" prefHeight="51.0" prefWidth="150.0" text="Cadastrar cliente" />
-      <Button fx:id="botaoCancelar" layoutX="113.0" layoutY="421.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="51.0" prefWidth="150.0" text="Cancelar" />
+      <Button fx:id="botaoCadastrarCliente" layoutX="138.0" layoutY="360.0" mnemonicParsing="false" onAction="#cadastrarCliente" prefHeight="51.0" prefWidth="150.0" text="Cadastrar cliente" />
+      <Button fx:id="botaoCancelar" layoutX="138.0" layoutY="421.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="51.0" prefWidth="150.0" text="Cancelar" />
       <Text fill="RED" layoutX="44.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Obs.: Todos os campos devem ser preenchidos." underline="true" />
       <GridPane layoutX="9.0" layoutY="89.0" prefHeight="210.0" prefWidth="406.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
         <columnConstraints>
@@ -32,6 +32,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
+            <TextField fx:id="tf_cpfPassaporte" prefHeight="25.0" prefWidth="248.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nome:">
                <font>
                   <Font name="System Bold" size="15.0" />
@@ -43,7 +44,6 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Text>
-            <TextField fx:id="tf_cpf" prefHeight="25.0" prefWidth="248.0" promptText="XXX.XXX.XXX-XX" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Data de nascimento:" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="15.0" />
@@ -74,9 +74,10 @@
                </font>
             </Text>
             <DatePicker fx:id="tf_validadeCNH" prefHeight="31.0" prefWidth="223.0" promptText="DD/MM/AAAA" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ChoiceBox fx:id="cb_cpfPassaporte" prefWidth="150.0" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <ImageView fitHeight="31.0" fitWidth="30.0" layoutX="280.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="31.0" fitWidth="30.0" layoutX="294.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../car-icon-hi.png" />
          </image>

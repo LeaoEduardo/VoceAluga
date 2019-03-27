@@ -5,19 +5,27 @@ import java.util.Optional;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.ButtonType;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class TelaClienteController {
 	
 	Main main = new Main();
 	
+	@FXML
+    private Text t_cpf;
+	@FXML
+    private Text t_passaporte;
     @FXML
     private Text tf_nome;
     @FXML
-    private Text tf_cpf;
+    private Text tf_cpfPassaporte;
     @FXML
     private Text tf_dataNasc;
     @FXML
@@ -31,6 +39,7 @@ public class TelaClienteController {
     
     private String nome = new String();
     private String cpf = new String();
+    private String passaporte = new String();
     private String dataNasc = new String();
     private String nacionalidade = new String();
     private String telefone = new String();
@@ -40,21 +49,45 @@ public class TelaClienteController {
     @FXML
     void initialize() {
     	
-    	// CPF inserido na pesquisa efetuada anteriormente na tela gerar locacao
+    	// CPF/Passaporte inserido na pesquisa efetuada anteriormente na tela gerar locacao
         cpf = Contexto.getInstancia().getCpfCliente();
+        passaporte = Contexto.getInstancia().getPassaporteCliente();
+        //System.out.println("cpf: " + cpf);
+        //System.out.println("passaporte: " + passaporte);
     	
-    	// Aqui os dados do cliente devem ser carregados do BD, a partir do CPF acima
-    	
-    	// Apenas valores de teste
-    	nome = "Fulano da Silva";
-        dataNasc = "XX/XX/XXXX";
-        nacionalidade = "Brasileiro(a)";
-        telefone = "(XX)XXXXX-XXXX";
-        cnh = "XXXXXXXXXXX";
-        validadeCNH = "XX/XX/XXXX";
+    	// Abaixo os dados do cliente devem ser carregados do BD, a partir do CPF/Passaporte acima
+        
+        // Se CPF do cliente estiver preenchido
+        if (!Contexto.getInstancia().getCpfCliente().equals("")) {
+        	
+        	// Use o CPF do cliente para carregar os dados do BD
+        	t_passaporte.setVisible(false);
+        	tf_cpfPassaporte.setText(cpf);
+        	
+        	nome = "Fulano da Silva";
+            dataNasc = "XX/XX/XXXX";
+            nacionalidade = "Brasileiro(a)";
+            telefone = "(XX)XXXXX-XXXX";
+            cnh = "XXXXXXXXXXX";
+            validadeCNH = "XX/XX/XXXX";
+        }
+        
+        // Se nao, o passaporte obrigatoriamente estara preenchido
+        else {
+        	
+        	// Use o passaporte do cliente para carregar os dados do BD
+        	t_cpf.setVisible(false);
+        	tf_cpfPassaporte.setText(passaporte);
+        	
+        	nome = "Fulano da Silva";
+            dataNasc = "XX/XX/XXXX";
+            nacionalidade = "Brasileiro(a)";
+            telefone = "(XX)XXXXX-XXXX";
+            cnh = "XXXXXXXXXXX";
+            validadeCNH = "XX/XX/XXXX";
+        }
         
         tf_nome.setText(nome);
-        tf_cpf.setText(cpf);
         tf_dataNasc.setText(dataNasc);
         tf_nacionalidade.setText(nacionalidade);
         tf_telefone.setText(telefone);
@@ -66,6 +99,19 @@ public class TelaClienteController {
     void reservarCarro(ActionEvent event) {
     	
     	// Sera feito no Sprint de aluguel
+    }
+    
+    @FXML 
+    void atualizarRegistro(ActionEvent event) throws IOException {
+    	
+    	// Abre a janela de cadastro de novo cliente 
+    	Stage stage = new Stage();
+    	AnchorPane atualizarCliente = FXMLLoader.load(getClass().getResource("AtualizarCliente.fxml"));
+    	Scene scene = new Scene(atualizarCliente);
+    	
+    	stage.setTitle("Atualizar registro de cliente");
+    	stage.setScene(scene);
+        stage.show();
     }
 
     @FXML

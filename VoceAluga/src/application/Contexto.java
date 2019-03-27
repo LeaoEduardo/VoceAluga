@@ -15,6 +15,7 @@ public class Contexto {
     private String usuario = new String();
     private String nivel = new String();
     private String cpfCliente = new String();
+    private String passaporteCliente = new String();
     private String filial = new String();
 
     public String getUsuario() {
@@ -27,6 +28,10 @@ public class Contexto {
     
     public String getCpfCliente() {
     	return cpfCliente;
+    }
+    
+    public String getPassaporteCliente() {
+    	return passaporteCliente;
     }
     
     public String getFilial() {
@@ -43,6 +48,10 @@ public class Contexto {
     
     public void setCpfCliente(String cpfCliente) {
     	this.cpfCliente = cpfCliente;
+    }
+    
+    public void setPassaporteCliente(String passaporteCliente) {
+    	this.passaporteCliente = passaporteCliente;
     }
     
     public void setFilial(String filial) {

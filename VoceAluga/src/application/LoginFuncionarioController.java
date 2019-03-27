@@ -32,6 +32,7 @@ public class LoginFuncionarioController {
     	String usuario = tf_username.getText();
     	String senha = tf_password.getText();
     	String nivel = new String();
+    	String filial = new String();
     		
     	// Prints de teste
         System.out.println(usuario);
@@ -41,18 +42,22 @@ public class LoginFuncionarioController {
     	if (usuario.equals("user") && senha.equals("123")) {
     		
     		// O nivel do usuario (agente/gerente) deve ser pego do BD
-    		nivel = "Funcionario";
+    		nivel = "agente";
+    		filial = "UFRJ";
     		Contexto.getInstancia().setUsuario(usuario);
     		Contexto.getInstancia().setNivel(nivel);
+    		Contexto.getInstancia().setFilial(filial);
     		main.showTelaPrincipal();
     	}
     	
     	else if (usuario.equals("admin") && senha.equals("123")) {
     		
     		// O nivel do usuario (agente/gerente) deve ser pego do BD
-    		nivel = "Gerente";
+    		nivel = "gerente";
+    		filial = "UFRJ";
     		Contexto.getInstancia().setUsuario(usuario);
     		Contexto.getInstancia().setNivel(nivel);
+    		Contexto.getInstancia().setFilial(filial);
     		main.showTelaPrincipal();
     	}
     	
