@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.0-dev
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Host: 192.168.30.22
--- Generation Time: Mar 26, 2019 at 07:38 PM
--- Server version: 10.1.26-MariaDB-0+deb9u1
--- PHP Version: 7.2.14-1+0~20190113100742.14+stretch~1.gbpd83c69
+-- Host: localhost
+-- Tempo de geração: 28/03/2019 às 02:41
+-- Versão do servidor: 10.1.38-MariaDB
+-- Versão do PHP: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,16 +19,16 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `vocealuga`
+-- Banco de dados: `vocealuga`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Cliente`
+-- Estrutura para tabela `cliente`
 --
 
-CREATE TABLE `Cliente` (
+CREATE TABLE `cliente` (
   `Id` int(11) NOT NULL,
   `Nome` varchar(50) NOT NULL,
   `Identidade` varchar(15) NOT NULL,
@@ -39,13 +39,20 @@ CREATE TABLE `Cliente` (
   `DataCNH` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Despejando dados para a tabela `cliente`
+--
+
+INSERT INTO `cliente` (`Id`, `Nome`, `Identidade`, `DataNascimento`, `Nacionalidade`, `Telefone`, `CNH`, `DataCNH`) VALUES
+(1, 'Cliente Teste', '12345678910', '2019-03-27', 'brasileiro', 987654321, 12345678910, '2019-03-27');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Funcionario`
+-- Estrutura para tabela `funcionario`
 --
 
-CREATE TABLE `Funcionario` (
+CREATE TABLE `funcionario` (
   `Id` int(11) NOT NULL,
   `User` varchar(30) NOT NULL,
   `Senha` varchar(30) NOT NULL,
@@ -53,86 +60,86 @@ CREATE TABLE `Funcionario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `Funcionario`
+-- Despejando dados para a tabela `funcionario`
 --
 
-INSERT INTO `Funcionario` (`Id`, `User`, `Senha`, `IdTipo`) VALUES
+INSERT INTO `funcionario` (`Id`, `User`, `Senha`, `IdTipo`) VALUES
 (1, 'Admin', 'Admin', 1),
 (2, 'Test', 'Test', 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `TipoFuncionario`
+-- Estrutura para tabela `tipofuncionario`
 --
 
-CREATE TABLE `TipoFuncionario` (
+CREATE TABLE `tipofuncionario` (
   `Id` int(11) NOT NULL,
   `Nombre` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `TipoFuncionario`
+-- Despejando dados para a tabela `tipofuncionario`
 --
 
-INSERT INTO `TipoFuncionario` (`Id`, `Nombre`) VALUES
+INSERT INTO `tipofuncionario` (`Id`, `Nombre`) VALUES
 (1, 'Administrador'),
 (2, 'Funcionario');
 
 --
--- Indexes for dumped tables
+-- Índices de tabelas apagadas
 --
 
 --
--- Indexes for table `Cliente`
+-- Índices de tabela `cliente`
 --
-ALTER TABLE `Cliente`
+ALTER TABLE `cliente`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `Funcionario`
+-- Índices de tabela `funcionario`
 --
-ALTER TABLE `Funcionario`
+ALTER TABLE `funcionario`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `FK_TipoFuncionario` (`IdTipo`);
 
 --
--- Indexes for table `TipoFuncionario`
+-- Índices de tabela `tipofuncionario`
 --
-ALTER TABLE `TipoFuncionario`
+ALTER TABLE `tipofuncionario`
   ADD PRIMARY KEY (`Id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de tabelas apagadas
 --
 
 --
--- AUTO_INCREMENT for table `Cliente`
+-- AUTO_INCREMENT de tabela `cliente`
 --
-ALTER TABLE `Cliente`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `cliente`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `Funcionario`
+-- AUTO_INCREMENT de tabela `funcionario`
 --
-ALTER TABLE `Funcionario`
+ALTER TABLE `funcionario`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `TipoFuncionario`
+-- AUTO_INCREMENT de tabela `tipofuncionario`
 --
-ALTER TABLE `TipoFuncionario`
+ALTER TABLE `tipofuncionario`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints for dumped tables
+-- Restrições para dumps de tabelas
 --
 
 --
--- Constraints for table `Funcionario`
+-- Restrições para tabelas `funcionario`
 --
-ALTER TABLE `Funcionario`
-  ADD CONSTRAINT `FK_TipoFuncionario` FOREIGN KEY (`IdTipo`) REFERENCES `TipoFuncionario` (`Id`);
+ALTER TABLE `funcionario`
+  ADD CONSTRAINT `FK_TipoFuncionario` FOREIGN KEY (`IdTipo`) REFERENCES `tipofuncionario` (`Id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
