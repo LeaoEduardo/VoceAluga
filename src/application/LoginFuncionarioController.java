@@ -28,12 +28,12 @@ public class LoginFuncionarioController {
 
     @FXML
 	void processaLoginBotao(ActionEvent event) throws IOException {
-    	this.fazerLogin();    	
+    	fazerLogin();    	
     }
     
     @FXML
 	void processaLoginEnter(ActionEvent event) throws IOException {
-    	this.fazerLogin();
+    	fazerLogin();
     }
 
     private void fazerLogin() throws IOException {

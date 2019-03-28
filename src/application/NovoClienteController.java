@@ -1,7 +1,7 @@
 package application;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -78,9 +78,8 @@ public class NovoClienteController {
         // Se estiver tudo certo
         else {
         	
-        	// As strings abaixo saem em formato "dd/mm/aaaa", para serem inseridas no banco de dados de forma padronizada
-        	String dataNasc = tf_dataNasc.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        	String validadeCNH = tf_validadeCNH.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        	LocalDate dataNasc = tf_dataNasc.getValue();
+        	LocalDate validadeCNH = tf_validadeCNH.getValue();
         	
         	// Aqui os dados do cliente devem ser registrados no BD
         	// (nome,cpf/passaporte,dataNasc,nacionalidade,telefone,cnh,validadeCNH)
@@ -89,11 +88,11 @@ public class NovoClienteController {
         	System.out.println("nome: " + nome);
             System.out.println("cpf: " + cpf);
             System.out.println("passaporte: " + passaporte);
-            System.out.println("dataNasc: " + dataNasc);
+            System.out.println("dataNasc: " + dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             System.out.println("nacionalidade: " + nacionalidade);
             System.out.println("telefone: " + telefone);
             System.out.println("cnh: " + cnh);
-            System.out.println("validadeCNH: " + validadeCNH);
+            System.out.println("validadeCNH: " + validadeCNH.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         	
 	        Alert alert = new Alert(AlertType.INFORMATION);
 	        alert.setHeaderText("Cadastro efetuado");

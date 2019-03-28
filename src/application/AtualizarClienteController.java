@@ -3,7 +3,6 @@ package application;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,11 +43,11 @@ public class AtualizarClienteController {
     private String nome = new String();
     private String cpf = new String();
     private String passaporte = new String();
-    private String dataNasc = new String();
     private String nacionalidade = new String();
     private String telefone = new String();
     private String cnh = new String();
-    private String validadeCNH = new String();
+    private LocalDate dataNasc;
+    private LocalDate validadeCNH;
     
     @FXML
     void initialize() {
@@ -72,18 +71,18 @@ public class AtualizarClienteController {
     	
     	// Apenas valores de teste
     	nome = "Fulano da Silva";
-        dataNasc = "12/12/2012";
+        dataNasc = LocalDate.parse("12/12/2012", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         nacionalidade = "Brasileiro(a)";
         telefone = "(XX)XXXXX-XXXX";
         cnh = "XXXXXXXXXXX";
-        validadeCNH = "12/12/2012";
+        validadeCNH = LocalDate.parse("12/12/2012", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
        
     	tf_nome.setText(nome);
-    	tf_dataNasc.setValue(LocalDate.parse(dataNasc,DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+    	tf_dataNasc.setValue(dataNasc);
     	tf_nacionalidade.setText(nacionalidade);
 		tf_telefone.setText(telefone);
     	tf_cnh.setText(cnh);
-    	tf_validadeCNH.setValue(LocalDate.parse(validadeCNH,DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+    	tf_validadeCNH.setValue(validadeCNH);
     }
     
     @FXML
@@ -119,9 +118,8 @@ public class AtualizarClienteController {
         // Se estiver tudo certo
         else {
         	
-        	// As strings abaixo saem em formato "dd/mm/aaaa", para serem inseridas no banco de dados de forma padronizada
-        	String dataNasc = tf_dataNasc.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        	String validadeCNH = tf_validadeCNH.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        	LocalDate dataNasc = tf_dataNasc.getValue();
+        	LocalDate validadeCNH = tf_validadeCNH.getValue();
         	
         	// // Aqui os dados alterados do cliente deverao ser armazenados no BD
         	// (nome,cpf/passaporte,dataNasc,nacionalidade,telefone,cnh,validadeCNH)
@@ -132,11 +130,11 @@ public class AtualizarClienteController {
         	System.out.println("nome: " + nome);
             System.out.println("cpf: " + cpf);
             System.out.println("passaporte: " + passaporte);
-            System.out.println("dataNasc: " + dataNasc);
+            System.out.println("dataNasc: " + dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             System.out.println("nacionalidade: " + nacionalidade);
             System.out.println("telefone: " + telefone);
             System.out.println("cnh: " + cnh);
-            System.out.println("validadeCNH: " + validadeCNH);
+            System.out.println("validadeCNH: " + validadeCNH.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         	
 	        Alert alert = new Alert(AlertType.INFORMATION);
 	        alert.setHeaderText("Cadastro alterado");

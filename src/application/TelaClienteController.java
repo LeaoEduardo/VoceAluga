@@ -1,8 +1,9 @@
 package application;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,11 +41,11 @@ public class TelaClienteController {
     private String nome = new String();
     private String cpf = new String();
     private String passaporte = new String();
-    private String dataNasc = new String();
     private String nacionalidade = new String();
     private String telefone = new String();
     private String cnh = new String();
-    private String validadeCNH = new String();
+    private LocalDate dataNasc;
+    private LocalDate validadeCNH;
     
     @FXML
     void initialize() {
@@ -59,38 +60,48 @@ public class TelaClienteController {
         if (!Contexto.getInstancia().getCpfCliente().equals("")) {
         	
         	// Use o CPF do cliente para carregar os dados do BD
-        	t_passaporte.setVisible(false);
-        	tf_cpfPassaporte.setText(cpf);
-        	
-        	nome = "Fulano da Silva";
-            dataNasc = "XX/XX/XXXX";
-            nacionalidade = "Brasileiro(a)";
-            telefone = "(XX)XXXXX-XXXX";
-            cnh = "XXXXXXXXXXX";
-            validadeCNH = "XX/XX/XXXX";
+        	carregarPorCPF(cpf);
         }
         
         // Se nao, o passaporte obrigatoriamente estara preenchido
         else {
         	
         	// Use o passaporte do cliente para carregar os dados do BD
-        	t_cpf.setVisible(false);
-        	tf_cpfPassaporte.setText(passaporte);
-        	
-        	nome = "Fulano da Silva";
-            dataNasc = "XX/XX/XXXX";
-            nacionalidade = "Brasileiro(a)";
-            telefone = "(XX)XXXXX-XXXX";
-            cnh = "XXXXXXXXXXX";
-            validadeCNH = "XX/XX/XXXX";
+        	carregarPorPassaporte(passaporte);
         }
         
         tf_nome.setText(nome);
-        tf_dataNasc.setText(dataNasc);
+        tf_dataNasc.setText(dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         tf_nacionalidade.setText(nacionalidade);
         tf_telefone.setText(telefone);
         tf_cnh.setText(cnh);
-        tf_validadeCNH.setText(validadeCNH);
+        tf_validadeCNH.setText(validadeCNH.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+    }
+    
+    void carregarPorCPF(String cpf) {
+    	
+    	t_passaporte.setVisible(false);
+    	tf_cpfPassaporte.setText(cpf);
+    	
+    	nome = "Fulano da Silva";
+        dataNasc = LocalDate.parse("12/12/2012", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        nacionalidade = "Brasileiro(a)";
+        telefone = "(XX)XXXXX-XXXX";
+        cnh = "XXXXXXXXXXX";
+        validadeCNH = LocalDate.parse("12/12/2012", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+    
+    void carregarPorPassaporte(String passaporte) {
+    	
+    	t_cpf.setVisible(false);
+    	tf_cpfPassaporte.setText(passaporte);
+    	
+    	nome = "Fulano da Silva";
+    	dataNasc = LocalDate.parse("12/12/2012", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        nacionalidade = "Brasileiro(a)";
+        telefone = "(XX)XXXXX-XXXX";
+        cnh = "XXXXXXXXXXX";
+        validadeCNH = LocalDate.parse("12/12/2012", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
     
     @FXML
