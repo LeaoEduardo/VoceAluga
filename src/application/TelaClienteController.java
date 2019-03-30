@@ -79,29 +79,29 @@ public class TelaClienteController {
     }
     
     void carregarPorCPF(String cpf) {
-    	
+
     	t_passaporte.setVisible(false);
     	tf_cpfPassaporte.setText(cpf);
-    	
-    	nome = "Fulano da Silva";
-        dataNasc = LocalDate.parse("12/12/2012", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        nacionalidade = "Brasileiro(a)";
-        telefone = "(XX)XXXXX-XXXX";
-        cnh = "XXXXXXXXXXX";
-        validadeCNH = LocalDate.parse("12/12/2012", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+    	nome = Contexto.getInstancia().getCliente().getNomeCliente();
+        dataNasc = Contexto.getInstancia().getCliente().getDataNascimento();
+        nacionalidade = Contexto.getInstancia().getCliente().getNacionalidade();
+        telefone = Contexto.getInstancia().getCliente().getTelefone();
+        cnh = Contexto.getInstancia().getCliente().getCnh();
+        validadeCNH = Contexto.getInstancia().getCliente().getDatacnh();
     }
-    
+
     void carregarPorPassaporte(String passaporte) {
-    	
+
     	t_cpf.setVisible(false);
     	tf_cpfPassaporte.setText(passaporte);
-    	
-    	nome = "Fulano da Silva";
-    	dataNasc = LocalDate.parse("12/12/2012", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        nacionalidade = "Brasileiro(a)";
-        telefone = "(XX)XXXXX-XXXX";
-        cnh = "XXXXXXXXXXX";
-        validadeCNH = LocalDate.parse("12/12/2012", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+    	nome = Contexto.getInstancia().getCliente().getNomeCliente();
+        dataNasc = Contexto.getInstancia().getCliente().getDataNascimento();
+        nacionalidade = Contexto.getInstancia().getCliente().getNacionalidade();
+        telefone = Contexto.getInstancia().getCliente().getTelefone();
+        cnh = Contexto.getInstancia().getCliente().getCnh();
+        validadeCNH = Contexto.getInstancia().getCliente().getDatacnh();
     }
     
     @FXML

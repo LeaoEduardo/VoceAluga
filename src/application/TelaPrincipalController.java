@@ -46,6 +46,7 @@ public class TelaPrincipalController {
     @FXML
     private Tab abaFuncionarios;
     
+    ConnectionSQL con = new ConnectionSQL();
     
     @FXML
     void initialize() {
@@ -55,10 +56,9 @@ public class TelaPrincipalController {
         cb_cpfPassaporte.getSelectionModel().selectFirst();
        
     	Usuario usuario = Contexto.getInstancia().getUsuario();
-    	String filial = Contexto.getInstancia().getFilial();
     	tf_username.setText(usuario.getUsuario());
     	tf_nivel.setText(usuario.getNomeNivel());
-		tf_filial.setText(filial);
+		tf_filial.setText(usuario.getNomeFilial());
 		
     	if (usuario.getNivel() != 1) {
     		
@@ -95,7 +95,7 @@ public class TelaPrincipalController {
     	// Aqui deve ser checado se o CPF esta registrado no BD
     	
     	// se estiver la
-    	if (cpf.equals("123.456.789-00")) {
+    	if (con.ConsultaClienteCPF(cpf)) {
     		main.showTelaCliente();
     	}
     	
@@ -120,7 +120,7 @@ public class TelaPrincipalController {
     	
     	// se estiver la
     	
-    	if (passaporte.equals("AB123456")) {
+    	if (con.ConsultaClientePassaporte(passaporte)) {
     		main.showTelaCliente();
     	}
     	

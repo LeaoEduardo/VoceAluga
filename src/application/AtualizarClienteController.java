@@ -68,14 +68,15 @@ public class AtualizarClienteController {
     		tf_cpfPassaporte.setText(passaporte);
     	}
     	// Aqui os dados do cliente devem ser carregados do BD, a partir do CPF acima
+    	// Nao é necessario, os dados do cliente ja estao em contexto
     	
     	// Apenas valores de teste
-    	nome = "Fulano da Silva";
-        dataNasc = LocalDate.parse("12/12/2012", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        nacionalidade = "Brasileiro(a)";
-        telefone = "(XX)XXXXX-XXXX";
-        cnh = "XXXXXXXXXXX";
-        validadeCNH = LocalDate.parse("12/12/2012", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    	nome = Contexto.getInstancia().getCliente().getNomeCliente();
+        dataNasc = Contexto.getInstancia().getCliente().getDataNascimento();
+        nacionalidade = Contexto.getInstancia().getCliente().getNacionalidade();
+        telefone = Contexto.getInstancia().getCliente().getTelefone();
+        cnh = Contexto.getInstancia().getCliente().getCnh();
+        validadeCNH = Contexto.getInstancia().getCliente().getDatacnh();
        
     	tf_nome.setText(nome);
     	tf_dataNasc.setValue(dataNasc);
@@ -87,7 +88,9 @@ public class AtualizarClienteController {
     
     @FXML
     void atualizarCliente(ActionEvent event) throws IOException {
-
+    	ConnectionSQL con = new ConnectionSQL();
+    	
+    	String id = Contexto.getInstancia().getCliente().getIdCliente();
     	String nome = tf_nome.getText();
     	String cpf = Contexto.getInstancia().getCpfCliente();
     	String passaporte = Contexto.getInstancia().getPassaporteCliente();
@@ -118,6 +121,7 @@ public class AtualizarClienteController {
         // Se estiver tudo certo
         else {
         	
+        	// As strings abaixo saem em formato "dd/mm/aaaa", para serem inseridas no banco de dados de forma padronizada
         	LocalDate dataNasc = tf_dataNasc.getValue();
         	LocalDate validadeCNH = tf_validadeCNH.getValue();
         	
@@ -126,23 +130,39 @@ public class AtualizarClienteController {
         	Contexto.getInstancia().setCpfCliente(cpf);
         	Contexto.getInstancia().setPassaporteCliente(passaporte);
         	
-        	// Prints de teste
-        	System.out.println("nome: " + nome);
-            System.out.println("cpf: " + cpf);
-            System.out.println("passaporte: " + passaporte);
-            System.out.println("dataNasc: " + dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-            System.out.println("nacionalidade: " + nacionalidade);
-            System.out.println("telefone: " + telefone);
-            System.out.println("cnh: " + cnh);
-            System.out.println("validadeCNH: " + validadeCNH.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        	boolean atualizou = con.AtualizaCliente(id, nome, cpf, passaporte, dataNasc.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), nacionalidade,
+					telefone, cnh, validadeCNH.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        	if(atualizou) {
+        		// Prints de teste
+        		System.out.println("idCliente: " + id);
+            	System.out.println("nome: " + nome);
+                System.out.println("cpf: " + cpf);
+                System.out.println("passaporte: " + passaporte);
+                System.out.println("dataNasc: " + dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                System.out.println("nacionalidade: " + nacionalidade);
+                System.out.println("telefone: " + telefone);
+                System.out.println("cnh: " + cnh);
+                System.out.println("validadeCNH: " + validadeCNH.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                
+                Contexto.getInstancia().setCliente(id, nome, cpf, passaporte, dataNasc, nacionalidade, telefone, cnh, validadeCNH);
+            	
+    	        Alert alert = new Alert(AlertType.INFORMATION);
+    	        alert.setHeaderText("Cadastro alterado");
+    	        alert.setContentText("Registro atualizado com sucesso.");
+    	        alert.showAndWait();
+    	        Stage stage = (Stage) botaoAtualizarCliente.getScene().getWindow();
+    	        stage.close();
+    	        main.showTelaCliente();
+        	}
         	
-	        Alert alert = new Alert(AlertType.INFORMATION);
-	        alert.setHeaderText("Cadastro alterado");
-	        alert.setContentText("Registro atualizado com sucesso.");
-	        alert.showAndWait();
-	        Stage stage = (Stage) botaoAtualizarCliente.getScene().getWindow();
-	        stage.close();
-	        main.showTelaCliente();
+        	else {
+        		Alert alert = new Alert(AlertType.ERROR);
+            	alert.setTitle("Erro");
+            	alert.setHeaderText("Erro no cadastro.");
+            	alert.setContentText("Dados inconsistentes!");
+            	alert.showAndWait();
+        	}
         }
     }
 

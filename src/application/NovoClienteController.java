@@ -47,6 +47,7 @@ public class NovoClienteController {
     
     @FXML
     void cadastrarCliente(ActionEvent event) {
+    	ConnectionSQL con = new ConnectionSQL();
     	
     	String nome = tf_nome.getText();
     	String cpf = "";
@@ -83,23 +84,35 @@ public class NovoClienteController {
         	
         	// Aqui os dados do cliente devem ser registrados no BD
         	// (nome,cpf/passaporte,dataNasc,nacionalidade,telefone,cnh,validadeCNH)
+        	boolean cadastrou = con.CadastrarCliente(nome, cpf, passaporte, dataNasc.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), nacionalidade,
+        											telefone, cnh, validadeCNH.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         	
-        	// Prints de teste
-        	System.out.println("nome: " + nome);
-            System.out.println("cpf: " + cpf);
-            System.out.println("passaporte: " + passaporte);
-            System.out.println("dataNasc: " + dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-            System.out.println("nacionalidade: " + nacionalidade);
-            System.out.println("telefone: " + telefone);
-            System.out.println("cnh: " + cnh);
-            System.out.println("validadeCNH: " + validadeCNH.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        	if(cadastrou) {
+        		// Prints de teste
+            	System.out.println("nome: " + nome);
+                System.out.println("cpf: " + cpf);
+                System.out.println("passaporte: " + passaporte);
+                System.out.println("dataNasc: " + dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                System.out.println("nacionalidade: " + nacionalidade);
+                System.out.println("telefone: " + telefone);
+                System.out.println("cnh: " + cnh);
+                System.out.println("validadeCNH: " + validadeCNH.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            	
+    	        Alert alert = new Alert(AlertType.INFORMATION);
+    	        alert.setHeaderText("Cadastro efetuado");
+    	        alert.setContentText("Cliente cadastrado com sucesso.");
+    	        alert.showAndWait();
+    	        Stage stage = (Stage) botaoCadastrarCliente.getScene().getWindow();
+    	        stage.close();
+        	}
         	
-	        Alert alert = new Alert(AlertType.INFORMATION);
-	        alert.setHeaderText("Cadastro efetuado");
-	        alert.setContentText("Cliente cadastrado com sucesso.");
-	        alert.showAndWait();
-	        Stage stage = (Stage) botaoCadastrarCliente.getScene().getWindow();
-	        stage.close();
+        	else {
+        		Alert alert = new Alert(AlertType.ERROR);
+            	alert.setTitle("Erro");
+            	alert.setHeaderText("Erro no cadastro.");
+            	alert.setContentText("Dados inconsistentes!");
+            	alert.showAndWait();
+        	}
         }
     }
 
