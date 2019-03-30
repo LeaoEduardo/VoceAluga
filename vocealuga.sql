@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.0.0-dev
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Tempo de geração: 30/03/2019 às 04:18
--- Versão do servidor: 10.1.38-MariaDB
--- Versão do PHP: 7.3.3
+-- Host: 192.168.30.23
+-- Tempo de geração: 30-Mar-2019 às 19:36
+-- Versão do servidor: 8.0.3-rc-log
+-- versão do PHP: 7.2.16-1+0~20190307202415.17+stretch~1.gbpa7be82
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `cliente`
+-- Estrutura da tabela `cliente`
 --
 
 CREATE TABLE `cliente` (
@@ -35,25 +35,25 @@ CREATE TABLE `cliente` (
   `Passaporte` varchar(15) NOT NULL,
   `DataNascimento` date NOT NULL,
   `Nacionalidade` varchar(30) NOT NULL,
-  `Telefone` bigint(20) NOT NULL,
+  `Telefone` varchar(20) NOT NULL,
   `CNH` bigint(20) NOT NULL,
   `DataCNH` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Despejando dados para a tabela `cliente`
+-- Extraindo dados da tabela `cliente`
 --
 
 INSERT INTO `cliente` (`Id`, `Nome`, `CPF`, `Passaporte`, `DataNascimento`, `Nacionalidade`, `Telefone`, `CNH`, `DataCNH`) VALUES
-(1, 'Cliente Teste', '12345678910', '', '2019-03-29', 'mundo', 987651234, 12345678901, '2019-03-30'),
-(2, 'Cliente Teste Passaporte', '', 'AB123456', '2019-03-29', 'brasileiro', 912345678, 12345678911, '2019-03-29'),
-(3, 'Cliente Teste Passaporte 2', '', 'AC123456', '2019-03-29', 'brasileiro', 987654321, 12345678911, '2019-03-29'),
-(4, 'Teste de Cadastro do Cliente', '12345678905', '', '2019-03-30', 'mundo', 987654322, 12345678903, '2019-03-30');
+(1, 'Cliente Teste', '12345678910', '', '2019-03-29', 'mundo', '987651234', 12345678901, '2019-03-30'),
+(2, 'Cliente Teste Passaporte', '', 'AB123456', '2019-03-29', 'brasileiro', '912345678', 12345678911, '2019-03-29'),
+(3, 'Cliente Teste Passaporte 2', '', 'AC123456', '2019-03-29', 'brasileiro', '987654321', 12345678911, '2019-03-29'),
+(4, 'Teste de Cadastro do Cliente', '12345678905', '', '2019-03-30', 'mundo', '987654322', 12345678903, '2019-03-30');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `filial`
+-- Estrutura da tabela `filial`
 --
 
 CREATE TABLE `filial` (
@@ -62,7 +62,7 @@ CREATE TABLE `filial` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Despejando dados para a tabela `filial`
+-- Extraindo dados da tabela `filial`
 --
 
 INSERT INTO `filial` (`id`, `nomeFilial`) VALUES
@@ -71,7 +71,7 @@ INSERT INTO `filial` (`id`, `nomeFilial`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `funcionario`
+-- Estrutura da tabela `funcionario`
 --
 
 CREATE TABLE `funcionario` (
@@ -83,7 +83,7 @@ CREATE TABLE `funcionario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Despejando dados para a tabela `funcionario`
+-- Extraindo dados da tabela `funcionario`
 --
 
 INSERT INTO `funcionario` (`Id`, `User`, `Senha`, `IdFilial`, `IdTipo`) VALUES
@@ -93,7 +93,7 @@ INSERT INTO `funcionario` (`Id`, `User`, `Senha`, `IdFilial`, `IdTipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tipofuncionario`
+-- Estrutura da tabela `tipofuncionario`
 --
 
 CREATE TABLE `tipofuncionario` (
@@ -102,7 +102,7 @@ CREATE TABLE `tipofuncionario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Despejando dados para a tabela `tipofuncionario`
+-- Extraindo dados da tabela `tipofuncionario`
 --
 
 INSERT INTO `tipofuncionario` (`Id`, `Nombre`) VALUES
@@ -110,23 +110,23 @@ INSERT INTO `tipofuncionario` (`Id`, `Nombre`) VALUES
 (2, 'Funcionario');
 
 --
--- Índices de tabelas apagadas
+-- Índices para tabelas despejadas
 --
 
 --
--- Índices de tabela `cliente`
+-- Índices para tabela `cliente`
 --
 ALTER TABLE `cliente`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Índices de tabela `filial`
+-- Índices para tabela `filial`
 --
 ALTER TABLE `filial`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `funcionario`
+-- Índices para tabela `funcionario`
 --
 ALTER TABLE `funcionario`
   ADD PRIMARY KEY (`Id`),
@@ -134,13 +134,13 @@ ALTER TABLE `funcionario`
   ADD KEY `FK_Filial` (`IdFilial`);
 
 --
--- Índices de tabela `tipofuncionario`
+-- Índices para tabela `tipofuncionario`
 --
 ALTER TABLE `tipofuncionario`
   ADD PRIMARY KEY (`Id`);
 
 --
--- AUTO_INCREMENT de tabelas apagadas
+-- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
@@ -168,15 +168,15 @@ ALTER TABLE `tipofuncionario`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Restrições para dumps de tabelas
+-- Restrições para despejos de tabelas
 --
 
 --
--- Restrições para tabelas `funcionario`
+-- Limitadores para a tabela `funcionario`
 --
 ALTER TABLE `funcionario`
   ADD CONSTRAINT `FK_Filial` FOREIGN KEY (`IdFilial`) REFERENCES `filial` (`id`),
-  ADD CONSTRAINT `FK_TipoFuncionario` FOREIGN KEY (`IdTipo`) REFERENCES `tipofuncionario` (`Id`);
+  ADD CONSTRAINT `FK_TipoFuncionario` FOREIGN KEY (`IdTipo`) REFERENCES `tipofuncionario` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
