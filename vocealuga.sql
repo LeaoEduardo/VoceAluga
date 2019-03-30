@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.0-dev
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Host: 192.168.30.23
--- Tempo de geração: 28/03/2019 às 16:53
--- Versão do servidor: 8.0.3-rc-log
--- Versão do PHP: 7.2.14-1+0~20190113100742.14+stretch~1.gbpd83c69
+-- Host: localhost
+-- Tempo de geração: 30/03/2019 às 04:18
+-- Versão do servidor: 10.1.38-MariaDB
+-- Versão do PHP: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -33,11 +33,11 @@ CREATE TABLE `cliente` (
   `Nome` varchar(50) NOT NULL,
   `CPF` varchar(15) NOT NULL,
   `Passaporte` varchar(15) NOT NULL,
-  `DataNascimento` varchar(15) NOT NULL,
+  `DataNascimento` date NOT NULL,
   `Nacionalidade` varchar(30) NOT NULL,
   `Telefone` bigint(20) NOT NULL,
   `CNH` bigint(20) NOT NULL,
-  `DataCNH` varchar(15) NOT NULL
+  `DataCNH` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -45,7 +45,10 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`Id`, `Nome`, `CPF`, `Passaporte`, `DataNascimento`, `Nacionalidade`, `Telefone`, `CNH`, `DataCNH`) VALUES
-(1, 'Cliente Teste', '12345678910', '', '27/03/2019', 'brasileiro', 987654321, 12345678910, '27/03/2019');
+(1, 'Cliente Teste', '12345678910', '', '2019-03-29', 'mundo', 987651234, 12345678901, '2019-03-30'),
+(2, 'Cliente Teste Passaporte', '', 'AB123456', '2019-03-29', 'brasileiro', 912345678, 12345678911, '2019-03-29'),
+(3, 'Cliente Teste Passaporte 2', '', 'AC123456', '2019-03-29', 'brasileiro', 987654321, 12345678911, '2019-03-29'),
+(4, 'Teste de Cadastro do Cliente', '12345678905', '', '2019-03-30', 'mundo', 987654322, 12345678903, '2019-03-30');
 
 -- --------------------------------------------------------
 
@@ -57,6 +60,13 @@ CREATE TABLE `filial` (
   `id` int(11) NOT NULL,
   `nomeFilial` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Despejando dados para a tabela `filial`
+--
+
+INSERT INTO `filial` (`id`, `nomeFilial`) VALUES
+(1, 'Rio de Janeiro');
 
 -- --------------------------------------------------------
 
@@ -77,8 +87,8 @@ CREATE TABLE `funcionario` (
 --
 
 INSERT INTO `funcionario` (`Id`, `User`, `Senha`, `IdFilial`, `IdTipo`) VALUES
-(1, 'Admin', 'Admin', 0, 1),
-(2, 'Test', 'Test', 0, 2);
+(1, 'Admin', 'Admin', 1, 1),
+(2, 'Test', 'Test', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -120,7 +130,8 @@ ALTER TABLE `filial`
 --
 ALTER TABLE `funcionario`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `FK_TipoFuncionario` (`IdTipo`);
+  ADD KEY `FK_TipoFuncionario` (`IdTipo`),
+  ADD KEY `FK_Filial` (`IdFilial`);
 
 --
 -- Índices de tabela `tipofuncionario`
@@ -136,13 +147,13 @@ ALTER TABLE `tipofuncionario`
 -- AUTO_INCREMENT de tabela `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `filial`
 --
 ALTER TABLE `filial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `funcionario`
@@ -164,7 +175,8 @@ ALTER TABLE `tipofuncionario`
 -- Restrições para tabelas `funcionario`
 --
 ALTER TABLE `funcionario`
-  ADD CONSTRAINT `FK_TipoFuncionario` FOREIGN KEY (`IdTipo`) REFERENCES `tipofuncionario` (`id`);
+  ADD CONSTRAINT `FK_Filial` FOREIGN KEY (`IdFilial`) REFERENCES `filial` (`id`),
+  ADD CONSTRAINT `FK_TipoFuncionario` FOREIGN KEY (`IdTipo`) REFERENCES `tipofuncionario` (`Id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
