@@ -14,9 +14,7 @@ public class Contexto {
     
     private Usuario usuario;
     private Cliente cliente;
-    private String cpfCliente = new String();
-    private String passaporteCliente = new String();
-    /*private String filial = new String(); //Filial esta em usuario */
+    private FormatadorTexto formatador = new FormatadorTexto();
 
     public Usuario getUsuario() {
         return usuario;
@@ -26,45 +24,24 @@ public class Contexto {
     	return cliente;
     }
     
-    public String getCpfCliente() {
-    	return cpfCliente;
+    public FormatadorTexto getFormatador() {
+    	return formatador;
     }
-    
-    public String getPassaporteCliente() {
-    	return passaporteCliente;
-    }
-    
-    /*public String getFilial() {
-    	return filial;
-    }*/
     
     public void setUsuario(String user, String nomeNivel, int nivel, String nomeFilial) {
     	this.usuario = new Usuario(user,nomeNivel,nivel, nomeFilial);
-    }
-    
-    public void setCliente(String id, String nome, String cpf, String passaporte, LocalDate dataNascimento, String nascionalidade,
-			String telefone, String cnh, LocalDate datacnh ) {
-    	//dataNascimento.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-    	this.cliente = new Cliente(id,nome,cpf,passaporte,dataNascimento,nascionalidade,telefone,cnh,datacnh);
     }
     
     public void setUsuario(Usuario usuario) {
     	this.usuario = usuario;
     }
     
+    public void setCliente(String id, String nome, String cpf, String passaporte, LocalDate dataNascimento, String nascionalidade,
+			String telefone, String cnh, LocalDate datacnh ) {
+    	this.cliente = new Cliente(id,nome,cpf,passaporte,dataNascimento,nascionalidade,telefone,cnh,datacnh);
+    }
+    
     public void setCliente(Cliente cliente) {
     	this.cliente = cliente;
     }
-    
-    public void setCpfCliente(String cpfCliente) {
-    	this.cpfCliente = cpfCliente;
-    }
-    
-    public void setPassaporteCliente(String passaporteCliente) {
-    	this.passaporteCliente = passaporteCliente;
-    }
-    
-    /*public void setFilial(String filial) {
-    	this.filial = filial;
-    }*/
 }

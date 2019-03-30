@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -54,23 +55,24 @@ public class AtualizarClienteController {
     	
     	ObservableList<String> escolhas = FXCollections.observableArrayList("CPF", "Passaporte"); 
         cb_cpfPassaporte.setItems(escolhas);
+        ReadOnlyIntegerProperty property = cb_cpfPassaporte.getSelectionModel().selectedIndexProperty();
+        FormatadorTexto formatador = Contexto.getInstancia().getFormatador();
+        property.addListener((value, oldValue, newValue)->tf_cpfPassaporte.setTextFormatter(formatador.CpfPassaporte((Integer)newValue,tf_cpfPassaporte)));
+        tf_cnh.setTextFormatter(Contexto.getInstancia().getFormatador().CNH());
         
     	
-    	if (!Contexto.getInstancia().getCpfCliente().equals("")) {
+    	if (!Contexto.getInstancia().getCliente().getCPF().equals("")) {
     		cb_cpfPassaporte.getSelectionModel().select(0);
-    		cpf = Contexto.getInstancia().getCpfCliente();
+    		cpf = Contexto.getInstancia().getCliente().getCPF();
     		tf_cpfPassaporte.setText(cpf);
     	}
     	
     	else {
     		cb_cpfPassaporte.getSelectionModel().select(1);
-    		passaporte = Contexto.getInstancia().getPassaporteCliente();
+    		passaporte = Contexto.getInstancia().getCliente().getPassaporte();
     		tf_cpfPassaporte.setText(passaporte);
     	}
-    	// Aqui os dados do cliente devem ser carregados do BD, a partir do CPF acima
-    	// Nao é necessario, os dados do cliente ja estao em contexto
     	
-    	// Apenas valores de teste
     	nome = Contexto.getInstancia().getCliente().getNomeCliente();
         dataNasc = Contexto.getInstancia().getCliente().getDataNascimento();
         nacionalidade = Contexto.getInstancia().getCliente().getNacionalidade();
@@ -88,12 +90,13 @@ public class AtualizarClienteController {
     
     @FXML
     void atualizarCliente(ActionEvent event) throws IOException {
+    	
     	ConnectionSQL con = new ConnectionSQL();
     	
     	String id = Contexto.getInstancia().getCliente().getIdCliente();
     	String nome = tf_nome.getText();
-    	String cpf = Contexto.getInstancia().getCpfCliente();
-    	String passaporte = Contexto.getInstancia().getPassaporteCliente();
+    	String cpf = Contexto.getInstancia().getCliente().getCPF();
+    	String passaporte = Contexto.getInstancia().getCliente().getPassaporte();
         String nacionalidade = tf_nacionalidade.getText();
         String telefone = tf_telefone.getText();
         String cnh = tf_cnh.getText();
@@ -108,7 +111,6 @@ public class AtualizarClienteController {
         }
         
         // Se algum campo estiver vazio
-        // Aqui deve ser feita checagem adicional para garantir que todos os campos foram preenchidos corretamente!!!
         if (nome.equals("") || tf_cpfPassaporte.getText().equals("") || tf_dataNasc.getValue() == null || nacionalidade.equals("") || telefone.equals("") || cnh.equals("") || tf_validadeCNH.getValue() == null) {
         	
         	Alert alert = new Alert(AlertType.ERROR);
@@ -121,14 +123,11 @@ public class AtualizarClienteController {
         // Se estiver tudo certo
         else {
         	
-        	// As strings abaixo saem em formato "dd/mm/aaaa", para serem inseridas no banco de dados de forma padronizada
         	LocalDate dataNasc = tf_dataNasc.getValue();
         	LocalDate validadeCNH = tf_validadeCNH.getValue();
         	
         	// // Aqui os dados alterados do cliente deverao ser armazenados no BD
         	// (nome,cpf/passaporte,dataNasc,nacionalidade,telefone,cnh,validadeCNH)
-        	Contexto.getInstancia().setCpfCliente(cpf);
-        	Contexto.getInstancia().setPassaporteCliente(passaporte);
         	
         	boolean atualizou = con.AtualizaCliente(id, nome, cpf, passaporte, dataNasc.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), nacionalidade,
 					telefone, cnh, validadeCNH.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));

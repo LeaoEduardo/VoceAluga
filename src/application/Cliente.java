@@ -25,7 +25,6 @@ public class Cliente {
 		this.nacionalidade = nacionalidade;
 		this.telefone = telefone;
 		this.cnh = cnh;
-		//this.validadeCNH = LocalDate.parse(datacnh, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		this.validadeCNH = datacnh;
 		
 	}
@@ -65,5 +64,4 @@ public class Cliente {
 	public LocalDate getDatacnh() {
 		return validadeCNH;
 	}
-	
 }

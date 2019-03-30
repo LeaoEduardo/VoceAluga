@@ -1,7 +1,7 @@
 package application;
 
 import java.io.IOException;
-
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -53,6 +53,9 @@ public class TelaPrincipalController {
     	
     	ObservableList<String> escolhas = FXCollections.observableArrayList("Por CPF", "Por passaporte"); 
         cb_cpfPassaporte.setItems(escolhas);
+        ReadOnlyIntegerProperty property = cb_cpfPassaporte.getSelectionModel().selectedIndexProperty();
+        FormatadorTexto formatador = Contexto.getInstancia().getFormatador();
+        property.addListener((value, oldValue, newValue)->tf_cpfPassaporte.setTextFormatter(formatador.CpfPassaporte((Integer)newValue,tf_cpfPassaporte)));
         cb_cpfPassaporte.getSelectionModel().selectFirst();
        
     	Usuario usuario = Contexto.getInstancia().getUsuario();
@@ -86,17 +89,15 @@ public class TelaPrincipalController {
     
     void pesquisaPorCpf(String cpf) throws IOException {
     	
-    	// Seta os valores no Contexto para facil acesso, passaporte sera ""
-    	Contexto.getInstancia().setCpfCliente(cpf);
-    	Contexto.getInstancia().setPassaporteCliente("");
-    	System.out.println("cpf: " + cpf);
-        System.out.println("passaporte: " + Contexto.getInstancia().getPassaporteCliente());
-    	
     	// Aqui deve ser checado se o CPF esta registrado no BD
     	
     	// se estiver la
-    	if (con.ConsultaClienteCPF(cpf)) {
+    	if (!cpf.equals("") && con.ConsultaClienteCPF(cpf)) {
     		main.showTelaCliente();
+    		
+    		// Prints de teste
+    		System.out.println("cpf: " + Contexto.getInstancia().getCliente().getCPF());
+            System.out.println("passaporte: " + Contexto.getInstancia().getCliente().getPassaporte());
     	}
     	
     	//se nao estiver
@@ -112,16 +113,15 @@ public class TelaPrincipalController {
     
     void pesquisaPorPassaporte(String passaporte) throws IOException {
     	
-    	// Seta os valores no Contexto para facil acesso, CPF sera ""
-    	Contexto.getInstancia().setCpfCliente("");
-    	Contexto.getInstancia().setPassaporteCliente(passaporte);
-    	
     	// Aqui deve ser checado se o passaporte esta registrado no BD
     	
     	// se estiver la
-    	
-    	if (con.ConsultaClientePassaporte(passaporte)) {
+    	if (!passaporte.equals("") && con.ConsultaClientePassaporte(passaporte)) {
     		main.showTelaCliente();
+    		
+    		// Prints de teste
+    		System.out.println("cpf: " + Contexto.getInstancia().getCliente().getCPF());
+            System.out.println("passaporte: " + Contexto.getInstancia().getCliente().getPassaporte());
     	}
     	
     	//se nao estiver

@@ -51,13 +51,13 @@ public class TelaClienteController {
     void initialize() {
     	
     	// CPF/Passaporte inserido na pesquisa efetuada anteriormente na tela gerar locacao
-        cpf = Contexto.getInstancia().getCpfCliente();
-        passaporte = Contexto.getInstancia().getPassaporteCliente();
+        cpf = Contexto.getInstancia().getCliente().getCPF();
+        passaporte = Contexto.getInstancia().getCliente().getPassaporte();
     	
     	// Abaixo os dados do cliente devem ser carregados do BD, a partir do CPF/Passaporte acima
         
         // Se CPF do cliente estiver preenchido
-        if (!Contexto.getInstancia().getCpfCliente().equals("")) {
+        if (!Contexto.getInstancia().getCliente().getCPF().equals("")) {
         	
         	// Use o CPF do cliente para carregar os dados do BD
         	carregarPorCPF(cpf);

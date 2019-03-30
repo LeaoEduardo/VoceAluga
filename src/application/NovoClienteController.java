@@ -2,6 +2,7 @@ package application;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -42,11 +43,16 @@ public class NovoClienteController {
     	
     	ObservableList<String> escolhas = FXCollections.observableArrayList("CPF", "Passaporte"); 
         cb_cpfPassaporte.setItems(escolhas);
+        ReadOnlyIntegerProperty property = cb_cpfPassaporte.getSelectionModel().selectedIndexProperty();
+        FormatadorTexto formatador = Contexto.getInstancia().getFormatador();
+        property.addListener((value, oldValue, newValue)->tf_cpfPassaporte.setTextFormatter(formatador.CpfPassaporte((Integer)newValue,tf_cpfPassaporte)));
         cb_cpfPassaporte.getSelectionModel().selectFirst();
+        tf_cnh.setTextFormatter(Contexto.getInstancia().getFormatador().CNH());
     }
     
     @FXML
     void cadastrarCliente(ActionEvent event) {
+    	
     	ConnectionSQL con = new ConnectionSQL();
     	
     	String nome = tf_nome.getText();
@@ -66,7 +72,6 @@ public class NovoClienteController {
         }
         
         // Se algum campo estiver vazio
-        // Aqui deve ser feita checagem adicional para garantir que todos os campos foram preenchidos corretamente!!!
         if (nome.equals("") || tf_cpfPassaporte.getText().equals("") || tf_dataNasc.getValue() == null || nacionalidade.equals("") || telefone.equals("") || cnh.equals("") || tf_validadeCNH.getValue() == null) {
         	
         	Alert alert = new Alert(AlertType.ERROR);
