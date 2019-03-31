@@ -4,9 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.Instant;
+import java.time.ZoneId;
 
 // Documentacao 
 // https://docs.oracle.com/javase/7/docs/api/java/sql/package-frame.html
@@ -52,7 +51,6 @@ public class ConnectionSQL{
             System.err.println(e);
             return false;
         }
-    	
     }
     
     private boolean CloseConnection() {      
@@ -69,7 +67,6 @@ public class ConnectionSQL{
             System.err.println(e);
             return false;
         }
-
     }
     
     public boolean LoginFuncionario(String User, String senha) {
@@ -80,13 +77,7 @@ public class ConnectionSQL{
             try {
             	result = statement.executeQuery(query);
             	System.out.println("Resultado de '"+ query +"':");
-                /*result.first();
-                while( !result.isAfterLast() ){
-                    System.out.println(result.getString(1));
-                    result.next();
-                }*/
-            	//while (rs.next()) {
-                    //String coffeeName = rs.getString("COF_NAME");
+            	
             	if (result.next()) {
             		Contexto.getInstancia().setUsuario(
             				result.getString("User"), 
@@ -120,11 +111,11 @@ public class ConnectionSQL{
             				result.getString("Nome"), 
             				result.getString("CPF"), 
             				result.getString("Passaporte"),
-            				result.getDate("DataNascimento").toLocalDate(),
+            				Instant.ofEpochMilli(result.getDate("DataNascimento").getTime()).atZone(ZoneId.of("UTC")).toLocalDate(),
             				result.getString("Nacionalidade"),
             				result.getString("Telefone"),
             				result.getString("CNH"),
-            				result.getDate("DataCNH").toLocalDate());
+            				Instant.ofEpochMilli(result.getDate("DataCNH").getTime()).atZone(ZoneId.of("UTC")).toLocalDate());
                     return true;
                 }
             } catch (Exception e) {
@@ -147,15 +138,15 @@ public class ConnectionSQL{
 
             	if (result.next()) {
             		Contexto.getInstancia().setCliente(
-            				result.getString	("Id"),
+            				result.getString("Id"),
             				result.getString("Nome"), 
             				result.getString("CPF"),
             				result.getString("Passaporte"), 
-            				result.getDate("DataNascimento").toLocalDate(),
+            				Instant.ofEpochMilli(result.getDate("DataNascimento").getTime()).atZone(ZoneId.of("UTC")).toLocalDate(),
             				result.getString("Nacionalidade"),
             				result.getString("Telefone"),
             				result.getString("CNH"),
-            				result.getDate("DataCNH").toLocalDate());
+            				Instant.ofEpochMilli(result.getDate("DataCNH").getTime()).atZone(ZoneId.of("UTC")).toLocalDate());
                     return true;
                 }
             } catch (Exception e) {

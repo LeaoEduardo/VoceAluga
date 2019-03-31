@@ -1,7 +1,6 @@
 package application;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -89,19 +88,19 @@ public class NovoClienteController {
         	
         	// Aqui os dados do cliente devem ser registrados no BD
         	// (nome,cpf/passaporte,dataNasc,nacionalidade,telefone,cnh,validadeCNH)
-        	boolean cadastrou = con.CadastrarCliente(nome, cpf, passaporte, dataNasc.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), nacionalidade,
-        											telefone, cnh, validadeCNH.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        	boolean cadastrou = con.CadastrarCliente(nome, cpf, passaporte, dataNasc.toString(), nacionalidade,
+        											telefone, cnh, validadeCNH.toString());
         	
         	if(cadastrou) {
         		// Prints de teste
             	System.out.println("nome: " + nome);
                 System.out.println("cpf: " + cpf);
                 System.out.println("passaporte: " + passaporte);
-                System.out.println("dataNasc: " + dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                System.out.println("dataNasc: " + dataNasc.toString());
                 System.out.println("nacionalidade: " + nacionalidade);
                 System.out.println("telefone: " + telefone);
                 System.out.println("cnh: " + cnh);
-                System.out.println("validadeCNH: " + validadeCNH.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                System.out.println("validadeCNH: " + validadeCNH.toString());
             	
     	        Alert alert = new Alert(AlertType.INFORMATION);
     	        alert.setHeaderText("Cadastro efetuado");

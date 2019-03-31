@@ -2,7 +2,6 @@ package application;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -129,8 +128,8 @@ public class AtualizarClienteController {
         	// // Aqui os dados alterados do cliente deverao ser armazenados no BD
         	// (nome,cpf/passaporte,dataNasc,nacionalidade,telefone,cnh,validadeCNH)
         	
-        	boolean atualizou = con.AtualizaCliente(id, nome, cpf, passaporte, dataNasc.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), nacionalidade,
-					telefone, cnh, validadeCNH.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        	boolean atualizou = con.AtualizaCliente(id, nome, cpf, passaporte, dataNasc.toString(), nacionalidade,
+					telefone, cnh, validadeCNH.toString());
 
         	if(atualizou) {
         		// Prints de teste
@@ -138,11 +137,11 @@ public class AtualizarClienteController {
             	System.out.println("nome: " + nome);
                 System.out.println("cpf: " + cpf);
                 System.out.println("passaporte: " + passaporte);
-                System.out.println("dataNasc: " + dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                System.out.println("dataNasc: " + dataNasc.toString());
                 System.out.println("nacionalidade: " + nacionalidade);
                 System.out.println("telefone: " + telefone);
                 System.out.println("cnh: " + cnh);
-                System.out.println("validadeCNH: " + validadeCNH.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                System.out.println("validadeCNH: " + validadeCNH.toString());
                 
                 Contexto.getInstancia().setCliente(id, nome, cpf, passaporte, dataNasc, nacionalidade, telefone, cnh, validadeCNH);
             	
