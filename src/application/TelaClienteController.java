@@ -38,21 +38,12 @@ public class TelaClienteController {
     @FXML
     private Text tf_validadeCNH;
     
-    private String nome = new String();
-    private String cpf = new String();
-    private String passaporte = new String();
-    private String nacionalidade = new String();
-    private String telefone = new String();
-    private String cnh = new String();
-    private LocalDate dataNasc;
-    private LocalDate validadeCNH;
-    
     @FXML
     void initialize() {
     	
     	// CPF/Passaporte inserido na pesquisa efetuada anteriormente na tela gerar locacao
-        cpf = Contexto.getInstancia().getCliente().getCPF();
-        passaporte = Contexto.getInstancia().getCliente().getPassaporte();
+    	String cpf = Contexto.getInstancia().getCliente().getCPF();
+    	String passaporte = Contexto.getInstancia().getCliente().getPassaporte();
     	
     	// Abaixo os dados do cliente devem ser carregados do BD, a partir do CPF/Passaporte acima
         
@@ -70,6 +61,13 @@ public class TelaClienteController {
         	carregarPorPassaporte(passaporte);
         }
         
+        String nome = Contexto.getInstancia().getCliente().getNomeCliente();
+        String nacionalidade = Contexto.getInstancia().getCliente().getNacionalidade();
+        String telefone = Contexto.getInstancia().getCliente().getTelefone();
+        String cnh = Contexto.getInstancia().getCliente().getCnh();
+        LocalDate dataNasc = Contexto.getInstancia().getCliente().getDataNascimento();
+        LocalDate validadeCNH = Contexto.getInstancia().getCliente().getDatacnh();
+        
         tf_nome.setText(nome);
         tf_dataNasc.setText(dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         tf_nacionalidade.setText(nacionalidade);
@@ -79,29 +77,13 @@ public class TelaClienteController {
     }
     
     void carregarPorCPF(String cpf) {
-
     	t_passaporte.setVisible(false);
-    	tf_cpfPassaporte.setText(cpf);
-
-    	nome = Contexto.getInstancia().getCliente().getNomeCliente();
-        dataNasc = Contexto.getInstancia().getCliente().getDataNascimento();
-        nacionalidade = Contexto.getInstancia().getCliente().getNacionalidade();
-        telefone = Contexto.getInstancia().getCliente().getTelefone();
-        cnh = Contexto.getInstancia().getCliente().getCnh();
-        validadeCNH = Contexto.getInstancia().getCliente().getDatacnh();
+    	tf_cpfPassaporte.setText(cpf);    	
     }
 
     void carregarPorPassaporte(String passaporte) {
-
     	t_cpf.setVisible(false);
     	tf_cpfPassaporte.setText(passaporte);
-
-    	nome = Contexto.getInstancia().getCliente().getNomeCliente();
-        dataNasc = Contexto.getInstancia().getCliente().getDataNascimento();
-        nacionalidade = Contexto.getInstancia().getCliente().getNacionalidade();
-        telefone = Contexto.getInstancia().getCliente().getTelefone();
-        cnh = Contexto.getInstancia().getCliente().getCnh();
-        validadeCNH = Contexto.getInstancia().getCliente().getDatacnh();
     }
     
     @FXML
@@ -136,7 +118,22 @@ public class TelaClienteController {
     	
     	if (result.get() == ButtonType.OK) {
     		// apaga registro do cliente
-    		main.showTelaPrincipal();
+    		ConnectionSQL con = new ConnectionSQL();
+    		if(con.RemoverCliente(Contexto.getInstancia().getCliente().getIdCliente())) {
+    			alert = new Alert(AlertType.CONFIRMATION);
+    		    alert.setTitle("Erro");
+    		    alert.setHeaderText("Cliente Apagado.");
+    		    alert.showAndWait();
+    	    	main.showTelaPrincipal();
+    		}
+    		else {
+    			alert = new Alert(AlertType.ERROR);
+    		    alert.setTitle("Erro");
+    		    alert.setHeaderText("Impossivel apagar esse cliente.");
+    		    alert.setContentText("Tente novamente.");
+    		    alert.showAndWait();
+    		}
+    		
     	}
     }
     

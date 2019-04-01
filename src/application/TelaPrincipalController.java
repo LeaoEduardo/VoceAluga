@@ -72,10 +72,17 @@ public class TelaPrincipalController {
     }
     
     @FXML
-    void pesquisarCliente(ActionEvent event) throws IOException {
-    	
-    	if (cb_cpfPassaporte.getSelectionModel().getSelectedIndex() == 0) {
-    		
+    void processaPesquisarBotao(ActionEvent event) throws IOException {    	
+    	pesquisarCliente();
+    }
+    
+    @FXML
+    void processaPesquisarEnter(ActionEvent event) throws IOException {    	
+    	pesquisarCliente();
+    }
+    
+    void pesquisarCliente() throws IOException {
+    	if (cb_cpfPassaporte.getSelectionModel().getSelectedIndex() == 0) { 		
     		String cpf = tf_cpfPassaporte.getText();
     		pesquisaPorCpf(cpf);
     	}
@@ -92,7 +99,7 @@ public class TelaPrincipalController {
     	// Aqui deve ser checado se o CPF esta registrado no BD
     	
     	// se estiver la
-    	if (!cpf.equals("") && con.ConsultaClienteCPF(cpf)) {
+    	if (!cpf.equals("") && con.ConsultaCliente("cpf",cpf)) {
     		main.showTelaCliente();
     		
     		// Prints de teste
@@ -116,7 +123,7 @@ public class TelaPrincipalController {
     	// Aqui deve ser checado se o passaporte esta registrado no BD
     	
     	// se estiver la
-    	if (!passaporte.equals("") && con.ConsultaClientePassaporte(passaporte)) {
+    	if (!passaporte.equals("") && con.ConsultaCliente("passaporte",passaporte)) {
     		main.showTelaCliente();
     		
     		// Prints de teste

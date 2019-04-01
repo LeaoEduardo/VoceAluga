@@ -96,10 +96,15 @@ public class ConnectionSQL{
     	return false;
     }
     
-    public boolean ConsultaClienteCPF(String cpf) {
+    public boolean ConsultaCliente(String documento, String valor) {
     	
-    	String query = "Select c.Id, c.Nome, c.CPF, c.Passaporte, c.DataNascimento, c.Nacionalidade, c.Telefone, c.CNH, c.DataCNH from cliente c where CPF = '" + cpf + "'";
-    			
+    	String query = "Select Id, Nome, CPF, Passaporte, DataNascimento, Nacionalidade, Telefone, CNH, DataCNH from cliente where Ativo = 1 and ";
+
+        if(documento.equals("cpf"))
+            query += "CPF = '" + valor + "'";
+        else if(documento.equals("passaporte"))
+            query += "Passaporte = '" + valor + "'";
+
     	if(OpenConnection()) {
             try {
             	result = statement.executeQuery(query);
@@ -125,43 +130,11 @@ public class ConnectionSQL{
             }
     	}
     	return false;
-    }    
-    
-    public boolean ConsultaClientePassaporte(String passaporte) {
-    	
-    	String query = "Select c.Id, c.Nome, c.CPF, c.Passaporte, c.DataNascimento, c.Nacionalidade, c.Telefone, c.CNH, c.DataCNH from cliente c where Passaporte = '" + passaporte + "'";
-    			
-    	if(OpenConnection()) {
-            try {
-            	result = statement.executeQuery(query);
-            	System.out.println("Resultado de '"+ query +"':");
+    }        
 
-            	if (result.next()) {
-            		Contexto.getInstancia().setCliente(
-            				result.getString("Id"),
-            				result.getString("Nome"), 
-            				result.getString("CPF"),
-            				result.getString("Passaporte"), 
-            				Instant.ofEpochMilli(result.getDate("DataNascimento").getTime()).atZone(ZoneId.of("UTC")).toLocalDate(),
-            				result.getString("Nacionalidade"),
-            				result.getString("Telefone"),
-            				result.getString("CNH"),
-            				Instant.ofEpochMilli(result.getDate("DataCNH").getTime()).atZone(ZoneId.of("UTC")).toLocalDate());
-                    return true;
-                }
-            } catch (Exception e) {
-                System.err.println(e);
-            } finally {
-                
-            }
-    	}
-    	return false;
-    }    
-    
-    public boolean CadastrarCliente(String nome, String cpf, String passaporte, String dataNasc, String nacionalidade,
-    								String telefone, String cnh, String datacnh) {
+    public boolean CadastrarCliente(String nome, String cpf, String passaporte, String dataNasc, String nacionalidade, String telefone, String cnh, String datacnh) {
     	
-    	String query = "INSERT INTO `cliente` (`Id`, `Nome`, `CPF`, `Passaporte`, `DataNascimento`, `Nacionalidade`, `Telefone`, `CNH`, `DataCNH`) "
+    	String query = "INSERT INTO cliente (Id, Nome, CPF, Passaporte, DataNascimento, Nacionalidade, Telefone, CNH, DataCNH) "
     			+ "VALUES (NULL, '" +nome+ "', '" +cpf+ "', '"+passaporte+"', '"+dataNasc+"', '"+nacionalidade+"', '"+telefone+"', '"+cnh+"', '"+datacnh+"');";
     		
     	System.out.println(query);
@@ -179,12 +152,11 @@ public class ConnectionSQL{
     	return false;
     } 
     
-    public boolean AtualizaCliente(String idCliente, String nome, String cpf, String passaporte, String dataNasc, String nacionalidade,
-								   String telefone, String cnh, String datacnh) {
+    public boolean AtualizaCliente(String idCliente, String nome, String cpf, String passaporte, String dataNasc, String nacionalidade, String telefone, String cnh, String datacnh) {
     	
-    	String query = "UPDATE `cliente` SET `Nome` = '"+nome+"', `CPF` = '"+cpf+"', `Passaporte` = '"+passaporte+
-    				"', `DataNascimento` = '"+dataNasc+"', `Nacionalidade` = '"+nacionalidade+"', `Telefone` = '"+telefone+
-    				"', `CNH` = '"+cnh+"', `DataCNH` = '"+datacnh+"' WHERE `cliente`.`Id` = "+idCliente+";";
+    	String query = "UPDATE cliente SET Nome = '"+nome+"', CPF = '"+cpf+"', Passaporte = '"+passaporte+
+    				"', DataNascimento = '"+dataNasc+"', Nacionalidade = '"+nacionalidade+"', Telefone = '"+telefone+
+    				"', CNH = '"+cnh+"', DataCNH = '"+datacnh+"' WHERE cliente.Id = "+idCliente+";";
     		
     	System.out.println(query);
     	if(OpenConnection()) {
@@ -199,5 +171,24 @@ public class ConnectionSQL{
             }
     	}
     	return false;
+    }
+
+    public boolean RemoverCliente(String idCliente) {
+        
+        String query = "UPDATE cliente SET Ativo = 0 WHERE cliente.Id = "+idCliente+";";
+            
+        System.out.println(query);
+        if(OpenConnection()) {
+            try {
+                statement.executeUpdate(query);
+                System.out.println("Cliente apagado");
+                return true;
+            } catch (Exception e) {
+                System.err.println(e);
+            } finally {
+                
+            }
+        }
+        return false;
     }
 }
