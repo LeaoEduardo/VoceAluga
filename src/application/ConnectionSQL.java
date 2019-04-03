@@ -3,9 +3,13 @@ package application;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.Instant;
 import java.time.ZoneId;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 // Documentacao 
 // https://docs.oracle.com/javase/7/docs/api/java/sql/package-frame.html
@@ -70,7 +74,7 @@ public class ConnectionSQL{
     }
     
     public boolean LoginFuncionario(String User, String senha) {
-    	
+    	boolean ret = false;
     	String query = "Select f.User, tf.Id as IdNivel, tf.Nombre, fi.nomeFilial from funcionario f inner join tipofuncionario tf on f.IdTipo = tf.Id inner join filial fi on f.IdFilial = fi.id where User = '"+User+"' and Senha = '"+senha+"'";
 
     	if(OpenConnection()) {
@@ -85,19 +89,19 @@ public class ConnectionSQL{
             				Integer.parseInt(result.getString("IdNivel")),
             				result.getString("nomeFilial")
             				);
-                    return true;
+            		ret = true;
                 }
             } catch (Exception e) {
                 System.err.println(e);
             } finally {
-                
+            	CloseConnection();
             }
     	}
-    	return false;
+    	return ret;
     }
     
     public boolean ConsultaCliente(String documento, String valor) {
-    	
+    	boolean ret = false;
     	String query = "Select Id, Nome, CPF, Passaporte, DataNascimento, Nacionalidade, Telefone, CNH, DataCNH from cliente where Ativo = 1 and ";
 
         if(documento.equals("cpf"))
@@ -121,39 +125,53 @@ public class ConnectionSQL{
             				result.getString("Telefone"),
             				result.getString("CNH"),
             				Instant.ofEpochMilli(result.getDate("DataCNH").getTime()).atZone(ZoneId.of("UTC")).toLocalDate());
-                    return true;
+                    ret = true;
                 }
             } catch (Exception e) {
                 System.err.println(e);
             } finally {
-                
+            	CloseConnection();
             }
     	}
-    	return false;
+    	return ret;
     }        
 
     public boolean CadastrarCliente(String nome, String cpf, String passaporte, String dataNasc, String nacionalidade, String telefone, String cnh, String datacnh) {
-    	
+    	boolean ret = false;
+    	String cpftemp = cpf==""?null:"'"+cpf+"'";
+    	String passaportetemp = passaporte==""?null:"'"+passaporte+"'";
     	String query = "INSERT INTO cliente (Id, Nome, CPF, Passaporte, DataNascimento, Nacionalidade, Telefone, CNH, DataCNH) "
-    			+ "VALUES (NULL, '" +nome+ "', '" +cpf+ "', '"+passaporte+"', '"+dataNasc+"', '"+nacionalidade+"', '"+telefone+"', '"+cnh+"', '"+datacnh+"');";
+    			+ "VALUES (NULL, '" +nome+ "', " +cpftemp+ ", "+passaportetemp+", '"+dataNasc+"', '"+nacionalidade+"', '"+telefone+"', '"+cnh+"', '"+datacnh+"');";
     		
     	System.out.println(query);
     	if(OpenConnection()) {
             try {
             	statement.execute(query);
             	System.out.println("Cliente cadastrado");
-            	return true;
+            	ret = true;
+            } catch (SQLException e) {
+            	System.err.println(e);
+        		Alert alert = new Alert(AlertType.ERROR);
+            	alert.setTitle("Erro");
+            	alert.setHeaderText("Erro no cadastro.");
+            	alert.setContentText("CPF ou Passaporte ja cadastrado!");
+            	alert.showAndWait();
             } catch (Exception e) {
-                System.err.println(e);
+            	System.err.println(e);
+        		Alert alert = new Alert(AlertType.ERROR);
+            	alert.setTitle("Erro");
+            	alert.setHeaderText("Erro no cadastro.");
+            	alert.setContentText("Dados inconsistentes!");
+            	alert.showAndWait();                
             } finally {
-                
+            	CloseConnection();
             }
     	}
-    	return false;
+    	return ret;
     } 
     
     public boolean AtualizaCliente(String idCliente, String nome, String cpf, String passaporte, String dataNasc, String nacionalidade, String telefone, String cnh, String datacnh) {
-    	
+    	boolean ret = false;
     	String query = "UPDATE cliente SET Nome = '"+nome+"', CPF = '"+cpf+"', Passaporte = '"+passaporte+
     				"', DataNascimento = '"+dataNasc+"', Nacionalidade = '"+nacionalidade+"', Telefone = '"+telefone+
     				"', CNH = '"+cnh+"', DataCNH = '"+datacnh+"' WHERE cliente.Id = "+idCliente+";";
@@ -163,18 +181,18 @@ public class ConnectionSQL{
             try {
             	statement.executeUpdate(query);
             	System.out.println("Cliente cadastrado");
-            	return true;
+            	ret = true;
             } catch (Exception e) {
                 System.err.println(e);
             } finally {
-                
+            	CloseConnection();
             }
     	}
-    	return false;
+    	return ret;
     }
 
     public boolean RemoverCliente(String idCliente) {
-        
+    	boolean ret = false;
         String query = "UPDATE cliente SET Ativo = 0 WHERE cliente.Id = "+idCliente+";";
             
         System.out.println(query);
@@ -182,13 +200,13 @@ public class ConnectionSQL{
             try {
                 statement.executeUpdate(query);
                 System.out.println("Cliente apagado");
-                return true;
+                ret = true;
             } catch (Exception e) {
                 System.err.println(e);
             } finally {
-                
+            	CloseConnection();
             }
         }
-        return false;
+        return ret;
     }
 }

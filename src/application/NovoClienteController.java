@@ -109,14 +109,6 @@ public class NovoClienteController {
     	        Stage stage = (Stage) botaoCadastrarCliente.getScene().getWindow();
     	        stage.close();
         	}
-        	
-        	else {
-        		Alert alert = new Alert(AlertType.ERROR);
-            	alert.setTitle("Erro");
-            	alert.setHeaderText("Erro no cadastro.");
-            	alert.setContentText("Dados inconsistentes!");
-            	alert.showAndWait();
-        	}
         }
     }
 

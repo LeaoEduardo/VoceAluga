@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-04-2019 a las 04:53:22
+-- Tiempo de generación: 03-04-2019 a las 14:13:06
 -- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 5.6.40
 
@@ -31,8 +31,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `cliente` (
   `Id` int(11) NOT NULL,
   `Nome` varchar(50) NOT NULL,
-  `CPF` varchar(15) NOT NULL,
-  `Passaporte` varchar(15) NOT NULL,
+  `CPF` varchar(15) DEFAULT NULL,
+  `Passaporte` varchar(15) DEFAULT NULL,
   `DataNascimento` date NOT NULL,
   `Nacionalidade` varchar(30) NOT NULL,
   `Telefone` varchar(20) NOT NULL,
@@ -46,11 +46,14 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`Id`, `Nome`, `CPF`, `Passaporte`, `DataNascimento`, `Nacionalidade`, `Telefone`, `CNH`, `DataCNH`, `Ativo`) VALUES
-(1, 'Cliente Teste', '12345678910', '', '2019-03-29', 'mundo', '987651234', 12345678901, '2019-03-30', 1),
-(2, 'Cliente Teste Passaporte', '', 'AB123456', '2019-03-29', 'brasileiro', '912345678', 12345678911, '2019-03-29', 1),
-(3, 'Cliente Teste Passaporte 2', '', 'AC123456', '2019-03-29', 'brasileiro', '987654321', 12345678911, '2019-03-29', 1),
-(4, 'Teste de Cadastro do Cliente', '12345678905', '', '2019-03-30', 'mundo', '987654322', 12345678903, '2019-03-30', 1),
-(6, 'Daniel Jimenez', '08254888183', '', '1993-11-29', 'Colombiano', '21988657473', 12312312312, '2019-03-31', 0);
+(1, 'Cliente Teste', '12345678910', NULL, '2019-03-29', 'mundo', '987651234', 12345678901, '2019-03-30', 1),
+(2, 'Cliente Teste Passaporte', NULL, 'AB123456', '2019-03-29', 'brasileiro', '912345678', 12345678911, '2019-03-29', 1),
+(3, 'Cliente Teste Passaporte 2', NULL, 'AC123457', '2019-03-29', 'brasileiro', '987654321', 12345678911, '2019-03-29', 1),
+(4, 'Teste de Cadastro do Cliente', '12345678905', NULL, '2019-03-30', 'mundo', '987654322', 12345678903, '2019-03-30', 1),
+(6, 'Daniel Jimenez', '08254888183', NULL, '1993-11-29', 'Colombiano', '21988657473', 12312312312, '2019-03-31', 0),
+(9, 'danie', NULL, '1asd123a', '1993-11-29', 'colombiano', '21988657473', 12312312312, '2020-12-12', 1),
+(11, 'daniel', NULL, 'asdasdas2', '2000-11-11', 'colombia', '12312312312', 12312312312, '2019-04-17', 1),
+(12, 'matheustrollinho', NULL, 'asdasdas', '2019-04-04', 'brasil', '123123123', 12312312312, '2019-04-02', 1);
 
 -- --------------------------------------------------------
 
@@ -119,7 +122,9 @@ INSERT INTO `tipofuncionario` (`Id`, `Nombre`) VALUES
 -- Indices de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  ADD PRIMARY KEY (`Id`);
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `CPF` (`CPF`),
+  ADD UNIQUE KEY `Passaporte` (`Passaporte`);
 
 --
 -- Indices de la tabla `filial`
@@ -149,7 +154,7 @@ ALTER TABLE `tipofuncionario`
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `filial`
