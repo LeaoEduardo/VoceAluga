@@ -48,7 +48,7 @@ public class TelaClienteController {
     	// Abaixo os dados do cliente devem ser carregados do BD, a partir do CPF/Passaporte acima
         
         // Se CPF do cliente estiver preenchido
-        if (!Contexto.getInstancia().getCliente().getCPF().equals("")) {
+        if (Contexto.getInstancia().getCliente().getCPF() != null) {
         	
         	// Use o CPF do cliente para carregar os dados do BD
         	carregarPorCPF(cpf);
