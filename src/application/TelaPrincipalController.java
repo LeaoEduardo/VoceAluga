@@ -14,6 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
@@ -46,6 +48,16 @@ public class TelaPrincipalController {
     @FXML
     private Tab abaFuncionarios;
     
+    @FXML
+    private AnchorPane clientePane;
+    boolean clientePaneBool = false;
+    
+    @FXML
+    private Text tf_nome;
+    
+    @FXML
+    private Text tf_cnh;
+    
     ConnectionSQL con = new ConnectionSQL();
     
     @FXML
@@ -63,12 +75,20 @@ public class TelaPrincipalController {
     	tf_nivel.setText(usuario.getNomeNivel());
 		tf_filial.setText(usuario.getNomeFilial());
 		
+		clientePane.setVisible(clientePaneBool);
+		
+		
     	if (usuario.getNivel() != 1) {
     		
     		TabPane tabPane = abaVeiculos.getTabPane();
         	tabPane.getTabs().remove(abaVeiculos);
         	tabPane.getTabs().remove(abaFuncionarios);
         }
+    }
+    
+    @FXML
+    void maisInfoBotao(ActionEvent event) throws IOException {    	
+    	main.showTelaCliente();
     }
     
     @FXML
@@ -79,6 +99,12 @@ public class TelaPrincipalController {
     @FXML
     void processaPesquisarEnter(ActionEvent event) throws IOException {    	
     	pesquisarCliente();
+    }
+    
+    void showCliente() throws IOException{
+    	tf_nome.setText(Contexto.getInstancia().getCliente().getNomeCliente());
+		tf_cnh.setText(Contexto.getInstancia().getCliente().getCnh());
+		clientePane.setVisible(clientePaneBool=true);
     }
     
     void pesquisarCliente() throws IOException {
@@ -100,7 +126,8 @@ public class TelaPrincipalController {
     	
     	// se estiver la
     	if (!cpf.equals("") && con.ConsultaCliente("cpf",cpf)) {
-    		main.showTelaCliente();
+    		//main.showTelaCliente();
+    		showCliente();
     		
     		// Prints de teste
     		System.out.println("cpf: " + Contexto.getInstancia().getCliente().getCPF());
@@ -115,6 +142,11 @@ public class TelaPrincipalController {
     		alert.setContentText("Para cadastra-lo, clique em \"Novo cliente\".");
     		alert.showAndWait();
     		tf_cpfPassaporte.setText("");
+    		
+    		//Tipo um refresh
+    		//clientePane.setVisible(clientePaneBool=false);
+    		//clientePane.setVisible(clientePaneBool=true);
+    		
     	}
     }
     
@@ -124,7 +156,8 @@ public class TelaPrincipalController {
     	
     	// se estiver la
     	if (!passaporte.equals("") && con.ConsultaCliente("passaporte",passaporte)) {
-    		main.showTelaCliente();
+    		//main.showTelaCliente();
+    		showCliente();
     		
     		// Prints de teste
     		System.out.println("cpf: " + Contexto.getInstancia().getCliente().getCPF());

@@ -54,15 +54,15 @@ public class LoginFuncionarioController {
     		main.showTelaPrincipal();
     	}
     	
-    	/* else if (usuario.equals("user") && senha.equals("123")) {
-    		Contexto.getInstancia().setUsuario("user", "Agente", 2);
+    	/*else if (usuario.equals("user") && senha.equals("123")) {
+    		Contexto.getInstancia().setUsuario("user", "Agente", 2, "UFRJ");
     		main.showTelaPrincipal();
     	}
     	
     	else if (usuario.equals("admin") && senha.equals("123")) {
-    		Contexto.getInstancia().setUsuario("admin", "Gerente", 1);
+    		Contexto.getInstancia().setUsuario("admin", "Gerente", 1, "UFRJ");
     		main.showTelaPrincipal();
-    	} */
+    	}*/
     	
     	else {
     		
