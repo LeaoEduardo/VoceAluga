@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -57,6 +58,12 @@ public class TelaPrincipalController {
     
     @FXML
     private Text tf_cnh;
+
+	private ObservableList<String> list = FXCollections.observableArrayList("teste", "test2");
+    
+    @FXML
+    private ListView<String> carList = new ListView<String>(list);
+    
     
     ConnectionSQL con = new ConnectionSQL();
     
@@ -78,12 +85,16 @@ public class TelaPrincipalController {
 		clientePane.setVisible(clientePaneBool);
 		
 		
+		
     	if (usuario.getNivel() != 1) {
-    		
     		TabPane tabPane = abaVeiculos.getTabPane();
         	tabPane.getTabs().remove(abaVeiculos);
         	tabPane.getTabs().remove(abaFuncionarios);
         }
+    	else {
+    		carList.setItems(list);
+    		carList.getItems().addAll("Carro1", "Carro2", "Carro3", "Carro4", "Carro5", "Carro6", "Mercedes do Muzy");
+    	}
     }
     
     @FXML
