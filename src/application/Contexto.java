@@ -14,6 +14,7 @@ public class Contexto {
     
     private Usuario usuario;
     private Cliente cliente;
+    private Veiculo veiculo;
     private FormatadorTexto formatador = new FormatadorTexto();
 
     public Usuario getUsuario() {
@@ -22,6 +23,10 @@ public class Contexto {
     
     public Cliente getCliente() {
     	return cliente;
+    }
+    
+    public Veiculo getVeiculo() {
+    	return veiculo;
     }
     
     public FormatadorTexto getFormatador() {
@@ -43,5 +48,24 @@ public class Contexto {
     
     public void setCliente(Cliente cliente) {
     	this.cliente = cliente;
+    }
+    
+    public void setVeiculo(int id, String placa, LocalDate dataManutencao, LocalDate dataCompra, int quilometragem, 
+    						String marca, String modelo, String filial,	String estado) {
+    	this.veiculo = new Veiculo(id, placa, quilometragem, marca, modelo, filial, estado, dataCompra, dataManutencao);
+    	System.out.println("VEICULO DADOS:");
+    	System.out.println(id);
+    	System.out.println(placa);
+    	System.out.println(quilometragem);
+    	System.out.println(marca);
+    	System.out.println(modelo);
+    	System.out.println(filial);
+    	System.out.println(estado);
+    	System.out.println(dataCompra);
+    	System.out.println(dataManutencao);
+    }
+    
+    public void setVeiculo(Veiculo veiculo) {
+    	this.veiculo = veiculo;
     }
 }

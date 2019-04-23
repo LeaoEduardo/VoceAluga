@@ -2,10 +2,10 @@
 -- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 03-04-2019 a las 14:13:06
--- Versión del servidor: 10.1.38-MariaDB
--- Versión de PHP: 5.6.40
+-- Host: localhost
+-- Tempo de geração: 23/04/2019 às 18:22
+-- Versão do servidor: 10.1.38-MariaDB
+-- Versão do PHP: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,39 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `vocealuga`
+-- Banco de dados: `vocealuga`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cliente`
+-- Estrutura para tabela `carro`
+--
+
+CREATE TABLE `carro` (
+  `id` int(11) NOT NULL,
+  `placa` varchar(8) NOT NULL,
+  `dataManutencao` date NOT NULL,
+  `dataCompra` date NOT NULL,
+  `quilometragem` int(11) NOT NULL,
+  `idModelo` int(11) NOT NULL,
+  `idFilial` int(11) NOT NULL,
+  `idEstado` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Despejando dados para a tabela `carro`
+--
+
+INSERT INTO `carro` (`id`, `placa`, `dataManutencao`, `dataCompra`, `quilometragem`, `idModelo`, `idFilial`, `idEstado`) VALUES
+(1, 'ABC1234', '2019-04-21', '2019-04-21', 0, 2, 1, 3),
+(2, 'ABD1234', '0000-00-00', '0000-00-00', 123, 3, 1, 1),
+(3, 'ABE1234', '2019-07-07', '2019-06-06', 200, 5, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `cliente`
 --
 
 CREATE TABLE `cliente` (
@@ -42,7 +68,7 @@ CREATE TABLE `cliente` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `cliente`
+-- Despejando dados para a tabela `cliente`
 --
 
 INSERT INTO `cliente` (`Id`, `Nome`, `CPF`, `Passaporte`, `DataNascimento`, `Nacionalidade`, `Telefone`, `CNH`, `DataCNH`, `Ativo`) VALUES
@@ -53,12 +79,34 @@ INSERT INTO `cliente` (`Id`, `Nome`, `CPF`, `Passaporte`, `DataNascimento`, `Nac
 (6, 'Daniel Jimenez', '08254888183', NULL, '1993-11-29', 'Colombiano', '21988657473', 12312312312, '2019-03-31', 0),
 (9, 'danie', NULL, '1asd123a', '1993-11-29', 'colombiano', '21988657473', 12312312312, '2020-12-12', 1),
 (11, 'daniel', NULL, 'asdasdas2', '2000-11-11', 'colombia', '12312312312', 12312312312, '2019-04-17', 1),
-(12, 'matheustrollinho', NULL, 'asdasdas', '2019-04-04', 'brasil', '123123123', 12312312312, '2019-04-02', 1);
+(12, 'matheustrollinho', NULL, 'asdasdas', '2019-04-04', 'brasil', '123123123', 12312312312, '2019-04-02', 1),
+(13, '12435687901', '12435687901', NULL, '2019-04-24', 'Brasileiro', '987654321', 12435687901, '2019-04-24', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `filial`
+-- Estrutura para tabela `estadoCarro`
+--
+
+CREATE TABLE `estadoCarro` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Despejando dados para a tabela `estadoCarro`
+--
+
+INSERT INTO `estadoCarro` (`id`, `tipo`) VALUES
+(1, 'Alugado'),
+(2, 'Em manutenção'),
+(3, 'Disponível'),
+(4, 'Vendido');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `filial`
 --
 
 CREATE TABLE `filial` (
@@ -67,16 +115,17 @@ CREATE TABLE `filial` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `filial`
+-- Despejando dados para a tabela `filial`
 --
 
 INSERT INTO `filial` (`id`, `nomeFilial`) VALUES
-(1, 'Rio de Janeiro');
+(1, 'Rio de Janeiro'),
+(2, 'São Paulo');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `funcionario`
+-- Estrutura para tabela `funcionario`
 --
 
 CREATE TABLE `funcionario` (
@@ -84,21 +133,66 @@ CREATE TABLE `funcionario` (
   `User` varchar(30) NOT NULL,
   `Senha` varchar(30) NOT NULL,
   `IdFilial` int(11) NOT NULL,
-  `IdTipo` int(11) NOT NULL
+  `IdTipo` int(11) NOT NULL,
+  `Ativo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `funcionario`
+-- Despejando dados para a tabela `funcionario`
 --
 
-INSERT INTO `funcionario` (`Id`, `User`, `Senha`, `IdFilial`, `IdTipo`) VALUES
-(1, 'Admin', 'Admin', 1, 1),
-(2, 'Test', 'Test', 1, 2);
+INSERT INTO `funcionario` (`Id`, `User`, `Senha`, `IdFilial`, `IdTipo`, `Ativo`) VALUES
+(1, 'Admin', 'Admin', 1, 1, 1),
+(2, 'Test', 'Test', 1, 2, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipofuncionario`
+-- Estrutura para tabela `grupoCarro`
+--
+
+CREATE TABLE `grupoCarro` (
+  `id` int(11) NOT NULL,
+  `grupo` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Despejando dados para a tabela `grupoCarro`
+--
+
+INSERT INTO `grupoCarro` (`id`, `grupo`) VALUES
+(1, 'A'),
+(2, 'B'),
+(3, 'C');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `modeloCarro`
+--
+
+CREATE TABLE `modeloCarro` (
+  `id` int(11) NOT NULL,
+  `marca` varchar(20) NOT NULL,
+  `modelo` varchar(20) NOT NULL,
+  `idGrupo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Despejando dados para a tabela `modeloCarro`
+--
+
+INSERT INTO `modeloCarro` (`id`, `marca`, `modelo`, `idGrupo`) VALUES
+(1, 'Hyundai', 'HB20', 2),
+(2, 'Volkswagen', 'Gol', 3),
+(3, 'Fiat', 'Uno', 2),
+(4, 'Volkswagen', 'Fox', 2),
+(5, 'Ford', 'Fiesta', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tipofuncionario`
 --
 
 CREATE TABLE `tipofuncionario` (
@@ -107,7 +201,7 @@ CREATE TABLE `tipofuncionario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `tipofuncionario`
+-- Despejando dados para a tabela `tipofuncionario`
 --
 
 INSERT INTO `tipofuncionario` (`Id`, `Nombre`) VALUES
@@ -115,11 +209,21 @@ INSERT INTO `tipofuncionario` (`Id`, `Nombre`) VALUES
 (2, 'Funcionario');
 
 --
--- Índices para tablas volcadas
+-- Índices de tabelas apagadas
 --
 
 --
--- Indices de la tabla `cliente`
+-- Índices de tabela `carro`
+--
+ALTER TABLE `carro`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `placa` (`placa`),
+  ADD KEY `FK_Modelo` (`idModelo`),
+  ADD KEY `FK_Estado` (`idEstado`),
+  ADD KEY `FK_Filial_Carro` (`idFilial`);
+
+--
+-- Índices de tabela `cliente`
 --
 ALTER TABLE `cliente`
   ADD PRIMARY KEY (`Id`),
@@ -127,13 +231,19 @@ ALTER TABLE `cliente`
   ADD UNIQUE KEY `Passaporte` (`Passaporte`);
 
 --
--- Indices de la tabla `filial`
+-- Índices de tabela `estadoCarro`
+--
+ALTER TABLE `estadoCarro`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `filial`
 --
 ALTER TABLE `filial`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `funcionario`
+-- Índices de tabela `funcionario`
 --
 ALTER TABLE `funcionario`
   ADD PRIMARY KEY (`Id`),
@@ -141,49 +251,75 @@ ALTER TABLE `funcionario`
   ADD KEY `FK_Filial` (`IdFilial`);
 
 --
--- Indices de la tabla `tipofuncionario`
+-- Índices de tabela `grupoCarro`
+--
+ALTER TABLE `grupoCarro`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `modeloCarro`
+--
+ALTER TABLE `modeloCarro`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_Grupo` (`idGrupo`);
+
+--
+-- Índices de tabela `tipofuncionario`
 --
 ALTER TABLE `tipofuncionario`
   ADD PRIMARY KEY (`Id`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT de tabelas apagadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `cliente`
+-- AUTO_INCREMENT de tabela `carro`
+--
+ALTER TABLE `carro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de tabela `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT de la tabla `filial`
+-- AUTO_INCREMENT de tabela `estadoCarro`
+--
+ALTER TABLE `estadoCarro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de tabela `filial`
 --
 ALTER TABLE `filial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `funcionario`
+-- AUTO_INCREMENT de tabela `funcionario`
 --
 ALTER TABLE `funcionario`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `tipofuncionario`
+-- AUTO_INCREMENT de tabela `grupoCarro`
+--
+ALTER TABLE `grupoCarro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de tabela `modeloCarro`
+--
+ALTER TABLE `modeloCarro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de tabela `tipofuncionario`
 --
 ALTER TABLE `tipofuncionario`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `funcionario`
---
-ALTER TABLE `funcionario`
-  ADD CONSTRAINT `FK_Filial` FOREIGN KEY (`IdFilial`) REFERENCES `filial` (`id`),
-  ADD CONSTRAINT `FK_TipoFuncionario` FOREIGN KEY (`IdTipo`) REFERENCES `tipofuncionario` (`Id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
