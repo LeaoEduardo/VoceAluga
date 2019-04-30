@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 23/04/2019 às 18:22
+-- Tempo de geração: 30/04/2019 às 03:55
 -- Versão do servidor: 10.1.38-MariaDB
 -- Versão do PHP: 7.3.3
 
@@ -47,6 +47,26 @@ INSERT INTO `carro` (`id`, `placa`, `dataManutencao`, `dataCompra`, `quilometrag
 (1, 'ABC1234', '2019-04-21', '2019-04-21', 0, 2, 1, 3),
 (2, 'ABD1234', '0000-00-00', '0000-00-00', 123, 3, 1, 1),
 (3, 'ABE1234', '2019-07-07', '2019-06-06', 200, 5, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `cidade`
+--
+
+CREATE TABLE `cidade` (
+  `Id` int(11) NOT NULL,
+  `nomeCidade` varchar(20) NOT NULL,
+  `idUF` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Despejando dados para a tabela `cidade`
+--
+
+INSERT INTO `cidade` (`Id`, `nomeCidade`, `idUF`) VALUES
+(1, 'Rio de Janeiro', 19),
+(2, 'São Paulo', 25);
 
 -- --------------------------------------------------------
 
@@ -111,16 +131,17 @@ INSERT INTO `estadoCarro` (`id`, `tipo`) VALUES
 
 CREATE TABLE `filial` (
   `id` int(11) NOT NULL,
-  `nomeFilial` varchar(20) NOT NULL
+  `nomeFilial` varchar(20) NOT NULL,
+  `idCidade` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Despejando dados para a tabela `filial`
 --
 
-INSERT INTO `filial` (`id`, `nomeFilial`) VALUES
-(1, 'Rio de Janeiro'),
-(2, 'São Paulo');
+INSERT INTO `filial` (`id`, `nomeFilial`, `idCidade`) VALUES
+(1, 'UFRJ', 1),
+(2, 'USP', 2);
 
 -- --------------------------------------------------------
 
@@ -168,12 +189,33 @@ INSERT INTO `grupoCarro` (`id`, `grupo`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `marcaCarro`
+--
+
+CREATE TABLE `marcaCarro` (
+  `Id` int(11) NOT NULL,
+  `marca` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Despejando dados para a tabela `marcaCarro`
+--
+
+INSERT INTO `marcaCarro` (`Id`, `marca`) VALUES
+(1, 'Hyundai'),
+(2, 'Ford'),
+(3, 'Fiat'),
+(4, 'Volkswagen');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `modeloCarro`
 --
 
 CREATE TABLE `modeloCarro` (
   `id` int(11) NOT NULL,
-  `marca` varchar(20) NOT NULL,
+  `idMarca` int(11) NOT NULL,
   `modelo` varchar(20) NOT NULL,
   `idGrupo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -182,12 +224,12 @@ CREATE TABLE `modeloCarro` (
 -- Despejando dados para a tabela `modeloCarro`
 --
 
-INSERT INTO `modeloCarro` (`id`, `marca`, `modelo`, `idGrupo`) VALUES
-(1, 'Hyundai', 'HB20', 2),
-(2, 'Volkswagen', 'Gol', 3),
-(3, 'Fiat', 'Uno', 2),
-(4, 'Volkswagen', 'Fox', 2),
-(5, 'Ford', 'Fiesta', 3);
+INSERT INTO `modeloCarro` (`id`, `idMarca`, `modelo`, `idGrupo`) VALUES
+(1, 1, 'HB20', 2),
+(2, 4, 'Gol', 3),
+(3, 3, 'Uno', 2),
+(4, 4, 'Fox', 2),
+(5, 2, 'Fiesta', 3);
 
 -- --------------------------------------------------------
 
@@ -208,6 +250,50 @@ INSERT INTO `tipofuncionario` (`Id`, `Nombre`) VALUES
 (1, 'Administrador'),
 (2, 'Funcionario');
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `uf`
+--
+
+CREATE TABLE `uf` (
+  `Id` int(11) NOT NULL,
+  `UF` varchar(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Despejando dados para a tabela `uf`
+--
+
+INSERT INTO `uf` (`Id`, `UF`) VALUES
+(1, 'AC'),
+(2, 'AL'),
+(3, 'AM'),
+(4, 'AP'),
+(5, 'BA'),
+(6, 'CE'),
+(7, 'DF'),
+(8, 'ES'),
+(9, 'GO'),
+(10, 'MA'),
+(13, 'MG'),
+(12, 'MS'),
+(11, 'MT'),
+(14, 'PA'),
+(15, 'PB'),
+(17, 'PE'),
+(18, 'PI'),
+(16, 'PR'),
+(19, 'RJ'),
+(20, 'RN'),
+(22, 'RO'),
+(23, 'RR'),
+(21, 'RS'),
+(24, 'SC'),
+(26, 'SE'),
+(25, 'SP'),
+(27, 'TO');
+
 --
 -- Índices de tabelas apagadas
 --
@@ -221,6 +307,13 @@ ALTER TABLE `carro`
   ADD KEY `FK_Modelo` (`idModelo`),
   ADD KEY `FK_Estado` (`idEstado`),
   ADD KEY `FK_Filial_Carro` (`idFilial`);
+
+--
+-- Índices de tabela `cidade`
+--
+ALTER TABLE `cidade`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `FK_idUF` (`idUF`);
 
 --
 -- Índices de tabela `cliente`
@@ -240,7 +333,8 @@ ALTER TABLE `estadoCarro`
 -- Índices de tabela `filial`
 --
 ALTER TABLE `filial`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_Cidade` (`idCidade`);
 
 --
 -- Índices de tabela `funcionario`
@@ -257,17 +351,31 @@ ALTER TABLE `grupoCarro`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices de tabela `marcaCarro`
+--
+ALTER TABLE `marcaCarro`
+  ADD PRIMARY KEY (`Id`);
+
+--
 -- Índices de tabela `modeloCarro`
 --
 ALTER TABLE `modeloCarro`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_Grupo` (`idGrupo`);
+  ADD KEY `FK_Grupo` (`idGrupo`),
+  ADD KEY `FK_Marca` (`idMarca`);
 
 --
 -- Índices de tabela `tipofuncionario`
 --
 ALTER TABLE `tipofuncionario`
   ADD PRIMARY KEY (`Id`);
+
+--
+-- Índices de tabela `uf`
+--
+ALTER TABLE `uf`
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `UF` (`UF`);
 
 --
 -- AUTO_INCREMENT de tabelas apagadas
@@ -278,6 +386,12 @@ ALTER TABLE `tipofuncionario`
 --
 ALTER TABLE `carro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de tabela `cidade`
+--
+ALTER TABLE `cidade`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `cliente`
@@ -310,6 +424,12 @@ ALTER TABLE `grupoCarro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de tabela `marcaCarro`
+--
+ALTER TABLE `marcaCarro`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT de tabela `modeloCarro`
 --
 ALTER TABLE `modeloCarro`
@@ -320,6 +440,34 @@ ALTER TABLE `modeloCarro`
 --
 ALTER TABLE `tipofuncionario`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `uf`
+--
+ALTER TABLE `uf`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- Restrições para dumps de tabelas
+--
+
+--
+-- Restrições para tabelas `cidade`
+--
+ALTER TABLE `cidade`
+  ADD CONSTRAINT `FK_idUF` FOREIGN KEY (`idUF`) REFERENCES `uf` (`Id`);
+
+--
+-- Restrições para tabelas `filial`
+--
+ALTER TABLE `filial`
+  ADD CONSTRAINT `FK_Cidade` FOREIGN KEY (`idCidade`) REFERENCES `cidade` (`Id`);
+
+--
+-- Restrições para tabelas `modeloCarro`
+--
+ALTER TABLE `modeloCarro`
+  ADD CONSTRAINT `FK_Marca` FOREIGN KEY (`idMarca`) REFERENCES `marcaCarro` (`Id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
