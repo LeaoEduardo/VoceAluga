@@ -6,9 +6,7 @@
 - É necessário incluir o pacote .jar (compilado ou baixado) na variável CLASSPATH do sistema
 - No Ubuntu: export CLASSPATH=$CLASSPATH:path/mysql-connector-java-version.jar
 - No Windows usa-se o Painel de controle do sistema para acessar as variáveis do sistema
-- Em vez de incluir na variável do sistema, é possível também adicionar o pacote .jar na hora de executar o programa com 
-algo semelhante a isso (rodando a classe main <code>ExemploSQL</code>, incluida neste rep):<br>
-<code>java -cp mysql-connector-java-version/mysql-connector-java-version.jar:. ExemploSQL</code>
+- Em vez de incluir na variável do sistema, é possível 'linkar' o arquivo .jar do connector pelo eclipse em Properties(do projeto VoceAluga)->Java Build Path->Libraries->Add External Jars...
 
 
 ## JavaFX no eclipse
