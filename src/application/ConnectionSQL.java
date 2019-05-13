@@ -60,8 +60,8 @@ public class ConnectionSQL{
     private boolean CloseConnection() {      
         // Vi na documentacao q eh uma boa ideia fazer isso pra liberar recurso
         try{
-            result.close();
-            result = null;
+            //result.close();
+            //result = null;
             statement.close();
             statement = null;
             return true;
@@ -98,6 +98,18 @@ public class ConnectionSQL{
             }
     	}
     	return ret;
+    }
+    
+    public boolean CadastraFuncionario() {
+    	return false;
+    }
+    
+    public boolean UpdateFuncionario() {
+    	return false;
+    }
+    
+    public boolean ReativaFuncionario() {
+    	return false;
     }
     
     public boolean ConsultaCliente(String documento, String valor) {
@@ -180,7 +192,7 @@ public class ConnectionSQL{
     	if(OpenConnection()) {
             try {
             	statement.executeUpdate(query);
-            	System.out.println("Cliente cadastrado");
+            	System.out.println("Cliente atualizado");
             	ret = true;
             } catch (Exception e) {
                 System.err.println(e);
@@ -208,5 +220,221 @@ public class ConnectionSQL{
             }
         }
         return ret;
+    }
+    
+    public boolean CadastraVeiculo(String placa, String quilometragem, String marca, String modelo, String filial,
+			String estado, String dataCompra, String dataManutencao) {
+    	boolean ret = false;
+    	String query = "SELECT id, tipo FROM estadoCarro WHERE tipo = \""+estado+"\" UNION SELECT id, nomeFilial"
+    			+ " FROM filial WHERE nomeFilial = \""+filial+"\" UNION SELECT m.id, m.marca FROM modeloCarro m "
+    			+ "WHERE marca = \""+marca+"\" AND modelo = \""+modelo+"\"";
+    	
+    	System.out.println(query);
+    	if(OpenConnection()) {
+            try {
+                result = statement.executeQuery(query);
+                System.out.println("Consulta de dados para cadastar veiculo ok");
+            	
+                String idModelo = "";
+            	String idFilial = "";
+            	String idEstado = "";
+                
+                if (result.next()) { 
+                	idEstado = result.getString("Id");
+                	System.out.println("passou 1");
+                	if(result.next()) {
+                		idFilial = result.getString("Id");
+                    	System.out.println("passou 2");
+                		if(result.next()) {
+                			idModelo = result.getString("Id");
+                        	System.out.println("passou 3");
+                		}
+                	}
+                }
+            	
+                try {
+                	query = "INSERT INTO carro (Id, placa, dataManutencao, dataCompra, quilometragem, idModelo, idFilial, idEstado) "
+                			+ "VALUES (NULL, '" +placa+ "', '"+dataManutencao+"', '"+dataCompra+"', '"+quilometragem+"', '"+idModelo+"', '"+idFilial+"', '"+idEstado+"');";
+                	System.out.println(query);
+                	statement.execute(query);
+                	System.out.println("Veiculo cadastrado");
+                	ret = true;
+                }
+                catch (Exception e) {
+                    System.err.println(e);
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+            } finally {
+            	CloseConnection();
+            }
+        }
+    	return ret;
+    }
+    
+    public boolean CadastroModelo(String marca, String modelo, String idGrupo) {
+    	boolean ret = false;
+    	String query = "SELECT id FROM grupoCarro WHERE grupo = '"+idGrupo+"'";
+    		
+    	System.out.println(query);
+    	if(OpenConnection()) {
+            try {
+            	result = statement.executeQuery(query);
+            	System.out.println("Grupo consultado");
+            	if(result.next()) {
+            		idGrupo = result.getString("id");
+            	}
+            	
+            	try {
+            		query = "INSERT INTO modeloCarro (id, marca, modelo, idGrupo) "
+            				+ "VALUES (NULL, '" +marca+ "', '"+modelo+"', "+idGrupo+");";
+            		System.out.println(query);
+                	statement.execute(query);
+            		System.out.println("Modelo de carro cadastrado");
+                	ret = true;
+            	}
+            	catch(Exception e) {
+                	System.err.println(e);            
+            	}
+            } catch (Exception e) {
+            	System.err.println(e);            
+            } finally {
+            	CloseConnection();
+            }
+    	}
+    	return ret;
+    }
+    
+    public boolean ConsultaVeiculo(String placa) {
+    	boolean ret = false;
+    	String query = "SELECT c.id, c.placa, c.dataManutencao, c.dataCompra, c.quilometragem, m.marca, m.modelo, f.nomeFilial, e.tipo"
+    				+ " FROM carro c INNER JOIN modeloCarro m on c.idModelo = m.id INNER JOIN filial f on c.idFilial = f.id INNER JOIN"
+    				+ " estadoCarro e on c.idEstado = e.id WHERE placa = '"+placa+"' AND NOT(idEstado = 1)";
+
+    	if(OpenConnection()) {
+            try {
+            	result = statement.executeQuery(query);
+            	System.out.println("Resultado de '"+ query +"':");
+
+            	if (result.next()) {
+            		Contexto.getInstancia().setVeiculo(
+            				Integer.parseInt(result.getString("id")),
+            				result.getString("placa"),
+            				Instant.ofEpochMilli(result.getDate("dataManutencao").getTime()).atZone(ZoneId.of("UTC")).toLocalDate(),
+            				Instant.ofEpochMilli(result.getDate("dataCompra").getTime()).atZone(ZoneId.of("UTC")).toLocalDate(),
+            				Integer.parseInt(result.getString("quilometragem")),
+            				result.getString("marca"),
+            				result.getString("modelo"),
+            				result.getString("nomeFilial"),
+            				result.getString("tipo"));
+                    ret = true;
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+            } finally {
+            	CloseConnection();
+            }
+    	}
+    	return ret;
+    }
+    
+    public boolean UpdateVeiculo(String placa, String quilometragem, String marca, String modelo, String filial,
+								String estado, String dataCompra, String dataManutencao) {
+    	boolean ret = false;
+    	String query  = "SELECT id, tipo FROM estadoCarro WHERE tipo = \""+estado+"\" UNION SELECT id, nomeFilial"
+    			+ " FROM filial WHERE nomeFilial = \""+filial+"\" UNION SELECT m.id, m.marca FROM modeloCarro m "
+    			+ "WHERE marca = \""+marca+"\" AND modelo = \""+modelo+"\" UNION SELECT id, placa FROM carro WHERE " 
+    			+ "placa = \""+placa+"\"";
+    	
+    	System.out.println(query);
+    	if(OpenConnection()) {
+            try {
+                result = statement.executeQuery(query);
+                System.out.println("Consulta de dados para atualizar veiculo ok");
+            	
+                String idModelo = "";
+            	String idFilial = "";
+            	String idEstado = "";
+            	String idCarro = "";
+                
+                if (result.next()) { 
+                	idEstado = result.getString("Id");
+                	System.out.println("passou 1");
+                	if(result.next()) {
+                		idFilial = result.getString("Id");
+                    	System.out.println("passou 2");
+                		if(result.next()) {
+                			idModelo = result.getString("Id");
+                        	System.out.println("passou 3");
+                        	if(result.next()) {
+                    			idCarro = result.getString("Id");
+                            	System.out.println("passou 4");
+                    		}
+                		}
+                	}
+                }
+            	
+                try {
+                	query = "UPDATE carro SET placa = '"+placa+"', dataManutencao = '"+dataManutencao+"', dataCompra = '"+dataCompra+
+            				"', quilometragem = '"+quilometragem+"', idModelo = '"+idModelo+"', idFilial = '"+idFilial+
+            				"', idEstado = '"+idEstado+"' WHERE carro.id = "+idCarro;
+                	System.out.println(query);
+                	statement.execute(query);
+                	System.out.println("Veiculo atualizado");
+                	ret = true;
+                	//set new veiculo em contexto
+                }
+                catch (Exception e) {
+                    System.err.println(e);
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+            } finally {
+            	CloseConnection();
+            }
+        }
+    	
+    	return ret;
+    }
+    
+    public boolean VendeVeiculo(String placa) {
+    	boolean ret = false;
+    	String query = "UPDATE carro SET idEstado = 4 WHERE carro.placa = '"+placa+"'";
+    	
+    	System.out.println(query);
+        if(OpenConnection()) {
+            try {
+                statement.executeUpdate(query);
+                System.out.println("Estado do veiculo alterado para Vendido");
+                ret = true;
+                //set veiculo estado = vendido no contexto
+            } catch (Exception e) {
+                System.err.println(e);
+            } finally {
+            	CloseConnection();
+            }
+        }
+        
+        return ret;    	
+    }
+    
+    public boolean ReativaVeiculo(String placa) {
+    	boolean ret = false;
+    	String query = "UPDATE carro SET idEstado = 3 WHERE carro.placa = '"+placa+"'";
+    	
+    	System.out.println(query);
+        if(OpenConnection()) {
+            try {
+                statement.executeUpdate(query);
+                System.out.println("Estado do veiculo alterado para Disponivel");
+                ret = true;
+            } catch (Exception e) {
+                System.err.println(e);
+            } finally {
+            	CloseConnection();
+            }
+        }
+        
+        return ret;    
     }
 }

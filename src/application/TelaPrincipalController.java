@@ -118,7 +118,7 @@ public class TelaPrincipalController {
 		clientePane.setVisible(clientePaneBool=true);
     }
     
-    void pesquisarCliente() throws IOException {
+    void pesquisarCliente() throws IOException {    	
     	if (cb_cpfPassaporte.getSelectionModel().getSelectedIndex() == 0) { 		
     		String cpf = tf_cpfPassaporte.getText();
     		pesquisaPorCpf(cpf);

@@ -22,12 +22,12 @@
           <RowConstraints maxHeight="127.0" minHeight="10.0" prefHeight="127.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="tf_username" prefHeight="0.0" prefWidth="200.0" promptText="Usuário" text="Admin" GridPane.columnSpan="2147483647">
+            <TextField fx:id="tf_username" prefHeight="0.0" prefWidth="200.0" promptText="Usuário" text="" GridPane.columnSpan="2147483647">
                <font>
                   <Font size="20.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="tf_password" onAction="#processaLoginEnter" promptText="Senha" text="Admin" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+            <PasswordField fx:id="tf_password" onAction="#processaLoginEnter" promptText="Senha" text="" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
