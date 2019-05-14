@@ -1,6 +1,7 @@
 package application;
 
 import java.time.LocalDate;
+import javafx.collections.ObservableList;
 
 public class Contexto {
 	
@@ -16,6 +17,7 @@ public class Contexto {
     private Cliente cliente;
     private Veiculo veiculo;
     private FormatadorTexto formatador = new FormatadorTexto();
+    public ObservableList<Veiculo> listaVeiculos;
 
     public Usuario getUsuario() {
         return usuario;
@@ -31,6 +33,10 @@ public class Contexto {
     
     public FormatadorTexto getFormatador() {
     	return formatador;
+    }
+    
+    public ObservableList<Veiculo> getListaVeiculos() {
+    	return listaVeiculos;
     }
     
     public void setUsuario(String user, String nomeNivel, int nivel, String nomeFilial) {
@@ -51,8 +57,10 @@ public class Contexto {
     }
     
     public void setVeiculo(int id, String placa, LocalDate dataManutencao, LocalDate dataCompra, int quilometragem, 
-    						String marca, String modelo, String filial,	String estado) {
-    	this.veiculo = new Veiculo(id, placa, quilometragem, marca, modelo, filial, estado, dataCompra, dataManutencao);
+    						String marca, String modelo, String grupo, String filial, String estado) {
+    	
+    	this.veiculo = new Veiculo(id, placa, quilometragem, marca, modelo, filial, grupo, estado, dataCompra, dataManutencao);
+    	
     	System.out.println("VEICULO DADOS:");
     	System.out.println(id);
     	System.out.println(placa);
@@ -60,6 +68,7 @@ public class Contexto {
     	System.out.println(marca);
     	System.out.println(modelo);
     	System.out.println(filial);
+    	System.out.println(grupo);
     	System.out.println(estado);
     	System.out.println(dataCompra);
     	System.out.println(dataManutencao);
@@ -67,5 +76,9 @@ public class Contexto {
     
     public void setVeiculo(Veiculo veiculo) {
     	this.veiculo = veiculo;
+    }
+    
+    public void setListaVeiculos(ObservableList<Veiculo> listaVeiculos) {
+    	this.listaVeiculos = listaVeiculos;
     }
 }

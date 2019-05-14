@@ -6,10 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
-
+import java.time.format.DateTimeFormatter;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 // Documentacao 
 // https://docs.oracle.com/javase/7/docs/api/java/sql/package-frame.html
@@ -329,6 +332,43 @@ public class ConnectionSQL{
             				result.getString("tipo"));
                     ret = true;
                 }
+            } catch (Exception e) {
+                System.err.println(e);
+            } finally {
+            	CloseConnection();
+            }
+    	}
+    	return ret;
+    }
+    
+    public boolean ConsultaTodosVeiculos() {
+    	boolean ret = false;
+    	String query = "SELECT c.id, c.placa, c.dataManutencao, c.dataCompra, c.quilometragem, m.marca, m.modelo, f.nomeFilial, g.grupo, e.tipo"
+				+ " FROM carro c INNER JOIN modeloCarro m on c.idModelo = m.id INNER JOIN filial f on c.idFilial = f.id INNER JOIN"
+				+ " estadoCarro e on c.idEstado = e.id INNER JOIN grupoCarro g on c.id = g.id";
+    	
+    	ObservableList<Veiculo> listaVeiculos = FXCollections.observableArrayList();
+
+    	if(OpenConnection()) {
+            try {
+            	result = statement.executeQuery(query);
+            	System.out.println("Resultado de '"+ query +"':");
+
+            	while (result.next()) {
+            		listaVeiculos.add(new Veiculo(
+            				Integer.parseInt(result.getString("id")),
+            				result.getString("placa"),
+            				Integer.parseInt(result.getString("quilometragem")),
+            				result.getString("marca"),
+            				result.getString("modelo"),
+            				result.getString("nomeFilial"),
+            				result.getString("grupo"),
+            				result.getString("tipo"),
+            				Instant.ofEpochMilli(result.getDate("dataCompra").getTime()).atZone(ZoneId.of("UTC")).toLocalDate(),
+            				Instant.ofEpochMilli(result.getDate("dataManutencao").getTime()).atZone(ZoneId.of("UTC")).toLocalDate()));
+            		ret = true;
+                }
+            	Contexto.getInstancia().setListaVeiculos(listaVeiculos);
             } catch (Exception e) {
                 System.err.println(e);
             } finally {

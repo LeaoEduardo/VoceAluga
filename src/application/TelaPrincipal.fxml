@@ -17,10 +17,10 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="438.0" prefWidth="800.0">
                      <children>
-                        <Button layoutX="396.0" layoutY="14.0" mnemonicParsing="false" onAction="#processaPesquisarBotao" prefHeight="31.0" prefWidth="200.0" text="Pesquisar cliente" />
-                        <TextField fx:id="tf_cpfPassaporte" layoutX="209.0" layoutY="14.0" onAction="#processaPesquisarEnter" promptText="12345678910" text="12345678910" />
-                        <Button layoutX="596.0" layoutY="14.0" mnemonicParsing="false" onAction="#novoCliente" prefHeight="31.0" prefWidth="190.0" text="Novo Cliente" />
-                        <ChoiceBox fx:id="cb_cpfPassaporte" layoutX="14.0" layoutY="14.0" prefHeight="31.0" prefWidth="195.0" />
+                        <Button layoutX="376.0" layoutY="14.0" mnemonicParsing="false" onAction="#processaPesquisarBotao" prefHeight="31.0" prefWidth="166.0" text="Pesquisar cliente" />
+                        <TextField fx:id="tf_cpfPassaporte" layoutX="186.0" layoutY="17.0" onAction="#processaPesquisarEnter" promptText="12345678910" text="12345678910" />
+                        <Button layoutX="557.0" layoutY="14.0" mnemonicParsing="false" onAction="#novoCliente" prefHeight="31.0" prefWidth="166.0" text="Novo Cliente" />
+                        <ChoiceBox fx:id="cb_cpfPassaporte" layoutX="14.0" layoutY="14.0" prefHeight="31.0" prefWidth="158.0" />
                         <AnchorPane fx:id="clientePane" prefHeight="382.0" prefWidth="780.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                            <children>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f8f8f8" height="200.0" layoutX="163.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="454.0" />
@@ -80,14 +80,20 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ListView fx:id="carList" layoutX="14.0" layoutY="63.0" prefHeight="288.0" prefWidth="750.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ecf1f5" height="48.0" layoutX="14.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="780.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                        <Text layoutX="296.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de Carros">
-                           <font>
-                              <Font size="32.0" />
-                           </font>
-                        </Text>
-                        <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="203.0" text="Adicionar Carro" />
+                        <TableView fx:id="tabelaVeiculos" prefHeight="385.0" prefWidth="800.0" tableMenuButtonVisible="true">
+                          <columns>
+                            <TableColumn fx:id="col_grupo" prefWidth="66.0" text="Grupo" />
+                              <TableColumn fx:id="col_marca" prefWidth="95.0" text="Marca" />
+                            <TableColumn fx:id="col_modelo" prefWidth="114.0" text="Modelo" />
+                              <TableColumn fx:id="col_placa" prefWidth="125.0" text="Placa" />
+                              <TableColumn fx:id="col_quilometragem" prefWidth="91.0" text="Km" />
+                              <TableColumn fx:id="col_dataM" prefWidth="142.0" text="Data manutenção" />
+                              <TableColumn fx:id="col_dataC" prefWidth="138.0" text="Data da compra" />
+                              <TableColumn fx:id="col_filial" prefWidth="163.0" text="Filial" />
+                              <TableColumn fx:id="col_estado" prefWidth="130.0" text="Estado" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="14.0" layoutY="397.0" mnemonicParsing="false" onAction="#cadastrarVeiculo" prefHeight="48.0" prefWidth="203.0" text="Cadastrar Veículo" />
                      </children>
                   </AnchorPane>
               </content>

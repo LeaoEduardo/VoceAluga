@@ -3,9 +3,11 @@ package application;
 import java.time.LocalDate;
 
 public class Veiculo {
+	
 	private int id;
 	private String placa;
 	private int quilometragem;
+	private String marca;
 	private String modelo;
 	private String filial;
 	private String grupo;
@@ -13,11 +15,12 @@ public class Veiculo {
 	private LocalDate dataCompra;
 	private LocalDate dataManutencao;
 	
-	public Veiculo(int id, String placa, int quilometragem, String modelo, String filial, String grupo,
+	public Veiculo(int id, String placa, int quilometragem, String marca, String modelo, String filial, String grupo,
 					String estado, LocalDate dataCompra, LocalDate dataManutencao){
 		this.id = id;
 		this.placa = placa;
 		this.quilometragem = quilometragem;
+		this.marca = marca;
 		this.modelo = modelo;
 		this.filial = filial;
 		this.grupo = grupo;
@@ -37,7 +40,11 @@ public class Veiculo {
 	public int getQuilometragem() {
 		return quilometragem;
 	}
-
+	
+	public String getMarca() {
+		return marca;
+	}
+	
 	public String getModelo() {
 		return modelo;
 	}
