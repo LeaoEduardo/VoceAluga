@@ -65,6 +65,9 @@ public class TelaPrincipalController {
     private Text tf_cnh;
     
     @FXML
+    private TextField tf_placa;
+    
+    @FXML
     private TableView<Veiculo> tabelaVeiculos;
     
     @FXML
@@ -116,6 +119,7 @@ public class TelaPrincipalController {
 		clientePane.setVisible(clientePaneBool);
 		
     	if (usuario.getNivel() != 1) {
+    		
     		TabPane tabPane = abaVeiculos.getTabPane();
         	tabPane.getTabs().remove(abaVeiculos);
         	tabPane.getTabs().remove(abaFuncionarios);
@@ -137,6 +141,14 @@ public class TelaPrincipalController {
     		col_estado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEstado()));
     		
     		tabelaVeiculos.setItems(listaVeiculos);
+    		col_grupo.setSortType(TableColumn.SortType.ASCENDING);
+    		tabelaVeiculos.getSortOrder().add(col_grupo);
+    		
+    		if (Contexto.getInstancia().getVoltandoParaVeiculos()) {
+    			
+    			telaPrincipalTabPane.getSelectionModel().select(abaVeiculos);
+    			Contexto.getInstancia().setVoltandoParaVeiculos(false);
+    		}
     	}
     }
     
@@ -238,6 +250,40 @@ public class TelaPrincipalController {
     }
     
     @FXML
+    void pesquisarVeiculoEnter(ActionEvent event) throws IOException {
+    	pesquisarVeiculo();
+    }
+
+    @FXML
+    void pesquisarVeiculoBotao(ActionEvent event) throws IOException {
+    	pesquisarVeiculo();
+
+    }
+    
+    void pesquisarVeiculo() throws IOException {
+    	
+    	String placa = tf_placa.getText();
+    	
+    	if (!placa.equals("") && con.ConsultaVeiculo(placa)) {
+    		
+    		main.showTelaVeiculo();
+
+    		// Print de teste
+    		System.out.println("placa: " + Contexto.getInstancia().getVeiculo().getPlaca());
+    	}
+    	
+    	//se nao estiver
+    	else {
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("Erro");
+    		alert.setHeaderText("Veiculo nao encontrado.");
+    		alert.setContentText("Para cadastra-lo, clique em \"Cadastrar veiculo\".");
+    		alert.showAndWait();
+    		tf_cpfPassaporte.setText("");
+    	}
+    }
+    
+    @FXML
     void cadastrarVeiculo(ActionEvent event) throws IOException {
     	
     	Stage stage = new Stage();
@@ -247,6 +293,18 @@ public class TelaPrincipalController {
     	stage.setTitle("Cadastro de veículo");
     	stage.setScene(scene);
         stage.show();
+    }
+    
+    @FXML
+    void cadastrarModelo(ActionEvent event) throws IOException {
+    	
+    	Stage stage = new Stage();
+    	Parent cadastroModelo = FXMLLoader.load(getClass().getResource("CadastroModelo.fxml"));
+    	Scene scene = new Scene(cadastroModelo);
+    	
+    	stage.setTitle("Cadastro de modelo de veículo");
+    	stage.setScene(scene);
+    	stage.show();
     }
     
     @FXML

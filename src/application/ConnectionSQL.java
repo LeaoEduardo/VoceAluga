@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.collections.FXCollections;
@@ -225,8 +224,8 @@ public class ConnectionSQL{
         return ret;
     }
     
-    public boolean CadastraVeiculo(String placa, String quilometragem, String marca, String modelo, String filial,
-			String estado, String dataCompra, String dataManutencao) {
+    public boolean CadastraVeiculo(String placa, int quilometragem, String marca, String modelo, String filial,
+			String estado, LocalDate dataCompra, LocalDate dataManutencao) {
     	boolean ret = false;
     	String query = "SELECT id, tipo FROM estadoCarro WHERE tipo = \""+estado+"\" UNION SELECT id, nomeFilial"
     			+ " FROM filial WHERE nomeFilial = \""+filial+"\" UNION SELECT m.id, m.marca FROM modeloCarro m "
@@ -310,8 +309,8 @@ public class ConnectionSQL{
     
     public boolean ConsultaVeiculo(String placa) {
     	boolean ret = false;
-    	String query = "SELECT c.id, c.placa, c.dataManutencao, c.dataCompra, c.quilometragem, m.marca, m.modelo, f.nomeFilial, e.tipo"
-    				+ " FROM carro c INNER JOIN modeloCarro m on c.idModelo = m.id INNER JOIN filial f on c.idFilial = f.id INNER JOIN"
+    	String query = "SELECT c.id, c.placa, g.grupo, c.dataManutencao, c.dataCompra, c.quilometragem, m.marca, m.modelo, f.nomeFilial, e.tipo"
+    				+ " FROM carro c INNER JOIN modeloCarro m on c.idModelo = m.id INNER JOIN grupoCarro g on m.idGrupo = g.id INNER JOIN filial f on c.idFilial = f.id INNER JOIN"
     				+ " estadoCarro e on c.idEstado = e.id WHERE placa = '"+placa+"' AND NOT(idEstado = 1)";
 
     	if(OpenConnection()) {
@@ -328,6 +327,7 @@ public class ConnectionSQL{
             				Integer.parseInt(result.getString("quilometragem")),
             				result.getString("marca"),
             				result.getString("modelo"),
+            				result.getString("grupo"),
             				result.getString("nomeFilial"),
             				result.getString("tipo"));
                     ret = true;
@@ -341,11 +341,108 @@ public class ConnectionSQL{
     	return ret;
     }
     
+    public boolean ConsultaMarcas() {
+    	boolean ret = false;
+    	String query = "SELECT DISTINCT marca FROM modeloCarro";
+    	
+    	ObservableList<String> listaMarcas = FXCollections.observableArrayList();
+
+    	if(OpenConnection()) {
+            try {
+            	result = statement.executeQuery(query);
+            	System.out.println("Resultado de '"+ query +"':");
+
+            	while (result.next()) {
+            		listaMarcas.add(result.getString("marca"));
+            		ret = true;
+                }
+            	Contexto.getInstancia().setListaMarcas(listaMarcas);
+            } catch (Exception e) {
+                System.err.println(e);
+            } finally {
+            	CloseConnection();
+            }
+    	}
+    	return ret;
+    }
+    
+    public boolean ConsultaModelosDaMarca(String marca) {
+    	boolean ret = false;
+    	String query = "SELECT DISTINCT modelo FROM modeloCarro WHERE marca = '"+marca+"'";
+    	
+    	ObservableList<String> listaModelosDaMarca = FXCollections.observableArrayList();
+
+    	if(OpenConnection()) {
+            try {
+            	result = statement.executeQuery(query);
+            	System.out.println("Resultado de '"+ query +"':");
+
+            	while (result.next()) {
+            		listaModelosDaMarca.add(result.getString("modelo"));
+            		ret = true;
+                }
+            	Contexto.getInstancia().setListaModelosDaMarca(listaModelosDaMarca);
+            } catch (Exception e) {
+                System.err.println(e);
+            } finally {
+            	CloseConnection();
+            }
+    	}
+    	return ret;
+    }
+    
+    public String ConsultaGrupo(String modelo) {
+    	String query = "SELECT g.grupo FROM modeloCarro m INNER JOIN grupoCarro g"
+    			+ " on m.idGrupo = g.id WHERE modelo = '"+modelo+"'";
+    	String grupo = new String();
+
+    	if(OpenConnection()) {
+            try {
+            	result = statement.executeQuery(query);
+            	System.out.println("Resultado de '"+ query +"':");
+
+            	if (result.next()) {
+            		grupo = result.getString("grupo");
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+            } finally {
+            	CloseConnection();
+            }
+    	}
+    	return grupo;
+    }
+    
+    public boolean ConsultaFiliais() {
+    	boolean ret = false;
+    	String query = "SELECT DISTINCT nomeFilial from filial";
+    	
+    	ObservableList<String> listaFiliais = FXCollections.observableArrayList();
+
+    	if(OpenConnection()) {
+            try {
+            	result = statement.executeQuery(query);
+            	System.out.println("Resultado de '"+ query +"':");
+
+            	while (result.next()) {
+            		listaFiliais.add(result.getString("nomeFilial"));
+            		ret = true;
+                }
+            	Contexto.getInstancia().setListaFiliais(listaFiliais);
+            } catch (Exception e) {
+                System.err.println(e);
+            } finally {
+            	CloseConnection();
+            }
+    	}
+    	return ret;
+    }
+    
     public boolean ConsultaTodosVeiculos() {
     	boolean ret = false;
     	String query = "SELECT c.id, c.placa, c.dataManutencao, c.dataCompra, c.quilometragem, m.marca, m.modelo, f.nomeFilial, g.grupo, e.tipo"
 				+ " FROM carro c INNER JOIN modeloCarro m on c.idModelo = m.id INNER JOIN filial f on c.idFilial = f.id INNER JOIN"
-				+ " estadoCarro e on c.idEstado = e.id INNER JOIN grupoCarro g on c.id = g.id";
+				+ " estadoCarro e on c.idEstado = e.id INNER JOIN grupoCarro g on m.idGrupo = g.id";
     	
     	ObservableList<Veiculo> listaVeiculos = FXCollections.observableArrayList();
 
@@ -378,8 +475,8 @@ public class ConnectionSQL{
     	return ret;
     }
     
-    public boolean UpdateVeiculo(String placa, String quilometragem, String marca, String modelo, String filial,
-								String estado, String dataCompra, String dataManutencao) {
+    public boolean UpdateVeiculo(String placa, int quilometragem, String marca, String modelo, String filial,
+								String estado, LocalDate dataCompra, LocalDate dataManutencao) {
     	boolean ret = false;
     	String query  = "SELECT id, tipo FROM estadoCarro WHERE tipo = \""+estado+"\" UNION SELECT id, nomeFilial"
     			+ " FROM filial WHERE nomeFilial = \""+filial+"\" UNION SELECT m.id, m.marca FROM modeloCarro m "

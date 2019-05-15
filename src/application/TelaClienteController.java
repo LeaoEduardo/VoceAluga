@@ -121,8 +121,8 @@ public class TelaClienteController {
     		ConnectionSQL con = new ConnectionSQL();
     		if(con.RemoverCliente(Contexto.getInstancia().getCliente().getIdCliente())) {
     			alert = new Alert(AlertType.CONFIRMATION);
-    		    alert.setTitle("Erro");
-    		    alert.setHeaderText("Cliente Apagado.");
+    			alert.setTitle("Confirmacao");
+    		    alert.setHeaderText("Cliente apagado.");
     		    alert.showAndWait();
     	    	main.showTelaPrincipal();
     		}
@@ -133,7 +133,6 @@ public class TelaClienteController {
     		    alert.setContentText("Tente novamente.");
     		    alert.showAndWait();
     		}
-    		
     	}
     }
     

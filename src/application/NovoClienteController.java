@@ -71,7 +71,8 @@ public class NovoClienteController {
         }
         
         // Se algum campo estiver vazio
-        if (nome.equals("") || tf_cpfPassaporte.getText().equals("") || tf_dataNasc.getValue() == null || nacionalidade.equals("") || telefone.equals("") || cnh.equals("") || tf_validadeCNH.getValue() == null) {
+        if (nome.equals("") || tf_cpfPassaporte.getText().equals("") || tf_dataNasc.getValue() == null || nacionalidade.equals("") || 
+        		telefone.equals("") || cnh.equals("") || tf_validadeCNH.getValue() == null) {
         	
         	Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Erro");

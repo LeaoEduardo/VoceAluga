@@ -60,4 +60,18 @@ public class FormatadorTexto {
     	TextFormatter<String> textFormatter = new TextFormatter<>(filtro);
     	return textFormatter;
 	}
+	
+	TextFormatter<String> Quilometragem() {
+		
+		UnaryOperator<Change> filtro = change -> {
+    	    String text = change.getText();
+
+    	    if (text.matches("[0-9]*")) {
+    	        return change;
+    	    }
+    	    return null;
+    	};
+    	TextFormatter<String> textFormatter = new TextFormatter<>(filtro);
+    	return textFormatter;
+	}
 }

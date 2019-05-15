@@ -17,7 +17,11 @@ public class Contexto {
     private Cliente cliente;
     private Veiculo veiculo;
     private FormatadorTexto formatador = new FormatadorTexto();
-    public ObservableList<Veiculo> listaVeiculos;
+    private ObservableList<Veiculo> listaVeiculos;
+    private ObservableList<String> listaMarcas;
+    private ObservableList<String> listaModelosDaMarca;
+    private ObservableList<String> listaFiliais;
+    private boolean voltandoParaVeiculos;
 
     public Usuario getUsuario() {
         return usuario;
@@ -37,6 +41,22 @@ public class Contexto {
     
     public ObservableList<Veiculo> getListaVeiculos() {
     	return listaVeiculos;
+    }
+    
+    public ObservableList<String> getListaMarcas() {
+    	return listaMarcas;
+    }
+    
+    public ObservableList<String> getListaModelosDaMarca() {
+    	return listaModelosDaMarca;
+    }
+    
+    public ObservableList<String> getListaFiliais() {
+    	return listaFiliais;
+    }
+    
+    public boolean getVoltandoParaVeiculos() {
+    	return voltandoParaVeiculos;
     }
     
     public void setUsuario(String user, String nomeNivel, int nivel, String nomeFilial) {
@@ -62,16 +82,16 @@ public class Contexto {
     	this.veiculo = new Veiculo(id, placa, quilometragem, marca, modelo, filial, grupo, estado, dataCompra, dataManutencao);
     	
     	System.out.println("VEICULO DADOS:");
-    	System.out.println(id);
-    	System.out.println(placa);
-    	System.out.println(quilometragem);
-    	System.out.println(marca);
-    	System.out.println(modelo);
-    	System.out.println(filial);
-    	System.out.println(grupo);
-    	System.out.println(estado);
-    	System.out.println(dataCompra);
-    	System.out.println(dataManutencao);
+    	System.out.println("id: " + id);
+    	System.out.println("placa: " + placa);
+    	System.out.println("quilometragem: " + quilometragem);
+    	System.out.println("marca: " + marca);
+    	System.out.println("modelo: " + modelo);
+    	System.out.println("filial: " + filial);
+    	System.out.println("grupo: " + grupo);
+    	System.out.println("estado: " + estado);
+    	System.out.println("dataCompra: " + dataCompra);
+    	System.out.println("dataManutencao: " + dataManutencao);
     }
     
     public void setVeiculo(Veiculo veiculo) {
@@ -80,5 +100,21 @@ public class Contexto {
     
     public void setListaVeiculos(ObservableList<Veiculo> listaVeiculos) {
     	this.listaVeiculos = listaVeiculos;
+    }
+    
+    public void setListaMarcas(ObservableList<String> listaMarcas) {
+    	this.listaMarcas = listaMarcas;
+    }
+    
+    public void setListaModelosDaMarca(ObservableList<String> listaModelosDaMarca) {
+    	this.listaModelosDaMarca = listaModelosDaMarca;
+    }
+    
+    public void setListaFiliais(ObservableList<String> listaFiliais) {
+    	this.listaFiliais = listaFiliais;
+    }
+    
+    public void setVoltandoParaVeiculos(boolean b) {
+    	this.voltandoParaVeiculos = b;
     }
 }

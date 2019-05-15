@@ -80,7 +80,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tabelaVeiculos" prefHeight="385.0" prefWidth="800.0" tableMenuButtonVisible="true">
+                        <TableView fx:id="tabelaVeiculos" layoutY="44.0" prefHeight="360.0" prefWidth="800.0" tableMenuButtonVisible="true">
                           <columns>
                             <TableColumn fx:id="col_grupo" prefWidth="66.0" text="Grupo" />
                               <TableColumn fx:id="col_marca" prefWidth="95.0" text="Marca" />
@@ -93,7 +93,11 @@
                               <TableColumn fx:id="col_estado" prefWidth="130.0" text="Estado" />
                           </columns>
                         </TableView>
-                        <Button layoutX="14.0" layoutY="397.0" mnemonicParsing="false" onAction="#cadastrarVeiculo" prefHeight="48.0" prefWidth="203.0" text="Cadastrar Veículo" />
+                        <Text layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Placa:" />
+                        <Button layoutX="14.0" layoutY="411.0" mnemonicParsing="false" onAction="#cadastrarVeiculo" prefHeight="34.0" prefWidth="152.0" text="Cadastrar Veículo" />
+                        <TextField fx:id="tf_placa" layoutX="64.0" layoutY="7.0" onAction="#pesquisarVeiculoEnter" promptText="ABC1234" />
+                        <Button layoutX="245.0" layoutY="7.0" mnemonicParsing="false" onAction="#pesquisarVeiculoBotao" prefHeight="25.0" prefWidth="139.0" text="Pesquisar veículo" />
+                        <Button layoutX="186.0" layoutY="411.0" mnemonicParsing="false" onAction="#cadastrarModelo" prefHeight="34.0" prefWidth="152.0" text="Cadastrar Modelo" />
                      </children>
                   </AnchorPane>
               </content>

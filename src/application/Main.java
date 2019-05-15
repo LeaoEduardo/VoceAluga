@@ -48,4 +48,12 @@ public class Main extends Application {
 		Scene scene = new Scene(telaCliente);
         primaryStage.setScene(scene);
 	}
+	
+	public void showTelaVeiculo() throws IOException {
+		
+		//Carrega a tela do veiculo
+		Parent telaVeiculo = FXMLLoader.load(getClass().getResource("TelaVeiculo.fxml"));
+		Scene scene = new Scene(telaVeiculo);
+		primaryStage.setScene(scene);
+	}
 }
