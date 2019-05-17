@@ -78,14 +78,14 @@ public class ConnectionSQL{
     public boolean LoginFuncionario(String User, String senha) {
     	boolean ret = false;
     	String query = "SELECT DISTINCT "
-    			+ "funcionario.id as id,funcionario.user,filial.nomeFilial, tipoFuncionario.nome as nomeTipo,tipoFuncionario.id as idNivel "
+    			+ "funcionario.id as id,funcionario.nome,funcionario.usuario,filial.nomeFilial, tipoFuncionario.nome as nomeTipo,tipoFuncionario.id as idNivel "
     			+ "FROM "
     			+ "funcionario "
     				+ "INNER JOIN tipoFuncionario "
     					+ "ON funcionario.idTipo = tipoFuncionario.id "
 					+ "INNER JOIN filial "
 						+ "ON filial.id = funcionario.idFilial "
-					+ "WHERE funcionario.User = '"+User+"' AND funcionario.Senha = '"+senha+"' ;";
+					+ "WHERE funcionario.usuario = '"+User+"' AND funcionario.senha = '"+senha+"' ;";
 
     	if(OpenConnection()) {
             try {
@@ -94,7 +94,7 @@ public class ConnectionSQL{
             	
             	if (result.next()) {
             		Contexto.getInstancia().setUsuario(
-            				result.getString("user"), 
+            				result.getString("usuario"), 
             				result.getString("nomeTipo"), 
             				Integer.parseInt(result.getString("idNivel")),
             				result.getString("nomeFilial")
@@ -124,7 +124,11 @@ public class ConnectionSQL{
     
     public boolean ConsultaCliente(String documento, String valor) {
     	boolean ret = false;
-    	String query = "Select Id, Nome, CPF, Passaporte, DataNascimento, Nacionalidade, Telefone, CNH, DataCNH from cliente where Ativo = 1 and ";
+    	String query = "SELECT DISTINCT "
+    			+ " Id, Nome, CPF, Passaporte, DataNascimento, Nacionalidade, Telefone, CNH, DataCNH "
+    			+ " FROM "
+    				+ " cliente "
+    			+ " WHERE Ativo = 1 AND ";
 
         if(documento.equals("cpf"))
             query += "CPF = '" + valor + "'";
@@ -162,7 +166,7 @@ public class ConnectionSQL{
     	boolean ret = false;
     	String cpftemp = cpf==""?null:"'"+cpf+"'";
     	String passaportetemp = passaporte==""?null:"'"+passaporte+"'";
-    	String query = "INSERT INTO cliente (Id, Nome, CPF, Passaporte, DataNascimento, Nacionalidade, Telefone, CNH, DataCNH) "
+    	String query = "INSERT INTO cliente (id, nome, CPF, passaporte, dataNascimento, nacionalidade, telefone, CNH, dataCNH) "
     			+ "VALUES (NULL, '" +nome+ "', " +cpftemp+ ", "+passaportetemp+", '"+dataNasc+"', '"+nacionalidade+"', '"+telefone+"', '"+cnh+"', '"+datacnh+"');";
     		
     	System.out.println(query);
@@ -194,9 +198,9 @@ public class ConnectionSQL{
     
     public boolean AtualizaCliente(String idCliente, String nome, String cpf, String passaporte, String dataNasc, String nacionalidade, String telefone, String cnh, String datacnh) {
     	boolean ret = false;
-    	String query = "UPDATE cliente SET Nome = '"+nome+"', CPF = '"+cpf+"', Passaporte = '"+passaporte+
-    				"', DataNascimento = '"+dataNasc+"', Nacionalidade = '"+nacionalidade+"', Telefone = '"+telefone+
-    				"', CNH = '"+cnh+"', DataCNH = '"+datacnh+"' WHERE cliente.Id = "+idCliente+";";
+    	String query = "UPDATE cliente SET nome = '"+nome+"', CPF = '"+cpf+"', passaporte = '"+passaporte+
+    				"', dataNascimento = '"+dataNasc+"', nacionalidade = '"+nacionalidade+"', telefone = '"+telefone+
+    				"', CNH = '"+cnh+"', dataCNH = '"+datacnh+"' WHERE cliente.id = "+idCliente+";";
     		
     	System.out.println(query);
     	if(OpenConnection()) {
@@ -215,7 +219,7 @@ public class ConnectionSQL{
 
     public boolean RemoverCliente(String idCliente) {
     	boolean ret = false;
-        String query = "UPDATE cliente SET Ativo = 0 WHERE cliente.Id = "+idCliente+";";
+        String query = "UPDATE cliente SET ativo = 0 WHERE cliente.Id = "+idCliente+";";
             
         System.out.println(query);
         if(OpenConnection()) {

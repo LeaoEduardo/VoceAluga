@@ -130,7 +130,8 @@ INSERT INTO `filial` (`id`, `nomeFilial`) VALUES
 
 CREATE TABLE `funcionario` (
   `id` int(11) NOT NULL,
-  `user` varchar(30) NOT NULL,
+  `nome` char(100) NOT NULL,
+  `usuario` varchar(30) NOT NULL,
   `senha` varchar(30) NOT NULL,
   `idFilial` int(11) NOT NULL,
   `idTipo` int(11) NOT NULL,
@@ -141,9 +142,9 @@ CREATE TABLE `funcionario` (
 -- Despejando dados para a tabela `funcionario`
 --
 
-INSERT INTO `funcionario` (`id`, `user`, `senha`, `idFilial`, `idTipo`, `ativo`) VALUES
-(1, 'Admin', 'Admin', 1, 1, 1),
-(2, 'Test', 'Test', 1, 2, 1);
+INSERT INTO `funcionario` (`id`, `nome` , `usuario`, `senha`, `idFilial`, `idTipo`, `ativo`) VALUES
+(1, 'Fulano Adm da Silva' , 'Admin', 'Admin', 1, 1, 1),
+(2, 'Beltrano Testador da Silva' , 'Test', 'Test', 1, 2, 1);
 
 -- --------------------------------------------------------
 
