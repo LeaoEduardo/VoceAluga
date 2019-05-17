@@ -53,7 +53,7 @@ public class ConnectionSQL{
     		return true;
     	}
     	catch (Exception e) {
-            System.err.println("Erro conectando...");
+            System.err.println("Erro ao tentar se conectar com o database " + db_name + " no endereço " + server_addr );
             System.err.println(e);
             return false;
         }
@@ -77,18 +77,26 @@ public class ConnectionSQL{
     
     public boolean LoginFuncionario(String User, String senha) {
     	boolean ret = false;
-    	String query = "Select f.User, tf.Id as IdNivel, tf.Nombre, fi.nomeFilial from funcionario f inner join tipofuncionario tf on f.IdTipo = tf.Id inner join filial fi on f.IdFilial = fi.id where User = '"+User+"' and Senha = '"+senha+"'";
+    	String query = "SELECT DISTINCT "
+    			+ "funcionario.id as id,funcionario.user,filial.nomeFilial, tipoFuncionario.nome as nomeTipo,tipoFuncionario.id as idNivel "
+    			+ "FROM "
+    			+ "funcionario "
+    				+ "INNER JOIN tipoFuncionario "
+    					+ "ON funcionario.idTipo = tipoFuncionario.id "
+					+ "INNER JOIN filial "
+						+ "ON filial.id = funcionario.idFilial "
+					+ "WHERE funcionario.User = '"+User+"' AND funcionario.Senha = '"+senha+"' ;";
 
     	if(OpenConnection()) {
             try {
-            	result = statement.executeQuery(query);
             	System.out.println("Resultado de '"+ query +"':");
+            	result = statement.executeQuery(query);
             	
             	if (result.next()) {
             		Contexto.getInstancia().setUsuario(
-            				result.getString("User"), 
-            				result.getString("Nombre"), 
-            				Integer.parseInt(result.getString("IdNivel")),
+            				result.getString("user"), 
+            				result.getString("nomeTipo"), 
+            				Integer.parseInt(result.getString("idNivel")),
             				result.getString("nomeFilial")
             				);
             		ret = true;
