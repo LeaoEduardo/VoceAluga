@@ -1,6 +1,10 @@
 package application;
 
 import java.time.LocalDate;
+
+import application.entity.Cliente;
+import application.entity.Funcionario;
+import application.entity.Veiculo;
 import javafx.collections.ObservableList;
 
 public class Contexto {
@@ -13,7 +17,7 @@ public class Contexto {
         return instancia;
     }
     
-    private Usuario usuario;
+    private Funcionario funcionario;
     private Cliente cliente;
     private Veiculo veiculo;
     private FormatadorTexto formatador = new FormatadorTexto();
@@ -23,8 +27,8 @@ public class Contexto {
     private ObservableList<String> listaFiliais;
     private boolean voltandoParaVeiculos;
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Funcionario getUsuario() {
+        return funcionario;
     }
     
     public Cliente getCliente() {
@@ -59,12 +63,9 @@ public class Contexto {
     	return voltandoParaVeiculos;
     }
     
-    public void setUsuario(String user, String nomeNivel, int nivel, String nomeFilial) {
-    	this.usuario = new Usuario(user,nomeNivel,nivel, nomeFilial);
-    }
     
-    public void setUsuario(Usuario usuario) {
-    	this.usuario = usuario;
+    public void setFuncionario(Funcionario funcionario) {
+    	this.funcionario = funcionario;
     }
     
     public void setCliente(String id, String nome, String cpf, String passaporte, LocalDate dataNascimento, String nascionalidade,

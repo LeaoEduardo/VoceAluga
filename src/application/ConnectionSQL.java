@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+
+import application.dao.FuncionarioDAO;
+import application.entity.Veiculo;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.collections.FXCollections;
@@ -28,7 +31,7 @@ public class ConnectionSQL{
     private ResultSet result = null;
     public ConnectionSQL(){
         
-        // "Vamos testar se o Driver consegue ser carregado"
+        // Vamos testar se o Driver consegue ser carregado
         try {
             Class.forName(driver_name).newInstance();
             System.out.println("Driver carregado successfully");
@@ -46,6 +49,16 @@ public class ConnectionSQL{
             System.err.println("Nao foi possivel estabelecer uma conexao com o banco de dados...");
             System.err.println(e);
         }
+    }
+    public static Connection getConnection() {
+    	try {
+            return DriverManager.getConnection( 
+            		"jdbc:mysql://"+server_addr+"/"+db_name+"?useTimezone=true&serverTimezone=UTC" , db_user , db_password );
+        } catch (Exception e) {
+            System.err.println("Nao foi possivel estabelecer uma conexao com o banco de dados...");
+            e.printStackTrace();
+        }
+    	return null;
     }
     private boolean OpenConnection() {
     	try {
@@ -93,12 +106,7 @@ public class ConnectionSQL{
             	result = statement.executeQuery(query);
             	
             	if (result.next()) {
-            		Contexto.getInstancia().setUsuario(
-            				result.getString("usuario"), 
-            				result.getString("nomeTipo"), 
-            				Integer.parseInt(result.getString("idNivel")),
-            				result.getString("nomeFilial")
-            				);
+            		Contexto.getInstancia().setFuncionario( FuncionarioDAO.find(result.getInt("id")) );
             		ret = true;
                 }
             } catch (Exception e) {
@@ -586,4 +594,28 @@ public class ConnectionSQL{
         
         return ret;    
     }
+    
+    // Retorna a linha de uma tabela passando só o ID
+    public ResultSet findById( String table_name , int id ) {
+    	ResultSet ret = null;
+    	String query = "SELECT * FROM "+table_name+" WHERE id="+ id +";";
+    	if( OpenConnection() ) {
+	    	try {
+	    		ret = statement.executeQuery( query );
+	    		if(!ret.next()) {
+	    			throw new Exception("Não existe " + table_name + " de id=" + id );
+	    		};
+	    	} catch (Exception e ) {
+	    		System.err.println(e);
+	    	} finally {
+	    		//CloseConnection();
+	    	}
+    	}
+		return ret;
+    }
 }
+
+
+
+
+
