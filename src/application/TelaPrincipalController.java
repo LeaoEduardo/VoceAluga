@@ -125,24 +125,12 @@ public class TelaPrincipalController {
         	tabPane.getTabs().remove(abaFuncionarios);
         }
     	
-    	else { // Preenche a tabela de veiculos com todos os veiculos no BD
+    	else {
     		
-    		con.ConsultaTodosVeiculos();
-    		listaVeiculos = Contexto.getInstancia().getListaVeiculos();
-    		
-    		col_grupo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGrupo()));
-    		col_marca.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMarca()));
-    		col_modelo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getModelo()));
-    		col_placa.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPlaca()));
-    		col_quilometragem.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getQuilometragem()).asObject());
-    		col_dataM.setCellValueFactory(cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataManutencao()));
-    		col_dataC.setCellValueFactory(cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataCompra()));
-    		col_filial.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilial()));
-    		col_estado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEstado()));
-    		
-    		tabelaVeiculos.setItems(listaVeiculos);
-    		col_grupo.setSortType(TableColumn.SortType.ASCENDING);
-    		tabelaVeiculos.getSortOrder().add(col_grupo);
+    		telaPrincipalTabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+    	        if (newTab == abaVeiculos)
+    	        	carregaVeiculos();
+    	    });
     		
     		if (Contexto.getInstancia().getVoltandoParaVeiculos()) {
     			
@@ -150,6 +138,28 @@ public class TelaPrincipalController {
     			Contexto.getInstancia().setVoltandoParaVeiculos(false);
     		}
     	}
+    }
+    
+    void carregaVeiculos() {
+    	
+    	// Preenche a tabela de veiculos com todos os veiculos no BD
+    	
+    	con.ConsultaTodosVeiculos();
+		listaVeiculos = Contexto.getInstancia().getListaVeiculos();
+		
+		col_grupo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGrupo()));
+		col_marca.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMarca()));
+		col_modelo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getModelo()));
+		col_placa.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPlaca()));
+		col_quilometragem.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getQuilometragem()).asObject());
+		col_dataM.setCellValueFactory(cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataManutencao()));
+		col_dataC.setCellValueFactory(cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataCompra()));
+		col_filial.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilial()));
+		col_estado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEstado()));
+		
+		tabelaVeiculos.setItems(listaVeiculos);
+		col_grupo.setSortType(TableColumn.SortType.ASCENDING);
+		tabelaVeiculos.getSortOrder().add(col_grupo);
     }
     
     @FXML
