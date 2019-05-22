@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+
+import application.dao.FuncionarioDAO;
+import application.entity.Veiculo;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.collections.FXCollections;
@@ -28,7 +31,7 @@ public class ConnectionSQL{
     private ResultSet result = null;
     public ConnectionSQL(){
         
-        // "Vamos testar se o Driver consegue ser carregado"
+        // Vamos testar se o Driver consegue ser carregado
         try {
             Class.forName(driver_name).newInstance();
             System.out.println("Driver carregado successfully");
@@ -47,13 +50,23 @@ public class ConnectionSQL{
             System.err.println(e);
         }
     }
+    public static Connection getConnection() {
+    	try {
+            return DriverManager.getConnection( 
+            		"jdbc:mysql://"+server_addr+"/"+db_name+"?useTimezone=true&serverTimezone=UTC" , db_user , db_password );
+        } catch (Exception e) {
+            System.err.println("Nao foi possivel estabelecer uma conexao com o banco de dados...");
+            e.printStackTrace();
+        }
+    	return null;
+    }
     private boolean OpenConnection() {
     	try {
     		statement = connection.createStatement();
     		return true;
     	}
     	catch (Exception e) {
-            System.err.println("Erro conectando...");
+            System.err.println("Erro ao tentar se conectar com o database " + db_name + " no endereço " + server_addr );
             System.err.println(e);
             return false;
         }
@@ -77,20 +90,23 @@ public class ConnectionSQL{
     
     public boolean LoginFuncionario(String User, String senha) {
     	boolean ret = false;
-    	String query = "Select f.User, tf.Id as IdNivel, tf.Nombre, fi.nomeFilial from funcionario f inner join tipofuncionario tf on f.IdTipo = tf.Id inner join filial fi on f.IdFilial = fi.id where User = '"+User+"' and Senha = '"+senha+"'";
+    	String query = "SELECT DISTINCT "
+    			+ "funcionario.id as id,funcionario.nome,funcionario.usuario,filial.nomeFilial, tipoFuncionario.nome as nomeTipo,tipoFuncionario.id as idNivel "
+    			+ "FROM "
+    			+ "funcionario "
+    				+ "INNER JOIN tipoFuncionario "
+    					+ "ON funcionario.idTipo = tipoFuncionario.id "
+					+ "INNER JOIN filial "
+						+ "ON filial.id = funcionario.idFilial "
+					+ "WHERE funcionario.usuario = '"+User+"' AND funcionario.senha = '"+senha+"' ;";
 
     	if(OpenConnection()) {
             try {
-            	result = statement.executeQuery(query);
             	System.out.println("Resultado de '"+ query +"':");
+            	result = statement.executeQuery(query);
             	
             	if (result.next()) {
-            		Contexto.getInstancia().setUsuario(
-            				result.getString("User"), 
-            				result.getString("Nombre"), 
-            				Integer.parseInt(result.getString("IdNivel")),
-            				result.getString("nomeFilial")
-            				);
+            		Contexto.getInstancia().setFuncionario( FuncionarioDAO.find(result.getInt("id")) );
             		ret = true;
                 }
             } catch (Exception e) {
@@ -116,7 +132,11 @@ public class ConnectionSQL{
     
     public boolean ConsultaCliente(String documento, String valor) {
     	boolean ret = false;
-    	String query = "Select Id, Nome, CPF, Passaporte, DataNascimento, Nacionalidade, Telefone, CNH, DataCNH from cliente where Ativo = 1 and ";
+    	String query = "SELECT DISTINCT "
+    			+ " Id, Nome, CPF, Passaporte, DataNascimento, Nacionalidade, Telefone, CNH, DataCNH "
+    			+ " FROM "
+    				+ " cliente "
+    			+ " WHERE Ativo = 1 AND ";
 
         if(documento.equals("cpf"))
             query += "CPF = '" + valor + "'";
@@ -154,7 +174,7 @@ public class ConnectionSQL{
     	boolean ret = false;
     	String cpftemp = cpf==""?null:"'"+cpf+"'";
     	String passaportetemp = passaporte==""?null:"'"+passaporte+"'";
-    	String query = "INSERT INTO cliente (Id, Nome, CPF, Passaporte, DataNascimento, Nacionalidade, Telefone, CNH, DataCNH) "
+    	String query = "INSERT INTO cliente (id, nome, CPF, passaporte, dataNascimento, nacionalidade, telefone, CNH, dataCNH) "
     			+ "VALUES (NULL, '" +nome+ "', " +cpftemp+ ", "+passaportetemp+", '"+dataNasc+"', '"+nacionalidade+"', '"+telefone+"', '"+cnh+"', '"+datacnh+"');";
     		
     	System.out.println(query);
@@ -186,9 +206,9 @@ public class ConnectionSQL{
     
     public boolean AtualizaCliente(String idCliente, String nome, String cpf, String passaporte, String dataNasc, String nacionalidade, String telefone, String cnh, String datacnh) {
     	boolean ret = false;
-    	String query = "UPDATE cliente SET Nome = '"+nome+"', CPF = '"+cpf+"', Passaporte = '"+passaporte+
-    				"', DataNascimento = '"+dataNasc+"', Nacionalidade = '"+nacionalidade+"', Telefone = '"+telefone+
-    				"', CNH = '"+cnh+"', DataCNH = '"+datacnh+"' WHERE cliente.Id = "+idCliente+";";
+    	String query = "UPDATE cliente SET nome = '"+nome+"', CPF = '"+cpf+"', passaporte = '"+passaporte+
+    				"', dataNascimento = '"+dataNasc+"', nacionalidade = '"+nacionalidade+"', telefone = '"+telefone+
+    				"', CNH = '"+cnh+"', dataCNH = '"+datacnh+"' WHERE cliente.id = "+idCliente+";";
     		
     	System.out.println(query);
     	if(OpenConnection()) {
@@ -207,7 +227,7 @@ public class ConnectionSQL{
 
     public boolean RemoverCliente(String idCliente) {
     	boolean ret = false;
-        String query = "UPDATE cliente SET Ativo = 0 WHERE cliente.Id = "+idCliente+";";
+        String query = "UPDATE cliente SET ativo = 0 WHERE cliente.Id = "+idCliente+";";
             
         System.out.println(query);
         if(OpenConnection()) {
@@ -574,4 +594,28 @@ public class ConnectionSQL{
         
         return ret;    
     }
+    
+    // Retorna a linha de uma tabela passando só o ID
+    public ResultSet findById( String table_name , int id ) {
+    	ResultSet ret = null;
+    	String query = "SELECT * FROM "+table_name+" WHERE id="+ id +";";
+    	if( OpenConnection() ) {
+	    	try {
+	    		ret = statement.executeQuery( query );
+	    		if(!ret.next()) {
+	    			throw new Exception("Não existe " + table_name + " de id=" + id );
+	    		};
+	    	} catch (Exception e ) {
+	    		System.err.println(e);
+	    	} finally {
+	    		//CloseConnection();
+	    	}
+    	}
+		return ret;
+    }
 }
+
+
+
+
+

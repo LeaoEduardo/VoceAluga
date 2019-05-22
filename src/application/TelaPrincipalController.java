@@ -2,6 +2,13 @@ package application;
 
 import java.io.IOException;
 import java.time.LocalDate;
+
+import application.dao.FilialDAO;
+import application.dao.TipoFuncionarioDAO;
+import application.entity.Filial;
+import application.entity.Funcionario;
+import application.entity.TipoFuncionario;
+import application.entity.Veiculo;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -111,14 +118,17 @@ public class TelaPrincipalController {
         property.addListener((value, oldValue, newValue)->tf_cpfPassaporte.setTextFormatter(formatador.CpfPassaporte((Integer)newValue,tf_cpfPassaporte)));
         cb_cpfPassaporte.getSelectionModel().selectFirst();
        
-    	Usuario usuario = Contexto.getInstancia().getUsuario();
-    	tf_username.setText(usuario.getUsuario());
-    	tf_nivel.setText(usuario.getNomeNivel());
-		tf_filial.setText(usuario.getNomeFilial());
+    	Funcionario 	funcionario 		= Contexto.getInstancia().getUsuario();
+    	TipoFuncionario tipo_funcionario 	= TipoFuncionarioDAO.find(funcionario.getIdTipo());
+    	Filial 			filial 				= FilialDAO.find(funcionario.getIdFilial());
+    	
+    	tf_username.setText(funcionario.getUsuario());
+    	tf_nivel.setText( tipo_funcionario.getNome() );
+		tf_filial.setText( filial.getNome() );
 		
 		clientePane.setVisible(clientePaneBool);
 		
-    	if (usuario.getNivel() != 1) {
+    	if (funcionario.getIdTipo() != 1) {
     		
     		TabPane tabPane = abaVeiculos.getTabPane();
         	tabPane.getTabs().remove(abaVeiculos);
@@ -255,6 +265,19 @@ public class TelaPrincipalController {
     	Scene scene = new Scene(novoCliente);
     	
     	stage.setTitle("Cadastro de cliente");
+    	stage.setScene(scene);
+        stage.show();
+    }
+    
+    @FXML
+    void cadastrarFuncionario(ActionEvent event ) throws IOException{
+    	System.out.println("QUe");
+    	// Abre a janela de cadastro de novo funcionário 
+    	Stage stage = new Stage();
+    	Parent novoFuncionario = FXMLLoader.load(getClass().getResource("CadastroFuncionario.fxml"));
+    	Scene scene = new Scene( novoFuncionario );
+    	
+    	stage.setTitle("Cadastro de funcionário");
     	stage.setScene(scene);
         stage.show();
     }

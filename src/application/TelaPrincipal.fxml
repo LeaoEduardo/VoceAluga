@@ -68,10 +68,9 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Button layoutX="380.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="164.0" text="Cadastrar funcionario" />
+                        <Button layoutX="380.0" layoutY="14.0" mnemonicParsing="false" onAction="#cadastrarFuncionario" prefHeight="25.0" prefWidth="164.0" text="Cadastrar funcionario" />
                         <TextField layoutX="14.0" layoutY="14.0" promptText="XXX.XXX.XXX-XX" />
-                        <Button layoutX="201.0" layoutY="14.0" mnemonicParsing="false" text="pesquisar funcionário" />
-                        <Label layoutX="201.0" layoutY="67.0" prefHeight="21.0" prefWidth="334.0" />
+                        <Button layoutX="205.0" layoutY="14.0" mnemonicParsing="false" text="Pesquisar funcionário" />
                      </children>
                   </AnchorPane>
               </content>

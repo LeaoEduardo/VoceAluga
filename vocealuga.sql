@@ -55,23 +55,23 @@ INSERT INTO `carro` (`id`, `placa`, `dataManutencao`, `dataCompra`, `quilometrag
 --
 
 CREATE TABLE `cliente` (
-  `Id` int(11) NOT NULL,
-  `Nome` varchar(50) NOT NULL,
+  `id` int(11) NOT NULL,
+  `nome` varchar(50) NOT NULL,
   `CPF` varchar(15) DEFAULT NULL,
-  `Passaporte` varchar(15) DEFAULT NULL,
-  `DataNascimento` date NOT NULL,
-  `Nacionalidade` varchar(30) NOT NULL,
-  `Telefone` varchar(20) NOT NULL,
+  `passaporte` varchar(15) DEFAULT NULL,
+  `dataNascimento` date NOT NULL,
+  `nacionalidade` varchar(30) NOT NULL,
+  `telefone` varchar(20) NOT NULL,
   `CNH` bigint(20) NOT NULL,
-  `DataCNH` date NOT NULL,
-  `Ativo` tinyint(1) NOT NULL DEFAULT '1'
+  `dataCNH` date NOT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Despejando dados para a tabela `cliente`
 --
 
-INSERT INTO `cliente` (`Id`, `Nome`, `CPF`, `Passaporte`, `DataNascimento`, `Nacionalidade`, `Telefone`, `CNH`, `DataCNH`, `Ativo`) VALUES
+INSERT INTO `cliente` (`id`, `nome`, `CPF`, `passaporte`, `dataNascimento`, `nacionalidade`, `telefone`, `CNH`, `dataCNH`, `ativo`) VALUES
 (1, 'Cliente Teste', '12345678910', NULL, '2019-03-29', 'mundo', '987651234', 12345678901, '2019-03-30', 1),
 (2, 'Cliente Teste Passaporte', NULL, 'AB123456', '2019-03-29', 'brasileiro', '912345678', 12345678911, '2019-03-29', 1),
 (3, 'Cliente Teste Passaporte 2', NULL, 'AC123457', '2019-03-29', 'brasileiro', '987654321', 12345678911, '2019-03-29', 1),
@@ -129,21 +129,22 @@ INSERT INTO `filial` (`id`, `nomeFilial`) VALUES
 --
 
 CREATE TABLE `funcionario` (
-  `Id` int(11) NOT NULL,
-  `User` varchar(30) NOT NULL,
-  `Senha` varchar(30) NOT NULL,
-  `IdFilial` int(11) NOT NULL,
-  `IdTipo` int(11) NOT NULL,
-  `Ativo` int(11) NOT NULL
+  `id` int(11) NOT NULL,
+  `nome` char(100) NOT NULL,
+  `usuario` varchar(30) NOT NULL,
+  `senha` varchar(30) NOT NULL,
+  `idFilial` int(11) NOT NULL,
+  `idTipo` int(11) NOT NULL,
+  `ativo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Despejando dados para a tabela `funcionario`
 --
 
-INSERT INTO `funcionario` (`Id`, `User`, `Senha`, `IdFilial`, `IdTipo`, `Ativo`) VALUES
-(1, 'Admin', 'Admin', 1, 1, 1),
-(2, 'Test', 'Test', 1, 2, 1);
+INSERT INTO `funcionario` (`id`, `nome` , `usuario`, `senha`, `idFilial`, `idTipo`, `ativo`) VALUES
+(1, 'Fulano Adm da Silva' , 'Admin', 'Admin', 1, 1, 1),
+(2, 'Beltrano Testador da Silva' , 'Test', 'Test', 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -192,19 +193,19 @@ INSERT INTO `modeloCarro` (`id`, `marca`, `modelo`, `idGrupo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tipofuncionario`
+-- Estrutura para tabela `tipoFuncionario`
 --
 
-CREATE TABLE `tipofuncionario` (
-  `Id` int(11) NOT NULL,
-  `Nombre` varchar(40) NOT NULL
+CREATE TABLE `tipoFuncionario` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Despejando dados para a tabela `tipofuncionario`
+-- Despejando dados para a tabela `tipoFuncionario`
 --
 
-INSERT INTO `tipofuncionario` (`Id`, `Nombre`) VALUES
+INSERT INTO `tipoFuncionario` (`id`, `nome`) VALUES
 (1, 'Administrador'),
 (2, 'Funcionario');
 
@@ -218,17 +219,17 @@ INSERT INTO `tipofuncionario` (`Id`, `Nombre`) VALUES
 ALTER TABLE `carro`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `placa` (`placa`),
-  ADD KEY `FK_Modelo` (`idModelo`),
-  ADD KEY `FK_Estado` (`idEstado`),
-  ADD KEY `FK_Filial_Carro` (`idFilial`);
+  ADD KEY `FK_modelo` (`idModelo`),
+  ADD KEY `FK_estado` (`idEstado`),
+  ADD KEY `FK_filial` (`idFilial`);
 
 --
 -- Índices de tabela `cliente`
 --
 ALTER TABLE `cliente`
-  ADD PRIMARY KEY (`Id`),
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `CPF` (`CPF`),
-  ADD UNIQUE KEY `Passaporte` (`Passaporte`);
+  ADD UNIQUE KEY `passaporte` (`passaporte`);
 
 --
 -- Índices de tabela `estadoCarro`
@@ -246,9 +247,9 @@ ALTER TABLE `filial`
 -- Índices de tabela `funcionario`
 --
 ALTER TABLE `funcionario`
-  ADD PRIMARY KEY (`Id`),
-  ADD KEY `FK_TipoFuncionario` (`IdTipo`),
-  ADD KEY `FK_Filial` (`IdFilial`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_tipoFuncionario` (`idTipo`),
+  ADD KEY `FK_filial` (`idFilial`);
 
 --
 -- Índices de tabela `grupoCarro`
@@ -261,13 +262,13 @@ ALTER TABLE `grupoCarro`
 --
 ALTER TABLE `modeloCarro`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_Grupo` (`idGrupo`);
+  ADD KEY `FK_grupo` (`idGrupo`);
 
 --
--- Índices de tabela `tipofuncionario`
+-- Índices de tabela `tipoFuncionario`
 --
-ALTER TABLE `tipofuncionario`
-  ADD PRIMARY KEY (`Id`);
+ALTER TABLE `tipoFuncionario`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de tabelas apagadas
@@ -283,7 +284,7 @@ ALTER TABLE `carro`
 -- AUTO_INCREMENT de tabela `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `estadoCarro`
@@ -301,7 +302,7 @@ ALTER TABLE `filial`
 -- AUTO_INCREMENT de tabela `funcionario`
 --
 ALTER TABLE `funcionario`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `grupoCarro`
@@ -316,10 +317,10 @@ ALTER TABLE `modeloCarro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de tabela `tipofuncionario`
+-- AUTO_INCREMENT de tabela `tipoFuncionario`
 --
-ALTER TABLE `tipofuncionario`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `tipoFuncionario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
