@@ -331,7 +331,7 @@ public class ConnectionSQL{
     	boolean ret = false;
     	String query = "SELECT c.id, c.placa, g.grupo, c.dataManutencao, c.dataCompra, c.quilometragem, m.marca, m.modelo, f.nomeFilial, e.tipo"
     				+ " FROM carro c INNER JOIN modeloCarro m on c.idModelo = m.id INNER JOIN grupoCarro g on m.idGrupo = g.id INNER JOIN filial f on c.idFilial = f.id INNER JOIN"
-    				+ " estadoCarro e on c.idEstado = e.id WHERE placa = '"+placa+"' AND NOT(idEstado = 1)";
+    				+ " estadoCarro e on c.idEstado = e.id WHERE placa = '"+placa;
 
     	if(OpenConnection()) {
             try {

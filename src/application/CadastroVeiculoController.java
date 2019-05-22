@@ -103,11 +103,11 @@ public class CadastroVeiculoController {
     	ConnectionSQL con = new ConnectionSQL();
     	
     	String placa = tf_placa.getText();
-    	Integer quilometragem = Integer.parseInt(tf_quilometragem.getText());
+    	Integer quilometragem = 0;
     	String filial = cb_filial.getSelectionModel().getSelectedItem();
     	String estado = "Disponível";
     	
-    	if (placa.equals("") || cb_marca.getSelectionModel().isEmpty() || cb_modelo.getSelectionModel().isEmpty() || dp_dataCompra.getValue() == null || 
+    	if (placa.equals("") || tf_quilometragem.getText().isEmpty() || cb_marca.getSelectionModel().isEmpty() || cb_modelo.getSelectionModel().isEmpty() || dp_dataCompra.getValue() == null || 
     			dp_dataManutencao.getValue() == null || cb_filial.getSelectionModel().isEmpty()) {
     		
     		Alert alert = new Alert(AlertType.ERROR);
@@ -118,7 +118,7 @@ public class CadastroVeiculoController {
     	}
     	
     	else {
-    		
+    		quilometragem = Integer.parseInt(tf_quilometragem.getText());
     		String marca = cb_marca.getSelectionModel().getSelectedItem();
         	String modelo = cb_modelo.getSelectionModel().getSelectedItem();
     		LocalDate dataCompra = dp_dataCompra.getValue();

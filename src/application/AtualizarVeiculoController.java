@@ -62,7 +62,7 @@ public class AtualizarVeiculoController {
     @FXML
     void initialize() {
     	
-    	ObservableList<String> estados = FXCollections.observableArrayList("Disponível", "Alugado", "Em manutenção", "Vendido");
+    	ObservableList<String> estados = FXCollections.observableArrayList("Disponivel", "Alugado", "Em manutenção", "Vendido");
         cb_estado.setItems(estados);
         cb_estado.getSelectionModel().select(Contexto.getInstancia().getVeiculo().getEstado());
         tf_quilometragem.setTextFormatter(Contexto.getInstancia().getFormatador().Quilometragem());
