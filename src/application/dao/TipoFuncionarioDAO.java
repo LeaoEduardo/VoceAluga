@@ -1,37 +1,27 @@
 package application.dao;
 
 import java.sql.*;
+import java.util.ArrayList;
 
-import application.ConnectionSQL;
 import application.entity.TipoFuncionario;
 
-public class TipoFuncionarioDAO {
+public class TipoFuncionarioDAO extends DAO {
+	
+	public static TipoFuncionarioDAO tipo_funcionario_dao = new TipoFuncionarioDAO();
+
 	public static TipoFuncionario find( int id ) {
-		TipoFuncionario 	ret = null;
-		Connection 			con = null;
-		PreparedStatement 	statement = null;
-		ResultSet 			result = null;
-		
-		String sql = "SELECT * FROM tipoFuncionario WHERE id="+id+";";
-		try {
-			con = ConnectionSQL.getConnection();
-			statement = con.prepareStatement(sql);
-			result = statement.executeQuery();
-			if( result.next() ) {
-				ret = tipoFuncionarioFromResultSet(result);
-			}
-		} catch ( Exception e ) {
-			e.printStackTrace();
-		} finally {
-			try{ if(con!=null)con.close();}catch(Exception e) {}
-			try{ if(statement!=null)statement.close();}catch(Exception e) {}
-			try{ if(result!=null)result.close();}catch(Exception e) {}
+		return (TipoFuncionario) tipo_funcionario_dao.find("tipoFuncionario",id);
+	}
+	public static ArrayList<TipoFuncionario> findAll(){
+		ArrayList<Object> obj_list = tipo_funcionario_dao.findAll("tipoFuncionario");
+		ArrayList<TipoFuncionario> ret = new ArrayList<TipoFuncionario>();
+		for( int i = 0 ; i < obj_list.size(); i++ ) {
+			ret.add( (TipoFuncionario)obj_list.get(i) );
 		}
-		
 		return ret;
 	}
-	
-	private static TipoFuncionario tipoFuncionarioFromResultSet( ResultSet result ) {
+
+	protected  Object getEntityFromResultSet( ResultSet result ) {
 		TipoFuncionario ret = new TipoFuncionario();
 		try {
 			ret.setId(result.getInt("id"));

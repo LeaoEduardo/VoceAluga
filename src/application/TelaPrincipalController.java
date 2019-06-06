@@ -2,13 +2,17 @@ package application;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
+import application.dao.CarroDAO;
+import application.dao.ClienteDAO;
 import application.dao.FilialDAO;
 import application.dao.TipoFuncionarioDAO;
 import application.entity.Filial;
 import application.entity.Funcionario;
 import application.entity.TipoFuncionario;
-import application.entity.Veiculo;
+import application.entity.Carro;
+import application.entity.Cliente;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -75,38 +79,37 @@ public class TelaPrincipalController {
     private TextField tf_placa;
     
     @FXML
-    private TableView<Veiculo> tabelaVeiculos;
+    private TableView<Carro> tabelaVeiculos;
     
     @FXML
-    private TableColumn<Veiculo, String> col_grupo;
+    private TableColumn<Carro, String> col_grupo;
     
     @FXML
-    private TableColumn<Veiculo, String> col_marca;
+    private TableColumn<Carro, String> col_marca;
     
     @FXML
-    private TableColumn<Veiculo, String> col_modelo;
+    private TableColumn<Carro, String> col_modelo;
     
     @FXML
-    private TableColumn<Veiculo, String> col_placa;
+    private TableColumn<Carro, String> col_placa;
     
     @FXML
-    private TableColumn<Veiculo, Integer> col_quilometragem;
+    private TableColumn<Carro, Integer> col_quilometragem;
     
     @FXML
-    private TableColumn<Veiculo, LocalDate> col_dataM;
+    private TableColumn<Carro, LocalDate> col_dataM;
     
     @FXML
-    private TableColumn<Veiculo, LocalDate> col_dataC;
+    private TableColumn<Carro, LocalDate> col_dataC;
     
     @FXML
-    private TableColumn<Veiculo, String> col_filial;
+    private TableColumn<Carro, String> col_filial;
 
     @FXML
-    private TableColumn<Veiculo, String> col_estado;
+    private TableColumn<Carro, String> col_estado;
 
-	private ObservableList<Veiculo> listaVeiculos = FXCollections.observableArrayList();
+	private ObservableList<Carro> listaCarro = FXCollections.observableArrayList();
     
-    ConnectionSQL con = new ConnectionSQL();
     
     @FXML
     void initialize() {
@@ -118,7 +121,7 @@ public class TelaPrincipalController {
         property.addListener((value, oldValue, newValue)->tf_cpfPassaporte.setTextFormatter(formatador.CpfPassaporte((Integer)newValue,tf_cpfPassaporte)));
         cb_cpfPassaporte.getSelectionModel().selectFirst();
        
-    	Funcionario 	funcionario 		= Contexto.getInstancia().getUsuario();
+    	Funcionario 	funcionario 		= Contexto.getInstancia().getFuncionario();
     	TipoFuncionario tipo_funcionario 	= TipoFuncionarioDAO.find(funcionario.getIdTipo());
     	Filial 			filial 				= FilialDAO.find(funcionario.getIdFilial());
     	
@@ -154,20 +157,24 @@ public class TelaPrincipalController {
     	
     	// Preenche a tabela de veiculos com todos os veiculos no BD
     	
-    	con.ConsultaTodosVeiculos();
-		listaVeiculos = Contexto.getInstancia().getListaVeiculos();
+    	listaCarro = FXCollections.observableArrayList();
+		ArrayList<Carro> all_carros = CarroDAO.findAll();
+		for( int i = 0 ; i < all_carros.size(); i++ ) {
+			listaCarro.add(all_carros.get(i));
+		}
+    	Contexto.getInstancia().setListaVeiculos(listaCarro);
 		
-		col_grupo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGrupo()));
-		col_marca.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMarca()));
-		col_modelo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getModelo()));
+		//col_grupo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGrupo()));
+		//col_marca.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMarca()));
+		//col_modelo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getModelo()));
 		col_placa.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPlaca()));
 		col_quilometragem.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getQuilometragem()).asObject());
 		col_dataM.setCellValueFactory(cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataManutencao()));
 		col_dataC.setCellValueFactory(cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataCompra()));
-		col_filial.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilial()));
-		col_estado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEstado()));
+		col_filial.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilial().getNome()));
+		//col_estado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEstado()));
 		
-		tabelaVeiculos.setItems(listaVeiculos);
+		tabelaVeiculos.setItems(listaCarro);
 		col_grupo.setSortType(TableColumn.SortType.ASCENDING);
 		tabelaVeiculos.getSortOrder().add(col_grupo);
     }
@@ -187,40 +194,48 @@ public class TelaPrincipalController {
     	pesquisarCliente();
     }
     
-    void showCliente() throws IOException{
-    	tf_nome.setText(Contexto.getInstancia().getCliente().getNomeCliente());
-		tf_cnh.setText(Contexto.getInstancia().getCliente().getCnh());
+    void showCliente( Cliente cliente ) throws IOException{
+    	tf_nome.setText( cliente.getNome() );
+		tf_cnh.setText( cliente.getCnh() );
 		clientePane.setVisible(clientePaneBool=true);
     }
     
-    void pesquisarCliente() throws IOException {    	
+    void pesquisarCliente() throws IOException {
+    	Cliente cliente = null;
     	if (cb_cpfPassaporte.getSelectionModel().getSelectedIndex() == 0) { 		
     		String cpf = tf_cpfPassaporte.getText();
-    		pesquisaPorCpf(cpf);
+    		cliente = pesquisaPorCpf(cpf);
     	}
-    	
     	else {
-    		
     		String passaporte = tf_cpfPassaporte.getText();
-    		pesquisaPorPassaporte(passaporte);
+    		cliente = pesquisaPorPassaporte(passaporte);
+    	}
+    	if( cliente != null ) {
+    		Contexto.getInstancia().setCliente(cliente);
     	}
     }
     
-    void pesquisaPorCpf(String cpf) throws IOException {
+    Cliente pesquisaPorCpf(String cpf) throws IOException {
+    	if( cpf == null || cpf == "" ) return null;
     	
-    	// Aqui deve ser checado se o CPF esta registrado no BD
+    	ArrayList<Cliente> todos_clientes = ClienteDAO.findAll();
+    	Cliente cliente = null;
+    	for( int i = 0 ; i < todos_clientes.size(); i++ ) {
+    		String cpf2 = todos_clientes.get(i).getCpf();
+    		if( cpf2 != null && cpf2.equals(cpf) ) {
+    			cliente = todos_clientes.get(i);
+    			break;
+    		}
+    	}
     	
-    	// se estiver la
-    	if (!cpf.equals("") && con.ConsultaCliente("cpf",cpf)) {
+    	if ( cliente != null ) {
 
-    		showCliente();
+    		showCliente(cliente);
     		
-    		// Prints de teste
-    		System.out.println("cpf: " + Contexto.getInstancia().getCliente().getCPF());
-            System.out.println("passaporte: " + Contexto.getInstancia().getCliente().getPassaporte());
+    		System.out.println("cpf: " + cliente.getCpf());
+            System.out.println("passaporte: " + cliente.getPassaporte());
     	}
     	
-    	//se nao estiver
     	else {
     		Alert alert = new Alert(AlertType.ERROR);
     		alert.setTitle("Erro");
@@ -229,23 +244,30 @@ public class TelaPrincipalController {
     		alert.showAndWait();
     		tf_cpfPassaporte.setText("");
     	}
+    	return cliente;
     }
     
-    void pesquisaPorPassaporte(String passaporte) throws IOException {
+    Cliente pesquisaPorPassaporte(String passaporte) throws IOException {
     	
-    	// Aqui deve ser checado se o passaporte esta registrado no BD
+
+    	ArrayList<Cliente> todos_clientes = ClienteDAO.findAll();
+    	Cliente cliente = null;
+    	for( int i = 0 ; i < todos_clientes.size(); i++ ) {
+    		if( todos_clientes.get(i).getPassaporte() == passaporte) {
+    			cliente = todos_clientes.get(i);
+    			break;
+    		}
+    	}
     	
-    	// se estiver la
-    	if (!passaporte.equals("") && con.ConsultaCliente("passaporte",passaporte)) {
+    	if ( cliente != null ) {
+
     		//main.showTelaCliente();
-    		showCliente();
+    		showCliente(cliente);
     		
-    		// Prints de teste
-    		System.out.println("cpf: " + Contexto.getInstancia().getCliente().getCPF());
+    		System.out.println("cpf: " + Contexto.getInstancia().getCliente().getCpf());
             System.out.println("passaporte: " + Contexto.getInstancia().getCliente().getPassaporte());
     	}
     	
-    	//se nao estiver
     	else {
     		Alert alert = new Alert(AlertType.ERROR);
     		alert.setTitle("Erro");
@@ -254,6 +276,7 @@ public class TelaPrincipalController {
     		alert.showAndWait();
     		tf_cpfPassaporte.setText("");
     	}
+    	return cliente;
     }
     
     @FXML
@@ -271,7 +294,7 @@ public class TelaPrincipalController {
     
     @FXML
     void cadastrarFuncionario(ActionEvent event ) throws IOException{
-    	System.out.println("QUe");
+    	
     	// Abre a janela de cadastro de novo funcionário 
     	Stage stage = new Stage();
     	Parent novoFuncionario = FXMLLoader.load(getClass().getResource("CadastroFuncionario.fxml"));
@@ -294,10 +317,19 @@ public class TelaPrincipalController {
     }
     
     void pesquisarVeiculo() throws IOException {
-    	
+
     	String placa = tf_placa.getText();
     	
-    	if (!placa.equals("") && con.ConsultaVeiculo(placa)) {
+    	ArrayList<Carro> todos_carros = CarroDAO.findAll();
+    	Carro carro = null;
+    	for( int i = 0 ; i < todos_carros.size(); i++ ) {
+    		if( todos_carros.get(i).getPlaca() == placa ) {
+    			carro = todos_carros.get(i);
+    			break;
+    		}
+    	}
+    	
+    	if ( carro!= null ) {
     		
     		main.showTelaVeiculo();
 

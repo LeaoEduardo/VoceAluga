@@ -42,13 +42,13 @@ public class TelaClienteController {
     void initialize() {
     	
     	// CPF/Passaporte inserido na pesquisa efetuada anteriormente na tela gerar locacao
-    	String cpf = Contexto.getInstancia().getCliente().getCPF();
+    	String cpf = Contexto.getInstancia().getCliente().getCpf();
     	String passaporte = Contexto.getInstancia().getCliente().getPassaporte();
     	
     	// Abaixo os dados do cliente devem ser carregados do BD, a partir do CPF/Passaporte acima
         
         // Se CPF do cliente estiver preenchido
-        if (Contexto.getInstancia().getCliente().getCPF() != null) {
+        if (Contexto.getInstancia().getCliente().getCpf() != null) {
         	
         	// Use o CPF do cliente para carregar os dados do BD
         	carregarPorCPF(cpf);
@@ -61,12 +61,12 @@ public class TelaClienteController {
         	carregarPorPassaporte(passaporte);
         }
         
-        String nome = Contexto.getInstancia().getCliente().getNomeCliente();
+        String nome = Contexto.getInstancia().getCliente().getNome();
         String nacionalidade = Contexto.getInstancia().getCliente().getNacionalidade();
         String telefone = Contexto.getInstancia().getCliente().getTelefone();
-        String cnh = Contexto.getInstancia().getCliente().getCnh();
-        LocalDate dataNasc = Contexto.getInstancia().getCliente().getDataNascimento();
-        LocalDate validadeCNH = Contexto.getInstancia().getCliente().getDatacnh();
+        String cnh = String.valueOf( Contexto.getInstancia().getCliente().getCnh() );
+        LocalDate dataNasc = Contexto.getInstancia().getCliente().getDataNasc();
+        LocalDate validadeCNH = Contexto.getInstancia().getCliente().getDataCnh();
         
         tf_nome.setText(nome);
         tf_dataNasc.setText(dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
@@ -119,7 +119,7 @@ public class TelaClienteController {
     	if (result.get() == ButtonType.OK) {
     		// apaga registro do cliente
     		ConnectionSQL con = new ConnectionSQL();
-    		if(con.RemoverCliente(Contexto.getInstancia().getCliente().getIdCliente())) {
+    		if(con.RemoverCliente(Contexto.getInstancia().getCliente().getId())) {
     			alert = new Alert(AlertType.CONFIRMATION);
     			alert.setTitle("Confirmacao");
     		    alert.setHeaderText("Cliente apagado.");

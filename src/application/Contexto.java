@@ -1,10 +1,8 @@
 package application;
 
-import java.time.LocalDate;
-
 import application.entity.Cliente;
 import application.entity.Funcionario;
-import application.entity.Veiculo;
+import application.entity.Carro;
 import javafx.collections.ObservableList;
 
 public class Contexto {
@@ -19,15 +17,15 @@ public class Contexto {
     
     private Funcionario funcionario;
     private Cliente cliente;
-    private Veiculo veiculo;
+    private Carro veiculo;
     private FormatadorTexto formatador = new FormatadorTexto();
-    private ObservableList<Veiculo> listaVeiculos;
+    private ObservableList<Carro> listaVeiculos;
     private ObservableList<String> listaMarcas;
     private ObservableList<String> listaModelosDaMarca;
     private ObservableList<String> listaFiliais;
     private boolean voltandoParaVeiculos;
 
-    public Funcionario getUsuario() {
+    public Funcionario getFuncionario() {
         return funcionario;
     }
     
@@ -35,7 +33,7 @@ public class Contexto {
     	return cliente;
     }
     
-    public Veiculo getVeiculo() {
+    public Carro getVeiculo() {
     	return veiculo;
     }
     
@@ -43,7 +41,7 @@ public class Contexto {
     	return formatador;
     }
     
-    public ObservableList<Veiculo> getListaVeiculos() {
+    public ObservableList<Carro> getListaVeiculos() {
     	return listaVeiculos;
     }
     
@@ -68,38 +66,24 @@ public class Contexto {
     	this.funcionario = funcionario;
     }
     
-    public void setCliente(String id, String nome, String cpf, String passaporte, LocalDate dataNascimento, String nascionalidade,
-			String telefone, String cnh, LocalDate datacnh ) {
-    	this.cliente = new Cliente(id,nome,cpf,passaporte,dataNascimento,nascionalidade,telefone,cnh,datacnh);
-    }
-    
     public void setCliente(Cliente cliente) {
     	this.cliente = cliente;
     }
     
-    public void setVeiculo(int id, String placa, LocalDate dataManutencao, LocalDate dataCompra, int quilometragem, 
-    						String marca, String modelo, String grupo, String filial, String estado) {
-    	
-    	this.veiculo = new Veiculo(id, placa, quilometragem, marca, modelo, filial, grupo, estado, dataCompra, dataManutencao);
-    	
-    	System.out.println("VEICULO DADOS:");
-    	System.out.println("id: " + id);
-    	System.out.println("placa: " + placa);
-    	System.out.println("quilometragem: " + quilometragem);
-    	System.out.println("marca: " + marca);
-    	System.out.println("modelo: " + modelo);
-    	System.out.println("filial: " + filial);
-    	System.out.println("grupo: " + grupo);
-    	System.out.println("estado: " + estado);
-    	System.out.println("dataCompra: " + dataCompra);
-    	System.out.println("dataManutencao: " + dataManutencao);
-    }
     
-    public void setVeiculo(Veiculo veiculo) {
+    public void setVeiculo(Carro veiculo) {
     	this.veiculo = veiculo;
+    	System.out.println("VEICULO DADOS:");
+    	System.out.println("id: " + String.valueOf(veiculo.getId()) );
+    	System.out.println("placa: " + veiculo.getPlaca() );
+    	System.out.println("quilometragem: " + String.valueOf(veiculo.getQuilometragem()) );
+    	System.out.println("filial: " + veiculo.getFilial().getNome() );
+    	//System.out.println("estado: " + estado);
+    	System.out.println("dataCompra: " + veiculo.getDataCompra() );
+    	System.out.println("dataManutencao: " + veiculo.getDataManutencao() );
     }
     
-    public void setListaVeiculos(ObservableList<Veiculo> listaVeiculos) {
+    public void setListaVeiculos(ObservableList<Carro> listaVeiculos) {
     	this.listaVeiculos = listaVeiculos;
     }
     

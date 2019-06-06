@@ -2,6 +2,8 @@ package application;
 
 import java.io.IOException;
 import java.time.LocalDate;
+
+import application.entity.Cliente;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,9 +62,9 @@ public class AtualizarClienteController {
         tf_cnh.setTextFormatter(Contexto.getInstancia().getFormatador().CNH());
         
     	
-    	if (!Contexto.getInstancia().getCliente().getCPF().equals("")) {
+    	if (!Contexto.getInstancia().getCliente().getCpf().equals("")) {
     		cb_cpfPassaporte.getSelectionModel().select(0);
-    		cpf = Contexto.getInstancia().getCliente().getCPF();
+    		cpf = Contexto.getInstancia().getCliente().getCpf();
     		tf_cpfPassaporte.setText(cpf);
     	}
     	
@@ -72,13 +74,14 @@ public class AtualizarClienteController {
     		tf_cpfPassaporte.setText(passaporte);
     	}
     	
-    	nome = Contexto.getInstancia().getCliente().getNomeCliente();
-        dataNasc = Contexto.getInstancia().getCliente().getDataNascimento();
+    	nome = Contexto.getInstancia().getCliente().getNome();
+        dataNasc = Contexto.getInstancia().getCliente().getDataNasc();
         nacionalidade = Contexto.getInstancia().getCliente().getNacionalidade();
         telefone = Contexto.getInstancia().getCliente().getTelefone();
-        cnh = Contexto.getInstancia().getCliente().getCnh();
-        validadeCNH = Contexto.getInstancia().getCliente().getDatacnh();
-       
+        cnh = String.valueOf( Contexto.getInstancia().getCliente().getCnh() );
+        validadeCNH = Contexto.getInstancia().getCliente().getDataCnh();
+        
+        
     	tf_nome.setText(nome);
     	tf_dataNasc.setValue(dataNasc);
     	tf_nacionalidade.setText(nacionalidade);
@@ -92,9 +95,9 @@ public class AtualizarClienteController {
     	
     	ConnectionSQL con = new ConnectionSQL();
     	
-    	String id = Contexto.getInstancia().getCliente().getIdCliente();
+    	int    id = Contexto.getInstancia().getCliente().getId() ;
     	String nome = tf_nome.getText();
-    	String cpf = Contexto.getInstancia().getCliente().getCPF();
+    	String cpf = Contexto.getInstancia().getCliente().getCpf();
     	String passaporte = Contexto.getInstancia().getCliente().getPassaporte();
         String nacionalidade = tf_nacionalidade.getText();
         String telefone = tf_telefone.getText();
@@ -144,7 +147,17 @@ public class AtualizarClienteController {
                 System.out.println("cnh: " + cnh);
                 System.out.println("validadeCNH: " + validadeCNH.toString());
                 
-                Contexto.getInstancia().setCliente(id, nome, cpf, passaporte, dataNasc, nacionalidade, telefone, cnh, validadeCNH);
+                Cliente cliente = new Cliente();
+                cliente.setId( id );
+                cliente.setNome(nome);
+                cliente.setCpf(cpf);
+                cliente.setPassaporte(passaporte);
+                cliente.setDataNasc(dataNasc);
+                cliente.setNacionalidade(nacionalidade);
+                cliente.setTelefone(telefone);
+                cliente.setCnh( cnh );
+                
+                Contexto.getInstancia().setCliente( cliente );
             	
     	        Alert alert = new Alert(AlertType.INFORMATION);
     	        alert.setHeaderText("Cadastro alterado");

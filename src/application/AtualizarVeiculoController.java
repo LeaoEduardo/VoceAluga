@@ -3,6 +3,9 @@ package application;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import application.entity.Carro;
+import application.entity.Filial;
+import application.entity.ModeloCarro;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -64,44 +67,27 @@ public class AtualizarVeiculoController {
     	
     	ObservableList<String> estados = FXCollections.observableArrayList("Disponivel", "Alugado", "Em manutenção", "Vendido");
         cb_estado.setItems(estados);
-        cb_estado.getSelectionModel().select(Contexto.getInstancia().getVeiculo().getEstado());
-        tf_quilometragem.setTextFormatter(Contexto.getInstancia().getFormatador().Quilometragem());
+        cb_estado.getSelectionModel().select( Contexto.getInstancia().getVeiculo().getEstadoCarro().getTipo() );
+        tf_quilometragem.setTextFormatter( Contexto.getInstancia().getFormatador().Quilometragem());
         
         placa = Contexto.getInstancia().getVeiculo().getPlaca();
-        marca = Contexto.getInstancia().getVeiculo().getMarca();
-        modelo = Contexto.getInstancia().getVeiculo().getModelo();
+        marca = Contexto.getInstancia().getVeiculo().getModeloCarro().getMarca();
+        modelo = Contexto.getInstancia().getVeiculo().getModeloCarro().getModelo();
         quilometragem = Contexto.getInstancia().getVeiculo().getQuilometragem();
         dataCompra = Contexto.getInstancia().getVeiculo().getDataCompra();
         dataManutencao = Contexto.getInstancia().getVeiculo().getDataManutencao();
-        filial = Contexto.getInstancia().getVeiculo().getFilial();
+        filial = Contexto.getInstancia().getVeiculo().getFilial().getNome();
         
-    	ConnectionSQL con = new ConnectionSQL();
     	
-    	boolean consultou = con.ConsultaFiliais();
+		cb_filial.setItems( Filial.getAllFilialNomes() );
     	
-    	if (consultou) {
     		
-    		ObservableList<String> listaFiliais = Contexto.getInstancia().getListaFiliais();
-    		cb_filial.setItems(listaFiliais);
-    	}
+		ObservableList<String> listaMarcas = Contexto.getInstancia().getListaMarcas();
+		cb_marca.setItems(listaMarcas);
+		ReadOnlyObjectProperty<String> property = cb_marca.getSelectionModel().selectedItemProperty();
+		property.addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> atualizaModelos(newValue));
     	
-    	else {
-    		System.out.println("Erro na consulta de filiais!");
-    	}
     	
-    	consultou = con.ConsultaMarcas();
-    	
-    	if (consultou) {
-    		
-    		ObservableList<String> listaMarcas = Contexto.getInstancia().getListaMarcas();
-    		cb_marca.setItems(listaMarcas);
-    		ReadOnlyObjectProperty<String> property = cb_marca.getSelectionModel().selectedItemProperty();
-    		property.addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> atualizaModelos(newValue));
-    	}
-    	
-    	else {
-    		System.out.println("Erro na consulta de marca!");
-    	}
     	
     	tf_quilometragem.setTextFormatter(Contexto.getInstancia().getFormatador().Quilometragem());
         tf_placa.setText(placa);
@@ -113,21 +99,8 @@ public class AtualizarVeiculoController {
         cb_filial.setValue(filial);
     }
     
-    void atualizaModelos(String marca) {
-    	
-    	ConnectionSQL con = new ConnectionSQL();
-    	
-    	boolean consultou = con.ConsultaModelosDaMarca(marca);
-    	
-    	if (consultou) {
-    		
-    		ObservableList<String> listaModelosDaMarca = Contexto.getInstancia().getListaModelosDaMarca();
-    		cb_modelo.setItems(listaModelosDaMarca);
-    	}
-    	
-    	else {
-    		System.out.println("Erro na consulta de modelos!");
-    	}
+    void atualizaModelos(String marca) {	
+		cb_modelo.setItems( ModeloCarro.getAllModelosDaMarca(marca) );
     }
     
     @FXML
@@ -139,7 +112,6 @@ public class AtualizarVeiculoController {
     	String placa = tf_placa.getText();
     	String marca = cb_marca.getSelectionModel().getSelectedItem();
     	String modelo = cb_modelo.getSelectionModel().getSelectedItem();
-    	String grupo = con.ConsultaGrupo(modelo);
     	Integer quilometragem = Integer.parseInt(tf_quilometragem.getText());
     	String filial = cb_filial.getSelectionModel().getSelectedItem();
     	String estado = cb_estado.getSelectionModel().getSelectedItem();
@@ -162,7 +134,8 @@ public class AtualizarVeiculoController {
         	
         	if (atualizou) {
                 
-                Contexto.getInstancia().setVeiculo(id, placa, dataManutencao, dataCompra, quilometragem, marca, modelo, grupo, filial, estado);
+        		Carro veiculo = new Carro(placa,quilometragem,0,0,0,dataCompra,dataManutencao);
+                Contexto.getInstancia().setVeiculo( veiculo );
             	
     	        Alert alert = new Alert(AlertType.INFORMATION);
     	        alert.setHeaderText("Cadastro alterado");

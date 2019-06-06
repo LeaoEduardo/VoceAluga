@@ -1,33 +1,24 @@
 package application.dao;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import application.ConnectionSQL;
 import application.entity.Funcionario;
 
-public class FuncionarioDAO {
+public class FuncionarioDAO extends DAO {
+	
+	public static FuncionarioDAO funcionario_dao = new FuncionarioDAO();
+	
 	public static Funcionario find( int id ) {
-		Funcionario 		ret = null;
-		Connection 			con = null;
-		PreparedStatement 	statement = null;
-		ResultSet 			result = null;
-		
-		String sql = "SELECT * FROM funcionario WHERE id="+id;
-		try {
-			con = ConnectionSQL.getConnection();
-			statement = con.prepareStatement(sql);
-			result = statement.executeQuery();
-			if( result.next() ) {
-				ret = funcionarioFromResultSet(result);
-			}
-		} catch ( Exception e ) {
-			e.printStackTrace();
-		} finally {
-			try{ if(con!=null)con.close();}catch(Exception e) {}
-			try{ if(statement!=null)statement.close();}catch(Exception e) {}
-			try{ if(result!=null)result.close();}catch(Exception e) {}
+		return (Funcionario) funcionario_dao.find("funcionario",id);
+	}
+	public static ArrayList<Funcionario> findAll(){
+		ArrayList<Object> obj_list = funcionario_dao.findAll("funcionario");
+		ArrayList<Funcionario> ret = new ArrayList<Funcionario>();
+		for( int i = 0 ; i < obj_list.size(); i++ ) {
+			ret.add( (Funcionario)obj_list.get(i) );
 		}
-		
 		return ret;
 	}
 	
@@ -69,8 +60,8 @@ public class FuncionarioDAO {
 		PreparedStatement 	statement = null;
 		
 		String sql = "UPDATE TABLE funcionario "
-				+ "SET nome=?,usuario=?,senha=?,idFilial=?,idTipo=?,ativo=?"
-				+ "WHERE id=?";
+				+ " SET nome=?,usuario=?,senha=?,idFilial=?,idTipo=?,ativo=? "
+				+ " WHERE id=? ";
 		try {
 			con = ConnectionSQL.getConnection();
 			statement = con.prepareStatement(sql);
@@ -96,8 +87,8 @@ public class FuncionarioDAO {
 	}
 	
 	
-	
-	private static Funcionario funcionarioFromResultSet( ResultSet result ) {
+
+	protected Object getEntityFromResultSet( ResultSet result ) {
 		Funcionario ret = new Funcionario();
 		try {
 			ret.setId(result.getInt("id"));

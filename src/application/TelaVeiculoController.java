@@ -50,14 +50,14 @@ public class TelaVeiculoController {
     void initialize() {
     	
     	String placa = Contexto.getInstancia().getVeiculo().getPlaca();
-    	String marca = Contexto.getInstancia().getVeiculo().getMarca();
-    	String modelo = Contexto.getInstancia().getVeiculo().getModelo();
-    	String grupo = Contexto.getInstancia().getVeiculo().getGrupo();
+    	String marca = Contexto.getInstancia().getVeiculo().getModeloCarro().getMarca();
+    	String modelo = Contexto.getInstancia().getVeiculo().getModeloCarro().getModelo();
+    	String grupo = Contexto.getInstancia().getVeiculo().getModeloCarro().getGrupoCarro().getGrupo();
     	Integer quilometragem = Contexto.getInstancia().getVeiculo().getQuilometragem();
         LocalDate dataCompra = Contexto.getInstancia().getVeiculo().getDataCompra();
         LocalDate dataManutencao = Contexto.getInstancia().getVeiculo().getDataManutencao();
-        String filial = Contexto.getInstancia().getVeiculo().getFilial();
-        String estado = Contexto.getInstancia().getVeiculo().getEstado();
+        String filial = Contexto.getInstancia().getVeiculo().getFilial().getNome();
+        String estado = Contexto.getInstancia().getVeiculo().getEstadoCarro().getTipo();
         
         tf_placa.setText(placa);
         tf_marca.setText(marca);

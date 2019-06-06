@@ -13,7 +13,6 @@ public class Funcionario {
 	
 	public Funcionario(){
 		id = -1;
-		
 	}
 
 	public int getId() {

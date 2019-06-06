@@ -2,8 +2,14 @@ package application;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+
+import application.dao.ModeloCarroDAO;
+import application.entity.Filial;
+import application.entity.ModeloCarro;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,52 +55,26 @@ public class CadastroVeiculoController {
     @FXML
     void initialize() {
     	
-    	ConnectionSQL con = new ConnectionSQL();
-    	
-    	boolean consultou = con.ConsultaFiliais();
-    	
-    	if (consultou) {
-    		
-    		ObservableList<String> listaFiliais = Contexto.getInstancia().getListaFiliais();
-    		cb_filial.setItems(listaFiliais);
-    	}
-    	
-    	else {
-    		System.out.println("Erro na consulta de filiais!");
-    	}
-
-    	consultou = con.ConsultaMarcas();
-    	
-    	if (consultou) {
-    		
-    		ObservableList<String> listaMarcas = Contexto.getInstancia().getListaMarcas();
-    		cb_marca.setItems(listaMarcas);
-    		ReadOnlyObjectProperty<String> property = cb_marca.getSelectionModel().selectedItemProperty();
-    		property.addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> atualizaModelos(newValue));
-    	}
-    	
-    	else {
-    		System.out.println("Erro na consulta de marca!");
-    	}
+    	cb_filial.setItems( Filial.getAllFilialNomes() );
+    	cb_marca.setItems( ModeloCarro.getAllMarcas() );
+		
+		ReadOnlyObjectProperty<String> property = cb_marca.getSelectionModel().selectedItemProperty();
+		property.addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> atualizaModelos(newValue));
+	
     	
     	tf_quilometragem.setTextFormatter(Contexto.getInstancia().getFormatador().Quilometragem());
     }
     
     void atualizaModelos(String marca) {
-    	
-    	ConnectionSQL con = new ConnectionSQL();
-    	
-    	boolean consultou = con.ConsultaModelosDaMarca(marca);
-    	
-    	if (consultou) {
-    		
-    		ObservableList<String> listaModelosDaMarca = Contexto.getInstancia().getListaModelosDaMarca();
-    		cb_modelo.setItems(listaModelosDaMarca);
+
+    	ObservableList<String> nome_modelos = FXCollections.observableArrayList();
+    	ArrayList<ModeloCarro> todos_modelos = ModeloCarroDAO.findAll();
+    	for( ModeloCarro modelo_carro : todos_modelos ) {
+    		if(modelo_carro.getMarca().equals(marca)) {
+    			nome_modelos.add(modelo_carro.getModelo());
+    		}
     	}
-    	
-    	else {
-    		System.out.println("Erro na consulta de modelos!");
-    	}
+		cb_modelo.setItems(nome_modelos);
     }
     
     @FXML

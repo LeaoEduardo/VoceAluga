@@ -4,64 +4,98 @@ import java.time.LocalDate;
 
 public class Cliente {
 
-	private String id;
-	private String nome;
-	private String passaporte;
-	private String cpf;
-	private String nacionalidade;
-	private String telefone;
-	private String cnh;
-	private LocalDate dataNasc;
-    private LocalDate validadeCNH;
+	private int 		id;
+	private String 		nome;
+	private String 		passaporte;
+	private String 		cpf;
+	private String 		nacionalidade;
+	private String 		telefone;
+	private String 		cnh;
+	private LocalDate 	dataNasc;
+	private LocalDate 	dataCnh;
+	private Boolean		ativo;
 	
-	public Cliente(String id, String nome, String cpf, String passaporte, LocalDate dataNascimento, String nacionalidade,
-			String telefone, String cnh, LocalDate datacnh ) {
-		
-		this.id = id;
-		this.nome = nome;
-		this.passaporte = passaporte;
-		this.dataNasc = dataNascimento;
-		this.cpf = cpf;
-		this.nacionalidade = nacionalidade;
-		this.telefone = telefone;
-		this.cnh = cnh;
-		this.validadeCNH = datacnh;
+	public Cliente() {
 		
 	}
 
-	public String getIdCliente() {
-		return id;
-	}
-	
-	public String getNomeCliente() {
+	public String getNome() {
 		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getPassaporte() {
 		return passaporte;
 	}
-	
-	public String getCPF() {
+
+	public void setPassaporte(String passaporte) {
+		this.passaporte = passaporte;
+	}
+
+	public String getCpf() {
 		return cpf;
 	}
 
-	public LocalDate getDataNascimento() {
-		return dataNasc;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public String getNacionalidade() {
 		return nacionalidade;
 	}
 
+	public void setNacionalidade(String nacionalidade) {
+		this.nacionalidade = nacionalidade;
+	}
+
 	public String getTelefone() {
 		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 	public String getCnh() {
 		return cnh;
 	}
 
-	public LocalDate getDatacnh() {
-		return validadeCNH;
+	public void setCnh(String cnh) {
+		this.cnh = cnh;
 	}
+
+	public LocalDate getDataNasc() {
+		return dataNasc;
+	}
+
+	public void setDataNasc(LocalDate dataNasc) {
+		this.dataNasc = dataNasc;
+	}
+
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
+
+	public LocalDate getDataCnh() {
+		return dataCnh;
+	}
+
+	public void setDataCnh(LocalDate dataCnh) {
+		this.dataCnh = dataCnh;
+	}
+
 }

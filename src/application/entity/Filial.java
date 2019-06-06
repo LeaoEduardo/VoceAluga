@@ -1,5 +1,11 @@
 package application.entity;
 
+import java.util.ArrayList;
+
+import application.dao.FilialDAO;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Filial {
 	private	int 	id;
 	private String 	nome;
@@ -9,6 +15,15 @@ public class Filial {
 		nome = "null";
 	}
 
+	public static ObservableList<String> getAllFilialNomes(){
+    	ObservableList<String> nome_filiais = FXCollections.observableArrayList();
+    	ArrayList<Filial> todas_filiais = FilialDAO.findAll();
+    	for( int i = 0 ; i < todas_filiais.size() ; i++ ) {
+    		nome_filiais.add(todas_filiais.get(i).getNome());
+    	}
+    	return nome_filiais;
+	}
+	
 	public int getId() {
 		return id;
 	}

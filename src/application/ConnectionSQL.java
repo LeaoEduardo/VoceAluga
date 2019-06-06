@@ -5,16 +5,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
-
+import application.dao.ClienteDAO;
 import application.dao.FuncionarioDAO;
-import application.entity.Veiculo;
+import application.entity.Cliente;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 // Documentacao 
 // https://docs.oracle.com/javase/7/docs/api/java/sql/package-frame.html
@@ -149,16 +145,8 @@ public class ConnectionSQL{
             	System.out.println("Resultado de '"+ query +"':");
 
             	if (result.next()) {
-            		Contexto.getInstancia().setCliente(
-            				result.getString("Id"),
-            				result.getString("Nome"), 
-            				result.getString("CPF"), 
-            				result.getString("Passaporte"),
-            				Instant.ofEpochMilli(result.getDate("DataNascimento").getTime()).atZone(ZoneId.of("UTC")).toLocalDate(),
-            				result.getString("Nacionalidade"),
-            				result.getString("Telefone"),
-            				result.getString("CNH"),
-            				Instant.ofEpochMilli(result.getDate("DataCNH").getTime()).atZone(ZoneId.of("UTC")).toLocalDate());
+            		Cliente cliente = ClienteDAO.find( result.getInt("id"));
+            		Contexto.getInstancia().setCliente( cliente );
                     ret = true;
                 }
             } catch (Exception e) {
@@ -204,11 +192,11 @@ public class ConnectionSQL{
     	return ret;
     } 
     
-    public boolean AtualizaCliente(String idCliente, String nome, String cpf, String passaporte, String dataNasc, String nacionalidade, String telefone, String cnh, String datacnh) {
+    public boolean AtualizaCliente( int idCliente, String nome, String cpf, String passaporte, String dataNasc, String nacionalidade, String telefone, String cnh, String datacnh) {
     	boolean ret = false;
     	String query = "UPDATE cliente SET nome = '"+nome+"', CPF = '"+cpf+"', passaporte = '"+passaporte+
     				"', dataNascimento = '"+dataNasc+"', nacionalidade = '"+nacionalidade+"', telefone = '"+telefone+
-    				"', CNH = '"+cnh+"', dataCNH = '"+datacnh+"' WHERE cliente.id = "+idCliente+";";
+    				"', CNH = '"+cnh+"', dataCNH = '"+datacnh+"' WHERE cliente.id = "+ String.valueOf(idCliente) +";";
     		
     	System.out.println(query);
     	if(OpenConnection()) {
@@ -225,9 +213,9 @@ public class ConnectionSQL{
     	return ret;
     }
 
-    public boolean RemoverCliente(String idCliente) {
+    public boolean RemoverCliente(int id) {
     	boolean ret = false;
-        String query = "UPDATE cliente SET ativo = 0 WHERE cliente.Id = "+idCliente+";";
+        String query = "UPDATE cliente SET ativo = 0 WHERE cliente.Id = "+ String.valueOf(id) +";";
             
         System.out.println(query);
         if(OpenConnection()) {
@@ -327,173 +315,6 @@ public class ConnectionSQL{
     	return ret;
     }
     
-    public boolean ConsultaVeiculo(String placa) {
-    	boolean ret = false;
-    	String query = "SELECT c.id, c.placa, g.grupo, c.dataManutencao, c.dataCompra, c.quilometragem, m.marca, m.modelo, f.nomeFilial, e.tipo"
-    				+ " FROM carro c INNER JOIN modeloCarro m on c.idModelo = m.id INNER JOIN grupoCarro g on m.idGrupo = g.id INNER JOIN filial f on c.idFilial = f.id INNER JOIN"
-    				+ " estadoCarro e on c.idEstado = e.id WHERE placa = '"+placa;
-
-    	if(OpenConnection()) {
-            try {
-            	result = statement.executeQuery(query);
-            	System.out.println("Resultado de '"+ query +"':");
-
-            	if (result.next()) {
-            		Contexto.getInstancia().setVeiculo(
-            				Integer.parseInt(result.getString("id")),
-            				result.getString("placa"),
-            				Instant.ofEpochMilli(result.getDate("dataManutencao").getTime()).atZone(ZoneId.of("UTC")).toLocalDate(),
-            				Instant.ofEpochMilli(result.getDate("dataCompra").getTime()).atZone(ZoneId.of("UTC")).toLocalDate(),
-            				Integer.parseInt(result.getString("quilometragem")),
-            				result.getString("marca"),
-            				result.getString("modelo"),
-            				result.getString("grupo"),
-            				result.getString("nomeFilial"),
-            				result.getString("tipo"));
-                    ret = true;
-                }
-            } catch (Exception e) {
-                System.err.println(e);
-            } finally {
-            	CloseConnection();
-            }
-    	}
-    	return ret;
-    }
-    
-    public boolean ConsultaMarcas() {
-    	boolean ret = false;
-    	String query = "SELECT DISTINCT marca FROM modeloCarro";
-    	
-    	ObservableList<String> listaMarcas = FXCollections.observableArrayList();
-
-    	if(OpenConnection()) {
-            try {
-            	result = statement.executeQuery(query);
-            	System.out.println("Resultado de '"+ query +"':");
-
-            	while (result.next()) {
-            		listaMarcas.add(result.getString("marca"));
-            		ret = true;
-                }
-            	Contexto.getInstancia().setListaMarcas(listaMarcas);
-            } catch (Exception e) {
-                System.err.println(e);
-            } finally {
-            	CloseConnection();
-            }
-    	}
-    	return ret;
-    }
-    
-    public boolean ConsultaModelosDaMarca(String marca) {
-    	boolean ret = false;
-    	String query = "SELECT DISTINCT modelo FROM modeloCarro WHERE marca = '"+marca+"'";
-    	
-    	ObservableList<String> listaModelosDaMarca = FXCollections.observableArrayList();
-
-    	if(OpenConnection()) {
-            try {
-            	result = statement.executeQuery(query);
-            	System.out.println("Resultado de '"+ query +"':");
-
-            	while (result.next()) {
-            		listaModelosDaMarca.add(result.getString("modelo"));
-            		ret = true;
-                }
-            	Contexto.getInstancia().setListaModelosDaMarca(listaModelosDaMarca);
-            } catch (Exception e) {
-                System.err.println(e);
-            } finally {
-            	CloseConnection();
-            }
-    	}
-    	return ret;
-    }
-    
-    public String ConsultaGrupo(String modelo) {
-    	String query = "SELECT g.grupo FROM modeloCarro m INNER JOIN grupoCarro g"
-    			+ " on m.idGrupo = g.id WHERE modelo = '"+modelo+"'";
-    	String grupo = new String();
-
-    	if(OpenConnection()) {
-            try {
-            	result = statement.executeQuery(query);
-            	System.out.println("Resultado de '"+ query +"':");
-
-            	if (result.next()) {
-            		grupo = result.getString("grupo");
-                }
-            } catch (Exception e) {
-                System.err.println(e);
-            } finally {
-            	CloseConnection();
-            }
-    	}
-    	return grupo;
-    }
-    
-    public boolean ConsultaFiliais() {
-    	boolean ret = false;
-    	String query = "SELECT DISTINCT nomeFilial from filial";
-    	
-    	ObservableList<String> listaFiliais = FXCollections.observableArrayList();
-
-    	if(OpenConnection()) {
-            try {
-            	result = statement.executeQuery(query);
-            	System.out.println("Resultado de '"+ query +"':");
-
-            	while (result.next()) {
-            		listaFiliais.add(result.getString("nomeFilial"));
-            		ret = true;
-                }
-            	Contexto.getInstancia().setListaFiliais(listaFiliais);
-            } catch (Exception e) {
-                System.err.println(e);
-            } finally {
-            	CloseConnection();
-            }
-    	}
-    	return ret;
-    }
-    
-    public boolean ConsultaTodosVeiculos() {
-    	boolean ret = false;
-    	String query = "SELECT c.id, c.placa, c.dataManutencao, c.dataCompra, c.quilometragem, m.marca, m.modelo, f.nomeFilial, g.grupo, e.tipo"
-				+ " FROM carro c INNER JOIN modeloCarro m on c.idModelo = m.id INNER JOIN filial f on c.idFilial = f.id INNER JOIN"
-				+ " estadoCarro e on c.idEstado = e.id INNER JOIN grupoCarro g on m.idGrupo = g.id";
-    	
-    	ObservableList<Veiculo> listaVeiculos = FXCollections.observableArrayList();
-
-    	if(OpenConnection()) {
-            try {
-            	result = statement.executeQuery(query);
-            	System.out.println("Resultado de '"+ query +"':");
-
-            	while (result.next()) {
-            		listaVeiculos.add(new Veiculo(
-            				Integer.parseInt(result.getString("id")),
-            				result.getString("placa"),
-            				Integer.parseInt(result.getString("quilometragem")),
-            				result.getString("marca"),
-            				result.getString("modelo"),
-            				result.getString("nomeFilial"),
-            				result.getString("grupo"),
-            				result.getString("tipo"),
-            				Instant.ofEpochMilli(result.getDate("dataCompra").getTime()).atZone(ZoneId.of("UTC")).toLocalDate(),
-            				Instant.ofEpochMilli(result.getDate("dataManutencao").getTime()).atZone(ZoneId.of("UTC")).toLocalDate()));
-            		ret = true;
-                }
-            	Contexto.getInstancia().setListaVeiculos(listaVeiculos);
-            } catch (Exception e) {
-                System.err.println(e);
-            } finally {
-            	CloseConnection();
-            }
-    	}
-    	return ret;
-    }
     
     public boolean UpdateVeiculo(String placa, int quilometragem, String marca, String modelo, String filial,
 								String estado, LocalDate dataCompra, LocalDate dataManutencao) {
@@ -595,24 +416,6 @@ public class ConnectionSQL{
         return ret;    
     }
     
-    // Retorna a linha de uma tabela passando só o ID
-    public ResultSet findById( String table_name , int id ) {
-    	ResultSet ret = null;
-    	String query = "SELECT * FROM "+table_name+" WHERE id="+ id +";";
-    	if( OpenConnection() ) {
-	    	try {
-	    		ret = statement.executeQuery( query );
-	    		if(!ret.next()) {
-	    			throw new Exception("Não existe " + table_name + " de id=" + id );
-	    		};
-	    	} catch (Exception e ) {
-	    		System.err.println(e);
-	    	} finally {
-	    		//CloseConnection();
-	    	}
-    	}
-		return ret;
-    }
 }
 
 
