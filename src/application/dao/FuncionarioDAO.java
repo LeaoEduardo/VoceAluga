@@ -1,6 +1,7 @@
 package application.dao;
 
 import java.sql.*;
+
 import application.entity.Funcionario;
 
 public class FuncionarioDAO extends DAO<Funcionario> {
@@ -37,7 +38,10 @@ public class FuncionarioDAO extends DAO<Funcionario> {
 		statement.setInt(7, funcionario.getId());
 		return statement;
 	}
-	
+
+	protected String			createDeleteStatement( Funcionario entity ) {
+		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf( entity.getId() );
+	}
 	
 	protected Funcionario getEntityFromResultSet( ResultSet result ) {
 		Funcionario ret = new Funcionario();

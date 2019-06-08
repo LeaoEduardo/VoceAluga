@@ -46,7 +46,10 @@ public class CarroDAO extends DAO<Carro> {
 		statement.setInt(8, carro.getId() );
 		return statement;
 	}
-	
+
+	protected String			createDeleteStatement( Carro entity ) {
+		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf( entity.getId() );
+	}
 	protected Carro getEntityFromResultSet( ResultSet result ) {
 		Carro ret = new Carro();
 		try {

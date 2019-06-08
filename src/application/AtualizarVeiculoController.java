@@ -3,6 +3,8 @@ package application;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import application.dao.CarroDAO;
+import application.dao.ModeloCarroDAO;
 import application.entity.Carro;
 import application.entity.Filial;
 import application.entity.ModeloCarro;
@@ -106,13 +108,9 @@ public class AtualizarVeiculoController {
     @FXML
     void atualizarVeiculo(ActionEvent event) throws IOException {
     	
-    	ConnectionSQL con = new ConnectionSQL();
-    	
-    	int id = Contexto.getInstancia().getVeiculo().getId();
     	String placa = tf_placa.getText();
-    	String marca = cb_marca.getSelectionModel().getSelectedItem();
-    	String modelo = cb_modelo.getSelectionModel().getSelectedItem();
     	Integer quilometragem = Integer.parseInt(tf_quilometragem.getText());
+    	String modelo = cb_modelo.getSelectionModel().getSelectedItem();
     	String filial = cb_filial.getSelectionModel().getSelectedItem();
     	String estado = cb_estado.getSelectionModel().getSelectedItem();
     	
@@ -130,7 +128,17 @@ public class AtualizarVeiculoController {
     		LocalDate dataCompra = dp_dataCompra.getValue();
         	LocalDate dataManutencao = dp_dataManutencao.getValue();
         	
-        	boolean atualizou = con.UpdateVeiculo(placa, quilometragem, marca, modelo, filial, estado, dataCompra, dataManutencao);
+        	Carro carro = Contexto.getInstancia().getVeiculo();
+        	carro.setPlaca(placa);
+        	carro.setIdModelo( (new ModeloCarroDAO()).find("modelo",modelo).get(0).getId() );
+        	carro.setIdFilial( (new ModeloCarroDAO()).find("nomeFilial",filial).get(0).getId() );
+        	carro.setIdEstado( (new ModeloCarroDAO()).find("tipo",estado).get(0).getId() );
+        	carro.setDataCompra(dataCompra);
+        	carro.setDataManutencao(dataManutencao);
+        	carro.setQuilometragem(quilometragem);
+        	
+        	
+        	boolean atualizou = (new CarroDAO()).update(carro);
         	
         	if (atualizou) {
                 

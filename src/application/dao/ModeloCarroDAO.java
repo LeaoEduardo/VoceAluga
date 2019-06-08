@@ -1,6 +1,7 @@
 package application.dao;
 
 import java.sql.*;
+
 import application.entity.ModeloCarro;
 
 public class ModeloCarroDAO extends DAO<ModeloCarro> {
@@ -16,6 +17,10 @@ public class ModeloCarroDAO extends DAO<ModeloCarro> {
 		statement.setString(2, modelo_carro.getModelo());
 		statement.setInt(3, modelo_carro.getIdGrupo());
 		return statement;
+	}
+
+	protected String			createDeleteStatement( ModeloCarro entity ) {
+		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf( entity.getId() );
 	}
 	
 	protected  	ModeloCarro getEntityFromResultSet( ResultSet result ) {

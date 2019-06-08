@@ -47,7 +47,10 @@ public class ClienteDAO extends DAO<Cliente> {
 		statement.setInt(10, entity.getId());
 		return statement;
 	}
-	
+
+	protected String			createDeleteStatement( Cliente entity ) {
+		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf( entity.getId() );
+	}
 	protected Cliente getEntityFromResultSet( ResultSet result ) {
 		Cliente ret = new Cliente();
 		try {

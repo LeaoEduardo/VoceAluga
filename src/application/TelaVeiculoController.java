@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+
+import application.dao.CarroDAO;
+import application.entity.Carro;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -93,8 +96,11 @@ public class TelaVeiculoController {
     	
     	if (result.get() == ButtonType.OK) {
     		// vende veiculo (seta estado = vendido)
-    		ConnectionSQL con = new ConnectionSQL();
-    		if(con.VendeVeiculo(Contexto.getInstancia().getVeiculo().getPlaca())) {
+    		Carro carro = Contexto.getInstancia().getVeiculo();
+    		
+    		carro.setIdEstado(4);
+    		
+    		if( (new CarroDAO()).update(carro) ) {
     			alert = new Alert(AlertType.CONFIRMATION);
     		    alert.setTitle("Confirmacao");
     		    alert.setHeaderText("Veiculo vendido.");

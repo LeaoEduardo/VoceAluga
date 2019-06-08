@@ -1,5 +1,8 @@
 package application;
 
+import application.dao.GrupoCarroDAO;
+import application.dao.ModeloCarroDAO;
+import application.entity.ModeloCarro;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,7 +42,6 @@ public class CadastroModeloController {
     @FXML
     void cadastrarModelo(ActionEvent event) {
     	
-    	ConnectionSQL con = new ConnectionSQL();
     	
     	String marca = tf_marca.getText();
     	String modelo = tf_modelo.getText();
@@ -56,7 +58,11 @@ public class CadastroModeloController {
     	
     	else {
     		
-    		boolean cadastrou = con.CadastroModelo(marca, modelo, grupo);
+    		ModeloCarro modelo_carro = new ModeloCarro();
+    		modelo_carro.setIdGrupo( (new GrupoCarroDAO()).find("grupo", grupo).get(0).getId()  );
+    		modelo_carro.setModelo(modelo);
+    		modelo_carro.setMarca(marca);
+    		boolean cadastrou = (new ModeloCarroDAO()).insert(modelo_carro);
     		
     		if (cadastrou) {
     			

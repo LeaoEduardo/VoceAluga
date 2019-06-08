@@ -106,7 +106,6 @@ public class DAO<T> {
 		
 		return ret;
 	}
-	
 	public boolean insert( T entity ) {
 		boolean ret = false;
 		Connection 			con = null;
@@ -127,6 +126,27 @@ public class DAO<T> {
 		
 		return ret;
 	}
+	public boolean delete( T entity ) {
+		boolean ret = false;
+		Connection 			con = null;
+		PreparedStatement   delete_statement = null;
+		try {
+			String sql 			= createDeleteStatement(entity);
+			con 				= ConnectionSQL.getConnection();
+			delete_statement 	= con.prepareStatement(sql);
+			
+			System.out.println("query:\n" + delete_statement.toString() );
+			delete_statement.execute();
+			ret = true;
+		} catch ( Exception e ) {
+			e.printStackTrace();
+		} finally {
+			try{ if(con!=null)con.close();}catch(Exception e) {}
+			try{ if(delete_statement!=null)delete_statement.close();}catch(Exception e) {}
+		}
+		
+		return ret;
+	}
 	
 	
 	
@@ -137,6 +157,9 @@ public class DAO<T> {
 		return null;
 	}
 	protected PreparedStatement createInsertStatement( Connection con , T entity ) throws SQLException{
+		return null;
+	}
+	protected String			createDeleteStatement( T entity ) {
 		return null;
 	}
 	

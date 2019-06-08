@@ -1,6 +1,7 @@
 package application.dao;
 
 import java.sql.*;
+
 import application.entity.Filial;
 
 public class FilialDAO extends DAO<Filial> {
@@ -14,6 +15,10 @@ public class FilialDAO extends DAO<Filial> {
 		PreparedStatement 	statement = con.prepareStatement(sql);
 		statement.setString(1, filial.getNome());
 		return statement;
+	}
+
+	protected String			createDeleteStatement( Filial entity ) {
+		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf( entity.getId() );
 	}
 	
 	protected  Filial getEntityFromResultSet( ResultSet result ) {

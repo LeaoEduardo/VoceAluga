@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+
+import application.dao.ClienteDAO;
+import application.entity.Cliente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -117,9 +120,8 @@ public class TelaClienteController {
     	Optional<ButtonType> result = alert.showAndWait();
     	
     	if (result.get() == ButtonType.OK) {
-    		// apaga registro do cliente
-    		ConnectionSQL con = new ConnectionSQL();
-    		if(con.RemoverCliente(Contexto.getInstancia().getCliente().getId())) {
+    		Cliente cliente = Contexto.getInstancia().getCliente();
+    		if( (new ClienteDAO()).delete(cliente) ) {
     			alert = new Alert(AlertType.CONFIRMATION);
     			alert.setTitle("Confirmacao");
     		    alert.setHeaderText("Cliente apagado.");
@@ -133,6 +135,7 @@ public class TelaClienteController {
     		    alert.setContentText("Tente novamente.");
     		    alert.showAndWait();
     		}
+    		
     	}
     }
     
