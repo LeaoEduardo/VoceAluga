@@ -8,16 +8,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ModeloCarro {
-	int 		id;
+	int 		id = -1;
 	String		marca;
 	String		modelo;
 	int			idGrupo;
 	
 	public ModeloCarro() {
-		id = -1;
 	}
 	public ModeloCarro( String marca , String modelo , int idGrupo ) {
-		id = -1;
 		this.marca = marca;
 		this.modelo = modelo;
 		this.idGrupo = idGrupo;
@@ -25,13 +23,13 @@ public class ModeloCarro {
 	
 	// Retorna outras entidades 
 	public GrupoCarro getGrupoCarro() {
-		return GrupoCarroDAO.find(idGrupo);
+		return (new GrupoCarroDAO()).find(idGrupo);
 	}
 	
 	// Métodos auxiliares
 	public static ObservableList<String> getAllMarcas(){
     	ObservableList<String> nome_marcas = FXCollections.observableArrayList();
-    	ArrayList<ModeloCarro> todos_modelos = ModeloCarroDAO.findAll();
+    	ArrayList<ModeloCarro> todos_modelos = (new ModeloCarroDAO()).findAll();
     	for( int i = 0 ; i < todos_modelos.size() ; i++ ) {
     		// Pra não pegar repetido!
     		String nome_marca = todos_modelos.get(i).getMarca();
@@ -41,16 +39,16 @@ public class ModeloCarro {
     	}
     	return nome_marcas;
 	}
-	
 	public static ObservableList<String> getAllModelosDaMarca( String nome_marca ){
-    	ObservableList<String> nome_modelos = FXCollections.observableArrayList();
-    	ArrayList<ModeloCarro> todos_modelos = ModeloCarroDAO.findAll();
-    	for( ModeloCarro modelo_carro : todos_modelos ) {
+    	ObservableList<String> ret = FXCollections.observableArrayList();
+    	ArrayList<ModeloCarro> modelos = (new ModeloCarroDAO()).find("marca",nome_marca);
+    	for( ModeloCarro modelo_carro : modelos ) {
     		if( modelo_carro.getMarca().equals(nome_marca) ) {
-    			nome_modelos.add( modelo_carro.getModelo() );	
+    			System.out.println("achei umm");
+    			ret.add( modelo_carro.getModelo() );	
     		}
     	}
-    	return nome_modelos;
+    	return ret;
 	}
 	
 	

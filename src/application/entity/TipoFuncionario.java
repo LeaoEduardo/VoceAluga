@@ -1,11 +1,10 @@
 package application.entity;
 
 public class TipoFuncionario {
-	private	int 	id;
+	private	int 	id = -1;
 	private String 	nome;
 	
 	public TipoFuncionario() {
-		id = -1;
 		nome = "null";
 	}
 

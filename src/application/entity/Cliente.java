@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Cliente {
 
-	private int 		id;
+	private int 		id = -1;
 	private String 		nome;
 	private String 		passaporte;
 	private String 		cpf;
@@ -13,7 +13,7 @@ public class Cliente {
 	private String 		cnh;
 	private LocalDate 	dataNasc;
 	private LocalDate 	dataCnh;
-	private Boolean		ativo;
+	private Boolean		ativo = true;
 	
 	public Cliente() {
 		

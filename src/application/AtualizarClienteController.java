@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import application.dao.ClienteDAO;
 import application.entity.Cliente;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
@@ -93,28 +94,27 @@ public class AtualizarClienteController {
     @FXML
     void atualizarCliente(ActionEvent event) throws IOException {
     	
-    	ConnectionSQL con = new ConnectionSQL();
-    	
+    	ClienteDAO cliente_dao = new ClienteDAO();
     	int    id = Contexto.getInstancia().getCliente().getId() ;
-    	String nome = tf_nome.getText();
-    	String cpf = Contexto.getInstancia().getCliente().getCpf();
-    	String passaporte = Contexto.getInstancia().getCliente().getPassaporte();
-        String nacionalidade = tf_nacionalidade.getText();
-        String telefone = tf_telefone.getText();
-        String cnh = tf_cnh.getText();
+    	Cliente cliente = cliente_dao.find(id);
+    	cliente.setNome( tf_nome.getText() );
+    	cliente.setNacionalidade( tf_nacionalidade.getText() );
+        cliente.setTelefone( tf_telefone.getText() );
+        cliente.setCnh( tf_cnh.getText() );
         
         // se o campo selecionado for CPF
         if (cb_cpfPassaporte.getSelectionModel().getSelectedIndex() == 0){
-            cpf = tf_cpfPassaporte.getText();
+            cliente.setCpf(tf_cpfPassaporte.getText()) ;
         }
         // se nao, selecionou passaporte
         else {
-        	passaporte = tf_cpfPassaporte.getText();
+        	cliente.setPassaporte( tf_cpfPassaporte.getText() );
         }
         
         // Se algum campo estiver vazio
-        if (nome.equals("") || tf_cpfPassaporte.getText().equals("") || tf_dataNasc.getValue() == null || nacionalidade.equals("") || 
-        		telefone.equals("") || cnh.equals("") || tf_validadeCNH.getValue() == null) {
+        if (cliente.getNome().equals("") || tf_cpfPassaporte.getText().equals("") || tf_dataNasc.getValue() == null 
+        		|| cliente.getNacionalidade().equals("") || cliente.getTelefone().equals("") || cliente.getCnh().equals("") 
+        		|| tf_validadeCNH.getValue() == null) {
         	
         	Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Erro");
@@ -126,36 +126,22 @@ public class AtualizarClienteController {
         // Se estiver tudo certo
         else {
         	
-        	LocalDate dataNasc = tf_dataNasc.getValue();
-        	LocalDate validadeCNH = tf_validadeCNH.getValue();
+        	cliente.setDataNasc( tf_dataNasc.getValue() );
+        	cliente.setDataCnh( tf_validadeCNH.getValue() );
         	
-        	// // Aqui os dados alterados do cliente deverao ser armazenados no BD
-        	// (nome,cpf/passaporte,dataNasc,nacionalidade,telefone,cnh,validadeCNH)
-        	
-        	boolean atualizou = con.AtualizaCliente(id, nome, cpf, passaporte, dataNasc.toString(), nacionalidade,
-					telefone, cnh, validadeCNH.toString());
+        	boolean atualizou = cliente_dao.update(cliente);
 
         	if(atualizou) {
         		// Prints de teste
-        		System.out.println("idCliente: " + id);
-            	System.out.println("nome: " + nome);
-                System.out.println("cpf: " + cpf);
-                System.out.println("passaporte: " + passaporte);
-                System.out.println("dataNasc: " + dataNasc.toString());
-                System.out.println("nacionalidade: " + nacionalidade);
-                System.out.println("telefone: " + telefone);
-                System.out.println("cnh: " + cnh);
-                System.out.println("validadeCNH: " + validadeCNH.toString());
+            	System.out.println("nome: " + cliente.getNome());
+                System.out.println("cpf: " + cliente.getCpf());
+                System.out.println("passaporte: " + cliente.getPassaporte());
+                System.out.println("dataNasc: " + cliente.getDataNasc().toString());
+                System.out.println("nacionalidade: " + cliente.getNacionalidade());
+                System.out.println("telefone: " + cliente.getTelefone());
+                System.out.println("cnh: " + cliente.getCnh());
+                System.out.println("validadeCNH: " + cliente.getDataCnh().toString());
                 
-                Cliente cliente = new Cliente();
-                cliente.setId( id );
-                cliente.setNome(nome);
-                cliente.setCpf(cpf);
-                cliente.setPassaporte(passaporte);
-                cliente.setDataNasc(dataNasc);
-                cliente.setNacionalidade(nacionalidade);
-                cliente.setTelefone(telefone);
-                cliente.setCnh( cnh );
                 
                 Contexto.getInstancia().setCliente( cliente );
             	

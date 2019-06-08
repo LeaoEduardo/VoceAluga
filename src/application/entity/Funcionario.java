@@ -1,8 +1,14 @@
 package application.entity;
 
+import java.util.ArrayList;
+
+import application.dao.FilialDAO;
+import application.dao.FuncionarioDAO;
+import application.dao.TipoFuncionarioDAO;
+
 public class Funcionario {
 	
-	private int 	id;
+	private int 	id = -1;
 	private String 	nome;
 	private String 	usuario;
 	private String 	senha;
@@ -12,9 +18,30 @@ public class Funcionario {
 
 	
 	public Funcionario(){
-		id = -1;
+	}
+	
+	// Retornam outras entidades:
+	public Filial getFilial() {
+		return (new FilialDAO()).find(idFilial);
+	}
+	public TipoFuncionario getTipoFuncionario() {
+		return (new TipoFuncionarioDAO()).find(idTipo);
 	}
 
+	// Metodos auxiliares:
+	
+	public static Funcionario loginFuncionario(String User, String senha) {
+    	ArrayList<Funcionario> todos_funcionarios = (new FuncionarioDAO()).findAll();
+    	for( Funcionario funcionario : todos_funcionarios ) {
+    		// Estamos comparando sem ser sensivel ao lower/upper case aqui
+    		if( funcionario.getUsuario().toUpperCase().equals(User.toUpperCase()) && funcionario.getSenha().toUpperCase().equals(senha.toUpperCase()) ) {
+    		//if( funcionario.getUsuario().equals(User) && funcionario.getSenha().equals(senha) ) {
+    			return funcionario;
+    		}
+    	}
+    	return null;
+    }
+	
 	public int getId() {
 		return id;
 	}

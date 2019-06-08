@@ -122,8 +122,8 @@ public class TelaPrincipalController {
         cb_cpfPassaporte.getSelectionModel().selectFirst();
        
     	Funcionario 	funcionario 		= Contexto.getInstancia().getFuncionario();
-    	TipoFuncionario tipo_funcionario 	= TipoFuncionarioDAO.find(funcionario.getIdTipo());
-    	Filial 			filial 				= FilialDAO.find(funcionario.getIdFilial());
+    	TipoFuncionario tipo_funcionario 	= (new TipoFuncionarioDAO()).find(funcionario.getIdTipo());
+    	Filial 			filial 				= (new FilialDAO()).find(funcionario.getIdFilial());
     	
     	tf_username.setText(funcionario.getUsuario());
     	tf_nivel.setText( tipo_funcionario.getNome() );
@@ -158,7 +158,7 @@ public class TelaPrincipalController {
     	// Preenche a tabela de veiculos com todos os veiculos no BD
     	
     	listaCarro = FXCollections.observableArrayList();
-		ArrayList<Carro> all_carros = CarroDAO.findAll();
+		ArrayList<Carro> all_carros = (new CarroDAO()).findAll();
 		for( int i = 0 ; i < all_carros.size(); i++ ) {
 			listaCarro.add(all_carros.get(i));
 		}
@@ -218,7 +218,7 @@ public class TelaPrincipalController {
     Cliente pesquisaPorCpf(String cpf) throws IOException {
     	if( cpf == null || cpf == "" ) return null;
     	
-    	ArrayList<Cliente> todos_clientes = ClienteDAO.findAll();
+    	ArrayList<Cliente> todos_clientes = (new ClienteDAO()).findAll();
     	Cliente cliente = null;
     	for( int i = 0 ; i < todos_clientes.size(); i++ ) {
     		String cpf2 = todos_clientes.get(i).getCpf();
@@ -250,7 +250,7 @@ public class TelaPrincipalController {
     Cliente pesquisaPorPassaporte(String passaporte) throws IOException {
     	
 
-    	ArrayList<Cliente> todos_clientes = ClienteDAO.findAll();
+    	ArrayList<Cliente> todos_clientes = (new ClienteDAO()).findAll();
     	Cliente cliente = null;
     	for( int i = 0 ; i < todos_clientes.size(); i++ ) {
     		if( todos_clientes.get(i).getPassaporte() == passaporte) {
@@ -320,7 +320,7 @@ public class TelaPrincipalController {
 
     	String placa = tf_placa.getText();
     	
-    	ArrayList<Carro> todos_carros = CarroDAO.findAll();
+    	ArrayList<Carro> todos_carros = (new CarroDAO()).findAll();
     	Carro carro = null;
     	for( int i = 0 ; i < todos_carros.size(); i++ ) {
     		if( todos_carros.get(i).getPlaca() == placa ) {

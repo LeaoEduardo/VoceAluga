@@ -1,15 +1,15 @@
 package application.entity;
 
 public class GrupoCarro {
-	int 	id;
+	int 	id = -1;
 	String 	grupo;
+	
 	public GrupoCarro() {
-		id = -1;
 	}
 	public GrupoCarro( String grupo ) {
-		id = -1;
 		this.grupo = grupo;
 	}
+	
 	public int getId() {
 		return id;
 	}

@@ -1,13 +1,12 @@
 package application.entity;
 
 public class EstadoCarro {
-	int 	id;
+	int 	id = -1;
 	String 	tipo;
+	
 	public EstadoCarro() {
-		id = -1;
 	}
 	public EstadoCarro( String tipo ) {
-		id = -1;
 		this.tipo = tipo;
 	}
 	public int getId() {

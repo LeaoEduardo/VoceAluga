@@ -4,7 +4,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import application.dao.CarroDAO;
+import application.dao.EstadoCarroDAO;
+import application.dao.FilialDAO;
 import application.dao.ModeloCarroDAO;
+import application.entity.Carro;
+import application.entity.EstadoCarro;
 import application.entity.Filial;
 import application.entity.ModeloCarro;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -68,7 +73,7 @@ public class CadastroVeiculoController {
     void atualizaModelos(String marca) {
 
     	ObservableList<String> nome_modelos = FXCollections.observableArrayList();
-    	ArrayList<ModeloCarro> todos_modelos = ModeloCarroDAO.findAll();
+    	ArrayList<ModeloCarro> todos_modelos = (new ModeloCarroDAO()).findAll();
     	for( ModeloCarro modelo_carro : todos_modelos ) {
     		if(modelo_carro.getMarca().equals(marca)) {
     			nome_modelos.add(modelo_carro.getModelo());
@@ -80,15 +85,15 @@ public class CadastroVeiculoController {
     @FXML
     void cadastrarVeiculo(ActionEvent event) throws IOException {
     	
-    	ConnectionSQL con = new ConnectionSQL();
+    	CarroDAO 	carro_dao 	= new CarroDAO();
+    	String 		nome_filial = cb_filial.getSelectionModel().getSelectedItem();
+    	String 		nome_estado = "Disponível";
+    	String 		nome_modelo = cb_modelo.getSelectionModel().getSelectedItem();
+
     	
-    	String placa = tf_placa.getText();
-    	Integer quilometragem = 0;
-    	String filial = cb_filial.getSelectionModel().getSelectedItem();
-    	String estado = "Disponível";
-    	
-    	if (placa.equals("") || tf_quilometragem.getText().isEmpty() || cb_marca.getSelectionModel().isEmpty() || cb_modelo.getSelectionModel().isEmpty() || dp_dataCompra.getValue() == null || 
-    			dp_dataManutencao.getValue() == null || cb_filial.getSelectionModel().isEmpty()) {
+    	if ( tf_placa.getText().equals("") || cb_marca.getSelectionModel().isEmpty() || cb_modelo.getSelectionModel().isEmpty() 
+    			|| dp_dataCompra.getValue() == null || dp_dataManutencao.getValue() == null 
+    			|| cb_filial.getSelectionModel().isEmpty()) {
     		
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Erro");
@@ -98,13 +103,20 @@ public class CadastroVeiculoController {
     	}
     	
     	else {
-    		quilometragem = Integer.parseInt(tf_quilometragem.getText());
-    		String marca = cb_marca.getSelectionModel().getSelectedItem();
-        	String modelo = cb_modelo.getSelectionModel().getSelectedItem();
-    		LocalDate dataCompra = dp_dataCompra.getValue();
-        	LocalDate dataManutencao = dp_dataManutencao.getValue();
-        	
-        	boolean cadastrou = con.CadastraVeiculo(placa, quilometragem, marca, modelo, filial, estado, dataCompra, dataManutencao);
+    		Filial 		filial = (new FilialDAO()).find("nomeFilial", nome_filial).get(0);
+    		EstadoCarro estado_carro = (new EstadoCarroDAO()).find("tipo",nome_estado).get(0);
+    		ModeloCarro modelo_carro = (new ModeloCarroDAO()).find("modelo",nome_modelo).get(0);
+
+        	Carro carro = new Carro();
+        	carro.setQuilometragem( Integer.parseInt( tf_quilometragem.getText() ) );
+        	carro.setIdFilial( filial.getId() );
+        	carro.setPlaca(tf_placa.getText());
+        	carro.setIdEstado( estado_carro.getId() );
+    		carro.setDataCompra( dp_dataCompra.getValue() );
+    		carro.setDataManutencao( dp_dataManutencao.getValue() );
+        	carro.setIdModelo( modelo_carro.getId() );
+    		
+        	boolean cadastrou = carro_dao.insert( carro );
         	
         	if (cadastrou) {
         		

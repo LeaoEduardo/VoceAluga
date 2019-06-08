@@ -37,7 +37,7 @@ public class CadastroFuncionarioController {
     	funcionario.setIdTipo(1);
     	funcionario.setAtivo( true );
     	
-    	if( FuncionarioDAO.insertFuncionario(funcionario) ) {
+    	if( (new FuncionarioDAO()).insert(funcionario) ) {
         	Alert alert = new Alert(AlertType.INFORMATION);
             alert.setHeaderText("Cadastro efetuado");
             alert.setContentText("Funcionário cadastrado com sucesso.");

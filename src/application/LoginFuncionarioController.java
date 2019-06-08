@@ -4,6 +4,8 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import application.entity.Funcionario;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -41,22 +43,14 @@ public class LoginFuncionarioController {
     	String usuario = tf_username.getText();
     	String senha = tf_password.getText();
     		
-    	// Prints de teste
-        System.out.println(usuario);
-    	System.out.println(senha);
     	
-    	ConnectionSQL con = new ConnectionSQL();
-    	
-    	// Aqui deve ser feito o teste para checar se o funcionario esta cadastrado no BD
-    	if (con.LoginFuncionario(usuario, senha)) {
-    		
-    		// O nivel do usuario (agente/gerente) deve ser pego do BD
+    	Funcionario funcionario = Funcionario.loginFuncionario(usuario, senha);
+    	if ( funcionario != null ) {
+    		Contexto.getInstancia().setFuncionario(funcionario);
     		main.showTelaPrincipal();
     	}
-    	
     	else {
-    		
-    		// Caso nao esteja
+    		// Nao conseguindo logar
 		    Alert alert = new Alert(AlertType.ERROR);
 		    alert.setTitle("Erro");
 		    alert.setHeaderText("O nome de usuario ou a senha estao incorretos.");

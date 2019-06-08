@@ -1,98 +1,54 @@
 package application.dao;
 
 import java.sql.*;
-import java.util.ArrayList;
-
 import application.ConnectionSQL;
 import application.entity.Cliente;
 
-public class ClienteDAO extends DAO {
+public class ClienteDAO extends DAO<Cliente> {
 	
-	public static ClienteDAO cliente_dao = new ClienteDAO();
-	
-	public static Cliente find( int id ) {
-		return (Cliente) cliente_dao.find("cliente",id);
+	{
+		table_name = "cliente";
 	}
-	public static ArrayList<Cliente> findAll(){
-		ArrayList<Object> obj_list = cliente_dao.findAll("cliente");
-		ArrayList<Cliente> ret = new ArrayList<Cliente>();
-		for( int i = 0 ; i < obj_list.size(); i++ ) {
-			ret.add( (Cliente)obj_list.get(i) );
-		}
-		return ret;
-	}
-	
-	public static boolean insertCliente( Cliente cliente ) {
-		boolean ret = true;
-		Connection 			con = null;
+
+	protected PreparedStatement createInsertStatement( Connection con , Cliente cliente) throws SQLException{
 		PreparedStatement 	statement = null;
 		
 		String sql = "INSERT INTO cliente (nome,CPF,passaporte,dataNascimento,nacionalidade,telefone,CNH,dataCNH,ativo) values (?,?,?,?,?,?,?,?,?);";
-		try {
-			con = ConnectionSQL.getConnection();
-			statement = con.prepareStatement(sql);
+		con = ConnectionSQL.getConnection();
+		statement = con.prepareStatement(sql);
 
-			statement.setString(1, cliente.getNome());
-			statement.setString(2, cliente.getCpf());
-			statement.setString(3, cliente.getPassaporte());
-			statement.setDate(4, Date.valueOf(cliente.getDataNasc()));
-			statement.setString(5, cliente.getNacionalidade());
-			statement.setString(6, cliente.getTelefone());
-			statement.setString(7, cliente.getCnh());
-			statement.setDate(8, Date.valueOf(cliente.getDataCnh()) );
-			statement.setBoolean(9, cliente.isAtivo());
-			
-			// TO-DO: Fazer a validação adequada
-			
-			statement.execute();
-			ret = statement.getUpdateCount() > 0;
-		} catch ( Exception e ) {
-			ret = false;
-			e.printStackTrace();
-		} finally {
-			try{ if(con!=null)con.close();}catch(Exception e) {}
-			try{ if(statement!=null)statement.close();}catch(Exception e) {}
-		}
-		
-		return ret;
+		statement.setString(1, cliente.getNome());
+		statement.setString(2, cliente.getCpf());
+		statement.setString(3, cliente.getPassaporte());
+		statement.setDate(4, Date.valueOf(cliente.getDataNasc()));
+		statement.setString(5, cliente.getNacionalidade());
+		statement.setString(6, cliente.getTelefone());
+		statement.setString(7, cliente.getCnh());
+		statement.setDate(8, Date.valueOf(cliente.getDataCnh()) );
+		statement.setBoolean(9, cliente.isAtivo());
+		return statement;
 	}
-	
-	public static boolean updateCliente( Cliente cliente ) {
-		boolean ret = true;
-		Connection 			con = null;
-		PreparedStatement 	statement = null;
-		
-		String sql = "UPDATE TABLE cliente "
+
+	protected PreparedStatement createUpdateStatement( Connection con , Cliente entity ) throws SQLException{
+		String sql = "UPDATE cliente "
 				+ " SET nome=?,CPF=?,passaporte=?,dataNascimento=?,nacionalidade=?,telefone=?,CNH=?,dataCNH=?,ativo=? "
 				+ " WHERE id=? ";
-		try {
-			con = ConnectionSQL.getConnection();
-			statement = con.prepareStatement(sql);
+		PreparedStatement statement = con.prepareStatement(sql);
 
-			statement.setString(1, cliente.getNome());
-			statement.setString(2, cliente.getCpf());
-			statement.setString(3, cliente.getPassaporte());
-			statement.setDate(4, Date.valueOf(cliente.getDataNasc()));
-			statement.setString(5, cliente.getNacionalidade());
-			statement.setString(6, cliente.getTelefone());
-			statement.setString(7, cliente.getCnh());
-			statement.setDate(8, Date.valueOf(cliente.getDataCnh()) );
-			statement.setBoolean(9, cliente.isAtivo());
-			
-			ret = statement.execute();
-		} catch ( Exception e ) {
-			ret = false;
-			e.printStackTrace();
-		} finally {
-			try{ if(con!=null)con.close();}catch(Exception e) {}
-			try{ if(statement!=null)statement.close();}catch(Exception e) {}
-		}
-		
-		return ret;
+		statement.setString(1, entity.getNome());
+		statement.setString(2, entity.getCpf());
+		statement.setString(3, entity.getPassaporte());
+		statement.setDate(4, Date.valueOf(entity.getDataNasc()));
+		statement.setString(5, entity.getNacionalidade());
+		statement.setString(6, entity.getTelefone());
+		statement.setString(7, entity.getCnh());
+		statement.setDate(8, Date.valueOf(entity.getDataCnh()) );
+		statement.setBoolean(9, entity.isAtivo());
+		statement.setInt(10, entity.getId());
+		return statement;
 	}
 	
-	
-	protected Object getEntityFromResultSet( ResultSet result ) {
+	protected Cliente getEntityFromResultSet( ResultSet result ) {
 		Cliente ret = new Cliente();
 		try {
 			ret.setId( result.getInt("id") );

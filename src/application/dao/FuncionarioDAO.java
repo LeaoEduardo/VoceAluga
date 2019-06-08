@@ -1,94 +1,45 @@
 package application.dao;
 
 import java.sql.*;
-import java.util.ArrayList;
-
-import application.ConnectionSQL;
 import application.entity.Funcionario;
 
-public class FuncionarioDAO extends DAO {
-	
-	public static FuncionarioDAO funcionario_dao = new FuncionarioDAO();
-	
-	public static Funcionario find( int id ) {
-		return (Funcionario) funcionario_dao.find("funcionario",id);
+public class FuncionarioDAO extends DAO<Funcionario> {
+
+	{
+		table_name = "funcionario";
 	}
-	public static ArrayList<Funcionario> findAll(){
-		ArrayList<Object> obj_list = funcionario_dao.findAll("funcionario");
-		ArrayList<Funcionario> ret = new ArrayList<Funcionario>();
-		for( int i = 0 ; i < obj_list.size(); i++ ) {
-			ret.add( (Funcionario)obj_list.get(i) );
-		}
-		return ret;
-	}
-	
-	public static boolean insertFuncionario( Funcionario funcionario ) {
-		boolean ret = true;
-		Connection 			con = null;
-		PreparedStatement 	statement = null;
-		
+
+	protected PreparedStatement createInsertStatement( Connection con , Funcionario funcionario) throws SQLException{
 		String sql = "INSERT INTO funcionario (nome,usuario,senha,idFilial,idTipo,ativo) values (?,?,?,?,?,?);";
-		try {
-			con = ConnectionSQL.getConnection();
-			statement = con.prepareStatement(sql);
-			
-			statement.setString(1, funcionario.getNome());
-			statement.setString(2, funcionario.getUsuario());
-			statement.setString(3, funcionario.getSenha());
-			statement.setInt(4, funcionario.getIdFilial());
-			statement.setInt(5, funcionario.getIdTipo());
-			statement.setBoolean(6, funcionario.isAtivo());
-			
-			// TO-DO: Fazer a validação adequada
-			
-			statement.execute();
-			ret = statement.getUpdateCount() > 0;
-		} catch ( Exception e ) {
-			ret = false;
-			e.printStackTrace();
-		} finally {
-			try{ if(con!=null)con.close();}catch(Exception e) {}
-			try{ if(statement!=null)statement.close();}catch(Exception e) {}
-		}
-		
-		return ret;
+		PreparedStatement 	statement = con.prepareStatement(sql);
+		statement.setString(1, funcionario.getNome());
+		statement.setString(2, funcionario.getUsuario());
+		statement.setString(3, funcionario.getSenha());
+		statement.setInt(4, funcionario.getIdFilial());
+		statement.setInt(5, funcionario.getIdTipo());
+		statement.setBoolean(6, funcionario.isAtivo());
+		return statement;
 	}
 	
-	public static boolean updateFuncionario( Funcionario funcionario ) {
-		boolean ret = true;
-		Connection 			con = null;
-		PreparedStatement 	statement = null;
-		
-		String sql = "UPDATE TABLE funcionario "
+	protected PreparedStatement createUpdateStatement( Connection con , Funcionario funcionario ) throws SQLException{
+
+		String sql = "UPDATE funcionario "
 				+ " SET nome=?,usuario=?,senha=?,idFilial=?,idTipo=?,ativo=? "
 				+ " WHERE id=? ";
-		try {
-			con = ConnectionSQL.getConnection();
-			statement = con.prepareStatement(sql);
-			
-			statement.setString(1, funcionario.getNome());
-			statement.setString(2, funcionario.getUsuario());
-			statement.setString(3, funcionario.getSenha());
-			statement.setInt(4, funcionario.getIdFilial());
-			statement.setInt(5, funcionario.getIdTipo());
-			statement.setBoolean(6, funcionario.isAtivo());
-			statement.setInt(7, funcionario.getId());
-			
-			ret = statement.execute();
-		} catch ( Exception e ) {
-			ret = false;
-			e.printStackTrace();
-		} finally {
-			try{ if(con!=null)con.close();}catch(Exception e) {}
-			try{ if(statement!=null)statement.close();}catch(Exception e) {}
-		}
+		PreparedStatement statement = con.prepareStatement(sql);
 		
-		return ret;
+		statement.setString(1, funcionario.getNome());
+		statement.setString(2, funcionario.getUsuario());
+		statement.setString(3, funcionario.getSenha());
+		statement.setInt(4, funcionario.getIdFilial());
+		statement.setInt(5, funcionario.getIdTipo());
+		statement.setBoolean(6, funcionario.isAtivo());
+		statement.setInt(7, funcionario.getId());
+		return statement;
 	}
 	
 	
-
-	protected Object getEntityFromResultSet( ResultSet result ) {
+	protected Funcionario getEntityFromResultSet( ResultSet result ) {
 		Funcionario ret = new Funcionario();
 		try {
 			ret.setId(result.getInt("id"));
@@ -104,4 +55,5 @@ public class FuncionarioDAO extends DAO {
 		}
 		return ret;
 	}
+	
 }

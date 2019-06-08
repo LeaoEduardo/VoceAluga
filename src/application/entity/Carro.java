@@ -8,7 +8,7 @@ import application.dao.ModeloCarroDAO;
 
 public class Carro {
 	
-	private int 		id;
+	private int 		id = -1;
 	private String 		placa;
 	private LocalDate 	dataCompra;
 	private LocalDate 	dataManutencao;
@@ -18,11 +18,9 @@ public class Carro {
 	private int 		idEstado;
 	
 	public Carro() {
-		id = -1;
 	}
 	public Carro( String placa, int quilometragem, int id_modelo, int id_filial,
 					int id_estado, LocalDate dataCompra, LocalDate dataManutencao){
-		id = -1;
 		this.placa = placa;
 		this.quilometragem = quilometragem;
 		this.idModelo = id_modelo;
@@ -34,13 +32,13 @@ public class Carro {
 	
 	// Retorna outras entidades
 	public Filial getFilial() {
-		return FilialDAO.find(idFilial);
+		return (new FilialDAO()).find(idFilial);
 	}
 	public ModeloCarro getModeloCarro() {
-		return ModeloCarroDAO.find(idModelo);
+		return (new ModeloCarroDAO()).find(idModelo);
 	}
 	public EstadoCarro getEstadoCarro() {
-		return EstadoCarroDAO.find(idEstado);
+		return (new EstadoCarroDAO()).find(idEstado);
 	}
 	
 	

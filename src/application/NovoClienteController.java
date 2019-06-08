@@ -1,6 +1,7 @@
 package application;
 
-import java.time.LocalDate;
+import application.dao.ClienteDAO;
+import application.entity.Cliente;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,27 +53,25 @@ public class NovoClienteController {
     @FXML
     void cadastrarCliente(ActionEvent event) {
     	
-    	ConnectionSQL con = new ConnectionSQL();
-    	
-    	String nome = tf_nome.getText();
-    	String cpf = "";
-    	String passaporte = "";
-        String nacionalidade = tf_nacionalidade.getText();
-        String telefone = tf_telefone.getText();
-        String cnh = tf_cnh.getText();
+    	Cliente cliente = new Cliente();
+    	cliente.setNome(tf_nome.getText());
+    	cliente.setNacionalidade(tf_nacionalidade.getText());
+    	cliente.setTelefone(tf_telefone.getText());
+    	cliente.setCnh(tf_cnh.getText());
         
         // se o campo selecionado for CPF
         if (cb_cpfPassaporte.getSelectionModel().getSelectedIndex() == 0){
-            cpf = tf_cpfPassaporte.getText();
+            cliente.setCpf(tf_cpfPassaporte.getText());
         }
         // se nao, selecionou passaporte
         else {
-        	passaporte = tf_cpfPassaporte.getText();
+        	cliente.setPassaporte(tf_cpfPassaporte.getText());
         }
         
         // Se algum campo estiver vazio
-        if (nome.equals("") || tf_cpfPassaporte.getText().equals("") || tf_dataNasc.getValue() == null || nacionalidade.equals("") || 
-        		telefone.equals("") || cnh.equals("") || tf_validadeCNH.getValue() == null) {
+        if ( cliente.getNome().equals("") || tf_cpfPassaporte.getText().equals("") || tf_dataNasc.getValue() == null 
+        		|| cliente.getNacionalidade().equals("") || cliente.getTelefone().equals("") || cliente.getCnh().equals("") 
+        		|| tf_validadeCNH.getValue() == null ) {
         	
         	Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Erro");
@@ -84,24 +83,21 @@ public class NovoClienteController {
         // Se estiver tudo certo
         else {
         	
-        	LocalDate dataNasc = tf_dataNasc.getValue();
-        	LocalDate validadeCNH = tf_validadeCNH.getValue();
-        	
-        	// Aqui os dados do cliente devem ser registrados no BD
-        	// (nome,cpf/passaporte,dataNasc,nacionalidade,telefone,cnh,validadeCNH)
-        	boolean cadastrou = con.CadastrarCliente(nome, cpf, passaporte, dataNasc.toString(), nacionalidade,
-        											telefone, cnh, validadeCNH.toString());
+        	cliente.setDataNasc( tf_dataNasc.getValue() );
+        	cliente.setDataCnh( tf_validadeCNH.getValue() );
+
+        	boolean cadastrou = (new ClienteDAO()).insert(cliente);
         	
         	if(cadastrou) {
         		// Prints de teste
-            	System.out.println("nome: " + nome);
-                System.out.println("cpf: " + cpf);
-                System.out.println("passaporte: " + passaporte);
-                System.out.println("dataNasc: " + dataNasc.toString());
-                System.out.println("nacionalidade: " + nacionalidade);
-                System.out.println("telefone: " + telefone);
-                System.out.println("cnh: " + cnh);
-                System.out.println("validadeCNH: " + validadeCNH.toString());
+            	System.out.println("nome: " + cliente.getNome());
+                System.out.println("cpf: " + cliente.getCpf());
+                System.out.println("passaporte: " + cliente.getPassaporte());
+                System.out.println("dataNasc: " + cliente.getDataNasc().toString());
+                System.out.println("nacionalidade: " + cliente.getNacionalidade());
+                System.out.println("telefone: " + cliente.getTelefone());
+                System.out.println("cnh: " + cliente.getCnh());
+                System.out.println("validadeCNH: " + cliente.getDataCnh().toString());
             	
     	        Alert alert = new Alert(AlertType.INFORMATION);
     	        alert.setHeaderText("Cadastro efetuado");
