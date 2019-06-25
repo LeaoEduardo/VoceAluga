@@ -15,7 +15,7 @@ public class DAO<T> {
 		PreparedStatement 	statement = null;
 		ResultSet 			result = null;
 		
-		String sql = "SELECT * FROM "+ table_name +" WHERE id="+id;
+		String sql = "SELECT * FROM "+ table_name +" WHERE id = "+id;
 		try {
 			con = ConnectionSQL.getConnection();
 			statement = con.prepareStatement(sql);
@@ -40,7 +40,7 @@ public class DAO<T> {
 		
 		ArrayList<T> ret = new ArrayList<T>();
 		
-		String sql = "SELECT * FROM "+ table_name + " WHERE " + property + " = '" + value+ "'" ;
+		String sql = "SELECT * FROM "+ table_name + " WHERE " + property + " = '" + value + "'" ;
 		try {
 			con = ConnectionSQL.getConnection();
 			statement = con.prepareStatement(sql);
@@ -73,6 +73,7 @@ public class DAO<T> {
 			System.out.println("sql query:\n" + statement.toString());
 			result = statement.executeQuery();
 			while( result.next() ) {
+				System.out.println( getEntityFromResultSet(result) );
 				ret.add( getEntityFromResultSet(result) );
 			}
 		} catch ( Exception e ) {
@@ -159,7 +160,7 @@ public class DAO<T> {
 	protected PreparedStatement createInsertStatement( Connection con , T entity ) throws SQLException{
 		return null;
 	}
-	protected String			createDeleteStatement( T entity ) {
+	protected String createDeleteStatement( T entity ) {
 		return null;
 	}
 	

@@ -19,11 +19,11 @@ public class ModeloCarroDAO extends DAO<ModeloCarro> {
 		return statement;
 	}
 
-	protected String			createDeleteStatement( ModeloCarro entity ) {
+	protected String createDeleteStatement( ModeloCarro entity ) {
 		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf( entity.getId() );
 	}
 	
-	protected  	ModeloCarro getEntityFromResultSet( ResultSet result ) {
+	protected ModeloCarro getEntityFromResultSet( ResultSet result ) {
 		ModeloCarro ret = new ModeloCarro();
 		try {
 			ret.setId(result.getInt("id"));
