@@ -153,7 +153,9 @@ public class ReservarVeiculoController {
     	Reserva reserva = new Reserva();
     	reserva.setDataLocacao(data_locacao);
     	reserva.setIdCliente( Contexto.getInstancia().getCliente().getId() );
-    	reserva.setIdCarro( carro_escolhido.getId() );
+    	reserva.setIdGrupo( grupo_do_carro.getId() );
+    	reserva.setIdModelo( id_modelo_carro_selecionado );
+    	reserva.setDataDevolucao( data_hora_devolucao.toLocalDate() );
     	ReservaDAO reserva_dao = new ReservaDAO();
     	reserva_dao.insert(reserva);
     	

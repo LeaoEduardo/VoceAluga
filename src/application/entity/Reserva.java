@@ -2,25 +2,37 @@ package application.entity;
 
 import java.time.LocalDate;
 
-import application.dao.CarroDAO;
+import application.dao.ModeloCarroDAO;
+import application.dao.GrupoCarroDAO;
 import application.dao.ClienteDAO;
 
 public class Reserva {
 	private int id = -1;
 	private int idCliente;
-	private int idCarro;
+	private int idGrupo;
+	private int idModelo;
 	private LocalDate dataLocacao;
+	private LocalDate dataDevolucao;
 	
 	public Reserva() {}
 	
-	public Reserva(int idCliente, int idCarro, LocalDate dataLocacao) {
-		this.idCarro = idCarro;
+	public Reserva(int idCliente, int idGrupo, int idModelo, LocalDate dataLocacao, LocalDate dataDevolucao) {
+		this.idGrupo = idGrupo;
+		this.idModelo = idModelo;
 		this.idCliente = idCliente;
 		this.dataLocacao = dataLocacao;
+		
+		if(idGrupo == -1 && idModelo != -1) {
+			idGrupo = (new ModeloCarroDAO()).find(idModelo).getIdGrupo();
+		}
 	}
 	
-	public Carro getCarro() {
-		return ((new CarroDAO()).find(idCarro));
+	public GrupoCarro getGrupoCarro() {
+		return (new GrupoCarroDAO()).find(idGrupo);
+	}
+	
+	public ModeloCarro getModeloReserva() {
+		return ((new ModeloCarroDAO()).find(idModelo));
 	}
 	
 	public Cliente getCliente() {
@@ -35,12 +47,32 @@ public class Reserva {
 		return idCliente;
 	}
 
-	public int getIdCarro() {
-		return idCarro;
-	}
-
 	public LocalDate getDataLocacao() {
 		return dataLocacao;
+	}
+
+	public int getIdGrupo() {
+		return idGrupo;
+	}
+
+	public void setIdGrupo(int idGrupo) {
+		this.idGrupo = idGrupo;
+	}
+
+	public int getIdModelo() {
+		return idModelo;
+	}
+
+	public void setIdModelo(int idModelo) {
+		this.idModelo = idModelo;
+	}
+
+	public LocalDate getDataDevolucao() {
+		return dataDevolucao;
+	}
+
+	public void setDataDevolucao(LocalDate dataDevolucao) {
+		this.dataDevolucao = dataDevolucao;
 	}
 
 	public void setId(int id) {
@@ -49,10 +81,6 @@ public class Reserva {
 
 	public void setIdCliente(int idCliente) {
 		this.idCliente = idCliente;
-	}
-
-	public void setIdCarro(int idCarro) {
-		this.idCarro = idCarro;
 	}
 
 	public void setDataLocacao(LocalDate dataLocacao) {
