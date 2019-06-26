@@ -39,7 +39,7 @@ public class FuncionarioDAO extends DAO<Funcionario> {
 		return statement;
 	}
 
-	protected String			createDeleteStatement( Funcionario entity ) {
+	protected String createDeleteStatement( Funcionario entity ) {
 		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf( entity.getId() );
 	}
 	

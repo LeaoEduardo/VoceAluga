@@ -164,15 +164,15 @@ public class TelaPrincipalController {
 		}
     	Contexto.getInstancia().setListaVeiculos(listaCarro);
 		
-		//col_grupo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGrupo()));
-		//col_marca.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMarca()));
-		//col_modelo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getModelo()));
+		col_grupo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getGrupoCarro().getGrupo()));
+		col_marca.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getMarca()));
+		col_modelo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getModelo()));
 		col_placa.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPlaca()));
 		col_quilometragem.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getQuilometragem()).asObject());
 		col_dataM.setCellValueFactory(cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataManutencao()));
 		col_dataC.setCellValueFactory(cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataCompra()));
 		col_filial.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilial().getNome()));
-		//col_estado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEstado()));
+		col_estado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEstadoCarro().getTipo()));
 		
 		tabelaVeiculos.setItems(listaCarro);
 		col_grupo.setSortType(TableColumn.SortType.ASCENDING);

@@ -9,7 +9,6 @@ public class GrupoCarro {
 	public GrupoCarro( String grupo ) {
 		this.grupo = grupo;
 	}
-	
 	public int getId() {
 		return id;
 	}

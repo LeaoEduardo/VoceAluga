@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 23/04/2019 às 18:22
+-- Tempo de geração: 25/06/2019 às 22:20
 -- Versão do servidor: 10.1.38-MariaDB
 -- Versão do PHP: 7.3.3
 
@@ -46,7 +46,8 @@ CREATE TABLE `carro` (
 INSERT INTO `carro` (`id`, `placa`, `dataManutencao`, `dataCompra`, `quilometragem`, `idModelo`, `idFilial`, `idEstado`) VALUES
 (1, 'ABC1234', '2019-04-21', '2019-04-21', 0, 2, 1, 3),
 (2, 'ABD1234', '2019-04-15', '2019-05-10', 123, 3, 1, 1),
-(3, 'ABE1234', '2019-07-07', '2019-06-06', 200, 5, 1, 3);
+(3, 'ABE1234', '2019-07-07', '2019-06-06', 200, 5, 1, 3),
+(4, 'ABF1234', '2019-06-25', '2019-06-25', 300, 1, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -142,9 +143,9 @@ CREATE TABLE `funcionario` (
 -- Despejando dados para a tabela `funcionario`
 --
 
-INSERT INTO `funcionario` (`id`, `nome` , `usuario`, `senha`, `idFilial`, `idTipo`, `ativo`) VALUES
-(1, 'Fulano Adm da Silva' , 'Admin', 'Admin', 1, 1, 1),
-(2, 'Beltrano Testador da Silva' , 'Test', 'Test', 1, 2, 1);
+INSERT INTO `funcionario` (`id`, `nome`, `usuario`, `senha`, `idFilial`, `idTipo`, `ativo`) VALUES
+(1, 'Fulano Adm da Silva', 'Admin', 'Admin', 1, 1, 1),
+(2, 'Beltrano Testador da Silva', 'Test', 'Test', 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -169,6 +170,34 @@ INSERT INTO `grupoCarro` (`id`, `grupo`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `locacoes`
+--
+
+CREATE TABLE `locacoes` (
+  `id` int(11) NOT NULL,
+  `id_cliente` int(11) NOT NULL,
+  `id_carro` int(11) NOT NULL,
+  `dataInicial` date NOT NULL,
+  `dataFinal` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `manutencao`
+--
+
+CREATE TABLE `manutencao` (
+  `id` int(11) NOT NULL,
+  `id_carro` int(11) NOT NULL,
+  `dataInicio` date NOT NULL,
+  `dataFim` date NOT NULL,
+  `orcamento` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `modeloCarro`
 --
 
@@ -189,6 +218,19 @@ INSERT INTO `modeloCarro` (`id`, `marca`, `modelo`, `idGrupo`) VALUES
 (3, 'Fiat', 'Uno', 2),
 (4, 'Volkswagen', 'Fox', 2),
 (5, 'Ford', 'Fiesta', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `resevas`
+--
+
+CREATE TABLE `resevas` (
+  `id` int(11) NOT NULL,
+  `id_cliente` int(11) NOT NULL,
+  `id_carro` int(11) NOT NULL,
+  `dataLocacao` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -258,11 +300,33 @@ ALTER TABLE `grupoCarro`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices de tabela `locacoes`
+--
+ALTER TABLE `locacoes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_Id_Carro` (`id_cliente`);
+
+--
+-- Índices de tabela `manutencao`
+--
+ALTER TABLE `manutencao`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pk_Id_Carro` (`id_carro`);
+
+--
 -- Índices de tabela `modeloCarro`
 --
 ALTER TABLE `modeloCarro`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_grupo` (`idGrupo`);
+
+--
+-- Índices de tabela `resevas`
+--
+ALTER TABLE `resevas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_Id_Cliente_Reserva` (`id_cliente`),
+  ADD KEY `fk_Id_Carro_Reserva` (`id_carro`);
 
 --
 -- Índices de tabela `tipoFuncionario`
@@ -278,7 +342,7 @@ ALTER TABLE `tipoFuncionario`
 -- AUTO_INCREMENT de tabela `carro`
 --
 ALTER TABLE `carro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `cliente`
@@ -311,16 +375,58 @@ ALTER TABLE `grupoCarro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de tabela `locacoes`
+--
+ALTER TABLE `locacoes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `manutencao`
+--
+ALTER TABLE `manutencao`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `modeloCarro`
 --
 ALTER TABLE `modeloCarro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT de tabela `resevas`
+--
+ALTER TABLE `resevas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `tipoFuncionario`
 --
 ALTER TABLE `tipoFuncionario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Restrições para dumps de tabelas
+--
+
+--
+-- Restrições para tabelas `locacoes`
+--
+ALTER TABLE `locacoes`
+  ADD CONSTRAINT `fk_Id_Carro` FOREIGN KEY (`id_cliente`) REFERENCES `carro` (`id`),
+  ADD CONSTRAINT `fk_Id_Cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`);
+
+--
+-- Restrições para tabelas `manutencao`
+--
+ALTER TABLE `manutencao`
+  ADD CONSTRAINT `pk_Id_Carro` FOREIGN KEY (`id_carro`) REFERENCES `carro` (`id`);
+
+--
+-- Restrições para tabelas `resevas`
+--
+ALTER TABLE `resevas`
+  ADD CONSTRAINT `fk_Id_Carro_Reserva` FOREIGN KEY (`id_carro`) REFERENCES `carro` (`id`),
+  ADD CONSTRAINT `fk_Id_Cliente_Reserva` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -3,6 +3,9 @@ package application;
 import application.entity.Cliente;
 import application.entity.Funcionario;
 import application.entity.Carro;
+import application.entity.Locacao;
+import application.entity.Reserva;
+import application.entity.Manutencao;
 import javafx.collections.ObservableList;
 
 public class Contexto {
@@ -19,6 +22,9 @@ public class Contexto {
     private Cliente cliente;
     private Carro veiculo;
     private FormatadorTexto formatador = new FormatadorTexto();
+    private ObservableList<Reserva> listaReservas;
+    private ObservableList<Manutencao> listaManutencoes;
+    private ObservableList<Locacao> listaLocacoes;
     private ObservableList<Carro> listaVeiculos;
     private ObservableList<String> listaMarcas;
     private ObservableList<String> listaModelosDaMarca;
@@ -61,8 +67,19 @@ public class Contexto {
     	return voltandoParaVeiculos;
     }
     
-    
-    public void setFuncionario(Funcionario funcionario) {
+    public ObservableList<Reserva> getListaReservas() {
+		return listaReservas;
+	}
+
+	public ObservableList<Manutencao> getListaManutencoes() {
+		return listaManutencoes;
+	}
+
+	public ObservableList<Locacao> getListaLocacoes() {
+		return listaLocacoes;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
     	this.funcionario = funcionario;
     }
     
@@ -102,4 +119,16 @@ public class Contexto {
     public void setVoltandoParaVeiculos(boolean b) {
     	this.voltandoParaVeiculos = b;
     }
+    
+    public void setListaReservas(ObservableList<Reserva> listaReservas) {
+		this.listaReservas = listaReservas;
+	}
+
+	public void setListaManutencoes(ObservableList<Manutencao> listaManutencoes) {
+		this.listaManutencoes = listaManutencoes;
+	}
+
+	public void setListaLocacoes(ObservableList<Locacao> listaLocacoes) {
+		this.listaLocacoes = listaLocacoes;
+	}
 }

@@ -40,7 +40,7 @@ public class Carro {
 	public EstadoCarro getEstadoCarro() {
 		return (new EstadoCarroDAO()).find(idEstado);
 	}
-	
+
 	
 	public int getId() {
 		return id;

@@ -78,6 +78,4 @@ public class ModeloCarro {
 		this.idGrupo = idGrupo;
 	}
 	
-	
-	
 }
