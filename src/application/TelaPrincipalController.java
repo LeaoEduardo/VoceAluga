@@ -179,6 +179,19 @@ public class TelaPrincipalController {
 		tabelaVeiculos.getSortOrder().add(col_grupo);
     }
     
+
+    @FXML
+    void reservarVeiculo(ActionEvent event) throws IOException {
+    	// Abre a janela de reservar veículos
+    	Stage stage = new Stage();
+    	Parent reservaVeiculo = FXMLLoader.load(getClass().getResource("ReservarVeiculo.fxml"));
+    	Scene scene = new Scene( reservaVeiculo );
+    	
+    	stage.setTitle("Reserva de veículo");
+    	stage.setScene(scene);
+        stage.show();
+    }
+    
     @FXML
     void maisInfoBotao(ActionEvent event) throws IOException {    	
     	main.showTelaCliente();

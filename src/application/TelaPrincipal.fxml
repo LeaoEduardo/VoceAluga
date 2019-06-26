@@ -24,7 +24,7 @@
                         <AnchorPane fx:id="clientePane" prefHeight="382.0" prefWidth="780.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                            <children>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f8f8f8" height="200.0" layoutX="163.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="454.0" />
-                              <Button layoutX="163.0" layoutY="260.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="227.0" text="Reservar" />
+                              <Button layoutX="163.0" layoutY="260.0" mnemonicParsing="false" onAction="#reservarVeiculo" prefHeight="31.0" prefWidth="227.0" text="Reservar" />
                               <Button layoutX="390.0" layoutY="260.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="227.0" text="Cancelar Reserva" />
                               <Button layoutX="163.0" layoutY="291.0" mnemonicParsing="false" onAction="#maisInfoBotao" prefHeight="31.0" prefWidth="455.0" text="Mais Informações" />
                               <Text fx:id="tf_nome" layoutX="197.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="197.0" AnchorPane.rightAnchor="511.5400390625">
