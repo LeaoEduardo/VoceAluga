@@ -66,6 +66,7 @@ public class ReservarVeiculoController {
     		grupos_carro.add( g.getGrupo() );
     	}
     	car_group_choice_box.setItems( grupos_carro );
+    	car_group_choice_box.setValue( array_grupo_carro.get(0).getGrupo() );
     	atualizaModelos( car_group_choice_box.getValue() );
     	
     	ReadOnlyObjectProperty<String> property = car_group_choice_box.getSelectionModel().selectedItemProperty();
@@ -81,7 +82,7 @@ public class ReservarVeiculoController {
 	    		modelo_list.add( m.getModelo() );
 	    	}
 	    	car_model_choice_box.setItems(modelo_list);
-	    	
+	    	car_model_choice_box.setValue( array_modelos_carro.get(0).getModelo() );
     	}
     }
     
