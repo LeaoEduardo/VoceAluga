@@ -77,6 +77,9 @@ public class TelaPrincipalController {
     
     @FXML
     private TextField tf_placa;
+
+    @FXML
+    private TableView<Carro> tabelaReservas;
     
     @FXML
     private TableView<Carro> tabelaVeiculos;
@@ -211,6 +214,9 @@ public class TelaPrincipalController {
     	tf_nome.setText( cliente.getNome() );
 		tf_cnh.setText( cliente.getCnh() );
 		clientePane.setVisible(clientePaneBool=true);
+		
+		// Atualizar a lista de reservas
+		
     }
     
     void pesquisarCliente() throws IOException {

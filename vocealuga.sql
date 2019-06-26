@@ -222,10 +222,10 @@ INSERT INTO `modeloCarro` (`id`, `marca`, `modelo`, `idGrupo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `resevas`
+-- Estrutura para tabela `reservas`
 --
 
-CREATE TABLE `resevas` (
+CREATE TABLE `reservas` (
   `id` int(11) NOT NULL,
   `id_cliente` int(11) NOT NULL,
   `id_carro` int(11) NOT NULL,
@@ -321,9 +321,9 @@ ALTER TABLE `modeloCarro`
   ADD KEY `FK_grupo` (`idGrupo`);
 
 --
--- Índices de tabela `resevas`
+-- Índices de tabela `reservas`
 --
-ALTER TABLE `resevas`
+ALTER TABLE `reservas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_Id_Cliente_Reserva` (`id_cliente`),
   ADD KEY `fk_Id_Carro_Reserva` (`id_carro`);
@@ -393,9 +393,9 @@ ALTER TABLE `modeloCarro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de tabela `resevas`
+-- AUTO_INCREMENT de tabela `reservas`
 --
-ALTER TABLE `resevas`
+ALTER TABLE `reservas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -422,9 +422,9 @@ ALTER TABLE `manutencao`
   ADD CONSTRAINT `pk_Id_Carro` FOREIGN KEY (`id_carro`) REFERENCES `carro` (`id`);
 
 --
--- Restrições para tabelas `resevas`
+-- Restrições para tabelas `reservas`
 --
-ALTER TABLE `resevas`
+ALTER TABLE `reservas`
   ADD CONSTRAINT `fk_Id_Carro_Reserva` FOREIGN KEY (`id_carro`) REFERENCES `carro` (`id`),
   ADD CONSTRAINT `fk_Id_Cliente_Reserva` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`);
 COMMIT;

@@ -26,7 +26,7 @@ public class ReservaDAO extends DAO<Reserva> {
 	}
 	
 	protected PreparedStatement createUpdateStatement( Connection con , Reserva reserva) throws SQLException{
-		String sql = "UPDATE reserva "
+		String sql = "UPDATE reservas "
 				+ " SET id_cliente=?,id_carro=?,dataLocacao=? "
 				+ " WHERE id=? ";
 
