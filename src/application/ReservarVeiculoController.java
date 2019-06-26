@@ -8,7 +8,6 @@ import application.dao.GrupoCarroDAO;
 import application.dao.ModeloCarroDAO;
 import application.entity.GrupoCarro;
 import application.entity.ModeloCarro;
-import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -82,7 +81,10 @@ public class ReservarVeiculoController {
 	    		modelo_list.add( m.getModelo() );
 	    	}
 	    	car_model_choice_box.setItems(modelo_list);
-	    	car_model_choice_box.setValue( array_modelos_carro.get(0).getModelo() );
+	    	if( array_modelos_carro.size() > 0 )
+	    		car_model_choice_box.setValue( array_modelos_carro.get(0).getModelo() );
+	    	else
+	    		car_model_choice_box.setValue( "-" );
     	}
     }
     
