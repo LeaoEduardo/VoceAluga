@@ -10,16 +10,17 @@
 
 
 ## JavaFX no eclipse
-- No eclipse: Help -> Install New Software...
-- Em Work With colocar a opção com o seu eclipse+ http://download.eclipse.org/releases/  , por exemplo: Neon-http://download.eclipse.org/releases/neon
-- Filtrar texto com "e(fx)clipse"
-- Selecionar e(fx)clipse - IDE e baixar
-
-- Baixar JavaFX Scene Builder em https://www.oracle.com/technetwork/java/javafxscenebuilder-1x-archive-2199384.html#javafx-scenebuilder-2.0-oth-JPR
-- Após extrair, ir no eclipse: Window -> Preferences -> JavaFX, e colocar o executável do Scene Builder que está dentro da pasta que baixou.
-
 - O pacote JavaFx está incluso na versão 1.8+ do Java Standard Edition
 - O Openjdk 8 **Não** tem o pacote do JavaFX embutido.  
 - Download do Java Standard Edition 8: https://www.oracle.com/technetwork/pt/java/javase/downloads/jdk8-downloads-2133151.html.
 - (Caso não tenha/queira fazer uma conta Oracle: https://github.com/frekele/oracle-java/releases )
 - Clique com o botão direito no projeto java do eclipse e em Build Path -> Add Libraries... -> JRE System Library -> Alternate JRE -> Adicionar a pasta que acabou de baixar como a JRE.
+
+
+## Integração do SceneBuilder no eclipse
+- Baixar JavaFX Scene Builder em https://www.oracle.com/technetwork/java/javafxscenebuilder-1x-archive-2199384.html#javafx-scenebuilder-2.0-oth-JPR
+- No eclipse: Help -> Install New Software...
+- Em Work With colocar a opção com o seu eclipse+ http://download.eclipse.org/releases/  , por exemplo: Neon-http://download.eclipse.org/releases/neon
+- Filtrar texto com "e(fx)clipse"
+- Selecionar e(fx)clipse - IDE e baixar
+- Após extrair, ir no eclipse: Window -> Preferences -> JavaFX, e colocar o executável do Scene Builder que está dentro da pasta que baixou.
