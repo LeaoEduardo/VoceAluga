@@ -86,19 +86,19 @@ INSERT INTO `cliente` (`id`, `nome`, `CPF`, `passaporte`, `dataNascimento`, `nac
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `estadocarro`
+-- Estructura de tabla para la tabla `estadoCarro`
 --
 
-CREATE TABLE `estadocarro` (
+CREATE TABLE `estadoCarro` (
   `id` int(11) NOT NULL,
   `tipo` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `estadocarro`
+-- Volcado de datos para la tabla `estadoCarro`
 --
 
-INSERT INTO `estadocarro` (`id`, `tipo`) VALUES
+INSERT INTO `estadoCarro` (`id`, `tipo`) VALUES
 (1, 'Alugado'),
 (2, 'Em manutenção'),
 (3, 'Disponível'),
@@ -150,19 +150,19 @@ INSERT INTO `funcionario` (`id`, `nome`, `usuario`, `senha`, `idFilial`, `idTipo
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `grupocarro`
+-- Estructura de tabla para la tabla `grupoCarro`
 --
 
-CREATE TABLE `grupocarro` (
+CREATE TABLE `grupoCarro` (
   `id` int(11) NOT NULL,
   `grupo` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `grupocarro`
+-- Volcado de datos para la tabla `grupoCarro`
 --
 
-INSERT INTO `grupocarro` (`id`, `grupo`) VALUES
+INSERT INTO `grupoCarro` (`id`, `grupo`) VALUES
 (1, 'A'),
 (2, 'B'),
 (3, 'C');
@@ -198,10 +198,10 @@ CREATE TABLE `manutencao` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `modelocarro`
+-- Estructura de tabla para la tabla `modeloCarro`
 --
 
-CREATE TABLE `modelocarro` (
+CREATE TABLE `modeloCarro` (
   `id` int(11) NOT NULL,
   `marca` varchar(20) NOT NULL,
   `modelo` varchar(20) NOT NULL,
@@ -209,15 +209,16 @@ CREATE TABLE `modelocarro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `modelocarro`
+-- Volcado de datos para la tabla `modeloCarro`
 --
 
-INSERT INTO `modelocarro` (`id`, `marca`, `modelo`, `idGrupo`) VALUES
-(1, 'Hyundai', 'HB20', 2),
-(2, 'Volkswagen', 'Gol', 3),
-(3, 'Fiat', 'Uno', 2),
-(4, 'Volkswagen', 'Fox', 2),
-(5, 'Ford', 'Fiesta', 3);
+INSERT INTO `modeloCarro` (`id`, `marca`, `modelo`, `idGrupo`) VALUES
+(1, 'General Motors', 'Cadillac', 1),
+(2, 'Hyundai', 'HB20', 2),
+(3, 'Volkswagen', 'Gol', 3),
+(4, 'Fiat', 'Uno', 2),
+(5, 'Volkswagen', 'Fox', 2),
+(6, 'Ford', 'Fiesta', 3);
 
 -- --------------------------------------------------------
 
@@ -237,19 +238,19 @@ CREATE TABLE `reservas` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipofuncionario`
+-- Estructura de tabla para la tabla `tipoFuncionario`
 --
 
-CREATE TABLE `tipofuncionario` (
+CREATE TABLE `tipoFuncionario` (
   `id` int(11) NOT NULL,
   `nome` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `tipofuncionario`
+-- Volcado de datos para la tabla `tipoFuncionario`
 --
 
-INSERT INTO `tipofuncionario` (`id`, `nome`) VALUES
+INSERT INTO `tipoFuncionario` (`id`, `nome`) VALUES
 (1, 'Administrador'),
 (2, 'Funcionario');
 
@@ -276,9 +277,9 @@ ALTER TABLE `cliente`
   ADD UNIQUE KEY `passaporte` (`passaporte`);
 
 --
--- Indices de la tabla `estadocarro`
+-- Indices de la tabla `estadoCarro`
 --
-ALTER TABLE `estadocarro`
+ALTER TABLE `estadoCarro`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -296,9 +297,9 @@ ALTER TABLE `funcionario`
   ADD KEY `FK_filial` (`idFilial`);
 
 --
--- Indices de la tabla `grupocarro`
+-- Indices de la tabla `grupoCarro`
 --
-ALTER TABLE `grupocarro`
+ALTER TABLE `grupoCarro`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -316,9 +317,9 @@ ALTER TABLE `manutencao`
   ADD KEY `pk_Id_Carro` (`id_carro`);
 
 --
--- Indices de la tabla `modelocarro`
+-- Indices de la tabla `modeloCarro`
 --
-ALTER TABLE `modelocarro`
+ALTER TABLE `modeloCarro`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_grupo` (`idGrupo`);
 
@@ -332,9 +333,9 @@ ALTER TABLE `reservas`
   ADD KEY `fk_Id_Modelo` (`id_modelo`);
 
 --
--- Indices de la tabla `tipofuncionario`
+-- Indices de la tabla `tipoFuncionario`
 --
-ALTER TABLE `tipofuncionario`
+ALTER TABLE `tipoFuncionario`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -354,9 +355,9 @@ ALTER TABLE `cliente`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT de la tabla `estadocarro`
+-- AUTO_INCREMENT de la tabla `estadoCarro`
 --
-ALTER TABLE `estadocarro`
+ALTER TABLE `estadoCarro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
@@ -372,9 +373,9 @@ ALTER TABLE `funcionario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `grupocarro`
+-- AUTO_INCREMENT de la tabla `grupoCarro`
 --
-ALTER TABLE `grupocarro`
+ALTER TABLE `grupoCarro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -390,9 +391,9 @@ ALTER TABLE `manutencao`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `modelocarro`
+-- AUTO_INCREMENT de la tabla `modeloCarro`
 --
-ALTER TABLE `modelocarro`
+ALTER TABLE `modeloCarro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
@@ -402,9 +403,9 @@ ALTER TABLE `reservas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `tipofuncionario`
+-- AUTO_INCREMENT de la tabla `tipoFuncionario`
 --
-ALTER TABLE `tipofuncionario`
+ALTER TABLE `tipoFuncionario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
@@ -429,8 +430,8 @@ ALTER TABLE `manutencao`
 --
 ALTER TABLE `reservas`
   ADD CONSTRAINT `fk_Id_Cliente_Reserva` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`),
-  ADD CONSTRAINT `fk_Id_Grupo` FOREIGN KEY (`id_grupo`) REFERENCES `grupocarro` (`id`),
-  ADD CONSTRAINT `fk_Id_Modelo` FOREIGN KEY (`id_modelo`) REFERENCES `modelocarro` (`id`);
+  ADD CONSTRAINT `fk_Id_Grupo` FOREIGN KEY (`id_grupo`) REFERENCES `grupoCarro` (`id`),
+  ADD CONSTRAINT `fk_Id_Modelo` FOREIGN KEY (`id_modelo`) REFERENCES `modeloCarro` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
