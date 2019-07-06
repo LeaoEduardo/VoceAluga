@@ -1,9 +1,9 @@
 package application.entity;
 
 public class TipoFuncionario {
-	private	int 	id = -1;
-	private String 	nome;
-	
+	private int id = -1;
+	private String nome;
+
 	public TipoFuncionario() {
 		nome = "null";
 	}

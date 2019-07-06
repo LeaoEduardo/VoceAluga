@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.NovoClienteController">
+<AnchorPane prefHeight="500.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.NovoClienteController">
    <children>
       <Text layoutX="103.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Novo Cliente">
          <font>

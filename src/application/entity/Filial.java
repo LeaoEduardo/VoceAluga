@@ -7,22 +7,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Filial {
-	private	int 	id = -1;
-	private String 	nome;
-	
+	private int id = -1;
+	private String nome;
+
 	public Filial() {
 		nome = "null";
 	}
 
-	public static ObservableList<String> getAllFilialNomes(){
-    	ObservableList<String> nome_filiais = FXCollections.observableArrayList();
-    	ArrayList<Filial> todas_filiais = (new FilialDAO()).findAll();
-    	for( int i = 0 ; i < todas_filiais.size() ; i++ ) {
-    		nome_filiais.add(todas_filiais.get(i).getNome());
-    	}
-    	return nome_filiais;
+	public static ObservableList<String> getAllFilialNomes() {
+		ObservableList<String> nome_filiais = FXCollections.observableArrayList();
+		ArrayList<Filial> todas_filiais = (new FilialDAO()).findAll();
+		for (int i = 0; i < todas_filiais.size(); i++) {
+			nome_filiais.add(todas_filiais.get(i).getNome());
+		}
+		return nome_filiais;
 	}
-	
+
 	public int getId() {
 		return id;
 	}

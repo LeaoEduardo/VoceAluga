@@ -11,20 +11,21 @@ public class Locacao {
 	private int idCarro;
 	private LocalDate dataInicial;
 	private LocalDate dataFinal;
-	
-	public Locacao() {}
-	
+
+	public Locacao() {
+	}
+
 	public Locacao(int idCliente, int idCarro, LocalDate dataInicial, LocalDate dataFinal) {
 		this.idCarro = idCarro;
 		this.idCliente = idCliente;
 		this.dataFinal = dataFinal;
 		this.dataInicial = dataInicial;
 	}
-	
+
 	public Carro getCarro() {
 		return ((new CarroDAO()).find(idCarro));
 	}
-	
+
 	public Cliente getCliente() {
 		return ((new ClienteDAO()).find(idCliente));
 	}

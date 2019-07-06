@@ -5,14 +5,14 @@ import application.ConnectionSQL;
 import application.entity.Cliente;
 
 public class ClienteDAO extends DAO<Cliente> {
-	
+
 	{
 		table_name = "cliente";
 	}
 
-	protected PreparedStatement createInsertStatement( Connection con , Cliente cliente) throws SQLException{
-		PreparedStatement 	statement = null;
-		
+	protected PreparedStatement createInsertStatement(Connection con, Cliente cliente) throws SQLException {
+		PreparedStatement statement = null;
+
 		String sql = "INSERT INTO cliente (nome,CPF,passaporte,dataNascimento,nacionalidade,telefone,CNH,dataCNH,ativo) values (?,?,?,?,?,?,?,?,?);";
 		con = ConnectionSQL.getConnection();
 		statement = con.prepareStatement(sql);
@@ -24,12 +24,12 @@ public class ClienteDAO extends DAO<Cliente> {
 		statement.setString(5, cliente.getNacionalidade());
 		statement.setString(6, cliente.getTelefone());
 		statement.setString(7, cliente.getCnh());
-		statement.setDate(8, Date.valueOf(cliente.getDataCnh()) );
+		statement.setDate(8, Date.valueOf(cliente.getDataCnh()));
 		statement.setBoolean(9, cliente.isAtivo());
 		return statement;
 	}
 
-	protected PreparedStatement createUpdateStatement( Connection con , Cliente entity ) throws SQLException{
+	protected PreparedStatement createUpdateStatement(Connection con, Cliente entity) throws SQLException {
 		String sql = "UPDATE cliente "
 				+ " SET nome=?,CPF=?,passaporte=?,dataNascimento=?,nacionalidade=?,telefone=?,CNH=?,dataCNH=?,ativo=? "
 				+ " WHERE id=? ";
@@ -42,29 +42,30 @@ public class ClienteDAO extends DAO<Cliente> {
 		statement.setString(5, entity.getNacionalidade());
 		statement.setString(6, entity.getTelefone());
 		statement.setString(7, entity.getCnh());
-		statement.setDate(8, Date.valueOf(entity.getDataCnh()) );
+		statement.setDate(8, Date.valueOf(entity.getDataCnh()));
 		statement.setBoolean(9, entity.isAtivo());
 		statement.setInt(10, entity.getId());
 		return statement;
 	}
 
-	protected String			createDeleteStatement( Cliente entity ) {
-		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf( entity.getId() );
+	protected String createDeleteStatement(Cliente entity) {
+		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf(entity.getId());
 	}
-	protected Cliente getEntityFromResultSet( ResultSet result ) {
+
+	protected Cliente getEntityFromResultSet(ResultSet result) {
 		Cliente ret = new Cliente();
 		try {
-			ret.setId( result.getInt("id") );
-			ret.setNome( result.getString("nome") );
-			ret.setCpf( result.getString("CPF") );
-			ret.setPassaporte( result.getString("passaporte") );
-			ret.setDataNasc( result.getDate("dataNascimento").toLocalDate() );
-			ret.setNacionalidade( result.getString("nacionalidade") );
-			ret.setTelefone( result.getString("telefone") );
-			ret.setCnh( result.getString("CNH") );
-			ret.setDataCnh( result.getDate("dataCNH").toLocalDate() );
-			ret.setAtivo( result.getBoolean("ativo") );
-		} catch (Exception e ) {
+			ret.setId(result.getInt("id"));
+			ret.setNome(result.getString("nome"));
+			ret.setCpf(result.getString("CPF"));
+			ret.setPassaporte(result.getString("passaporte"));
+			ret.setDataNasc(result.getDate("dataNascimento").toLocalDate());
+			ret.setNacionalidade(result.getString("nacionalidade"));
+			ret.setTelefone(result.getString("telefone"));
+			ret.setCnh(result.getString("CNH"));
+			ret.setDataCnh(result.getDate("dataCNH").toLocalDate());
+			ret.setAtivo(result.getBoolean("ativo"));
+		} catch (Exception e) {
 			ret = null;
 			e.printStackTrace();
 		}

@@ -13,28 +13,29 @@ public class Reserva {
 	private int idModelo;
 	private LocalDate dataLocacao;
 	private LocalDate dataDevolucao;
-	
-	public Reserva() {}
-	
+
+	public Reserva() {
+	}
+
 	public Reserva(int idCliente, int idGrupo, int idModelo, LocalDate dataLocacao, LocalDate dataDevolucao) {
 		this.idGrupo = idGrupo;
 		this.idModelo = idModelo;
 		this.idCliente = idCliente;
 		this.dataLocacao = dataLocacao;
-		
-		if(idGrupo == -1 && idModelo != -1) {
+
+		if (idGrupo == -1 && idModelo != -1) {
 			idGrupo = (new ModeloCarroDAO()).find(idModelo).getIdGrupo();
 		}
 	}
-	
+
 	public GrupoCarro getGrupoCarro() {
 		return (new GrupoCarroDAO()).find(idGrupo);
 	}
-	
+
 	public ModeloCarro getModeloReserva() {
 		return ((new ModeloCarroDAO()).find(idModelo));
 	}
-	
+
 	public Cliente getCliente() {
 		return ((new ClienteDAO()).find(idCliente));
 	}
