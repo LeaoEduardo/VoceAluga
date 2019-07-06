@@ -1,12 +1,17 @@
 # VoceAluga
 
-## Conectando Java com o MYSQL
+## Conectando Java com o MYSQL 
+- (Supondo que a máquina do cliente tenha já tenha um cliente mysql em execução)
 - É necessário instalar na máquina um driver que você pode baixar em https://dev.mysql.com/downloads/connector/j/
 - É possível também baixar diretamente o código fonte do 'connector' e compilá-lo com alguma configuração prévia desejada (não fizemos isso)
 - É necessário incluir o pacote .jar (compilado ou baixado) na variável CLASSPATH do sistema
 - No Ubuntu: export CLASSPATH=$CLASSPATH:path/mysql-connector-java-version.jar
 - No Windows usa-se o Painel de controle do sistema para acessar as variáveis do sistema
 - Em vez de incluir na variável do sistema, é possível 'linkar' o arquivo .jar do connector pelo eclipse em Properties(do projeto VoceAluga)->Java Build Path->Libraries->Add External Jars...
+#### Acesso root
+- OBS: É esperado que o servidor MySQL não esteja pedindo autenticação para o root
+- Se esse não for o caso, rodar os comandos dentro do servidor mysql:<br>
+<code> UPDATE mysql.user SET plugin = 'mysql_native_password' WHERE user = 'root' ; FLUSH PRIVILEGES ;</code>
 
 
 ## JavaFX no eclipse
