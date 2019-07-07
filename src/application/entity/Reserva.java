@@ -22,6 +22,7 @@ public class Reserva {
 		this.idModelo = idModelo;
 		this.idCliente = idCliente;
 		this.dataLocacao = dataLocacao;
+		this.dataDevolucao= dataDevolucao;
 
 		if (idGrupo == -1 && idModelo != -1) {
 			idGrupo = (new ModeloCarroDAO()).find(idModelo).getIdGrupo();

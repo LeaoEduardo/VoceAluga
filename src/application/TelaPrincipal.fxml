@@ -21,7 +21,7 @@
                         <TextField fx:id="tf_cpfPassaporte" layoutX="186.0" layoutY="17.0" onAction="#processaPesquisarEnter" promptText="12345678910" text="12345678910" />
                         <Button layoutX="557.0" layoutY="14.0" mnemonicParsing="false" onAction="#novoCliente" prefHeight="31.0" prefWidth="166.0" text="Novo Cliente" />
                         <ChoiceBox fx:id="cb_cpfPassaporte" layoutX="14.0" layoutY="14.0" prefHeight="31.0" prefWidth="158.0" />
-                        <AnchorPane fx:id="clientePane" prefHeight="382.0" prefWidth="780.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                        <AnchorPane fx:id="clientePane" prefHeight="382.0" prefWidth="780.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="65.0">
                            <children>
                               <GridPane gridLinesVisible="true" prefHeight="250.0" prefWidth="780.0" style="-fx-background-color: #ffffff00;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columnConstraints>
@@ -32,7 +32,7 @@
                                     <RowConstraints maxHeight="314.0" minHeight="10.0" prefHeight="270.0" vgrow="ALWAYS" />
                                 </rowConstraints>
                                  <children>
-                                    <Pane prefHeight="90.0" prefWidth="780.0">
+                                    <Pane maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="780.0">
                                        <children>
                                           <Button layoutX="546.0" layoutY="21.0" mnemonicParsing="false" onAction="#reservarVeiculo" prefHeight="31.0" prefWidth="211.0" text="Criar reserva" />
                                           <Button layoutX="546.0" layoutY="57.0" mnemonicParsing="false" onAction="#maisInfoBotao" prefHeight="31.0" prefWidth="212.0" text="Mais Informações" />
@@ -48,7 +48,6 @@
                                           </Text>
                                           <Text layoutX="21.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome:" />
                                           <Text layoutX="21.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CNH:" />
-                                          <Line endX="100.0" opacity="0.34" startX="-100.0" />
                                        </children>
                                     </Pane>
                                     <TableView fx:id="tabelaReservas" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">

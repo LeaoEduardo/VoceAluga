@@ -10,9 +10,11 @@ import application.Main;
 import application.dao.CarroDAO;
 import application.dao.ClienteDAO;
 import application.dao.FilialDAO;
+import application.dao.ReservaDAO;
 import application.dao.TipoFuncionarioDAO;
 import application.entity.Filial;
 import application.entity.Funcionario;
+import application.entity.Reserva;
 import application.entity.TipoFuncionario;
 import application.entity.Carro;
 import application.entity.Cliente;
@@ -82,7 +84,7 @@ public class TelaPrincipalController {
 	private TextField tf_placa;
 
 	@FXML
-	private TableView<Carro> tabelaReservas;
+	private TableView<Reserva> tabelaReservas;
 
 	@FXML
 	private TableView<Carro> tabelaVeiculos;
@@ -113,6 +115,7 @@ public class TelaPrincipalController {
 
 	@FXML
 	private TableColumn<Carro, String> col_estado;
+
 
 	private ObservableList<Carro> listaCarro = FXCollections.observableArrayList();
 
@@ -219,13 +222,71 @@ public class TelaPrincipalController {
 		pesquisarCliente();
 	}
 
-	void showCliente(Cliente cliente) throws IOException {
+	void carregaCliente(Cliente cliente) throws IOException {
 		tf_nome.setText(cliente.getNome());
 		tf_cnh.setText(cliente.getCnh());
 		clientePane.setVisible(clientePaneBool = true);
 
 		// Atualizar a lista de reservas
+		ObservableList<Reserva> listaReservas =  FXCollections.observableArrayList();
+		ArrayList<Reserva> arrayReservas = (new ReservaDAO()).findAll();
+		for( Reserva r : arrayReservas ) {
+			if( r.getIdCliente() == cliente.getId() ) {
+				listaReservas.add(r);
+			}
+		}
+
+		TableColumn<Reserva,String> coluna_reservas 	= (TableColumn<Reserva, String>) tabelaReservas.getColumns().get(0);
+		TableColumn<Reserva,String> coluna_data_loc 	= (TableColumn<Reserva, String>) tabelaReservas.getColumns().get(1);
+		TableColumn<Reserva,String> coluna_data_dev 	= (TableColumn<Reserva, String>) tabelaReservas.getColumns().get(2);
+		TableColumn<Reserva,String> coluna_grupo 		= (TableColumn<Reserva, String>) tabelaReservas.getColumns().get(3);
+		TableColumn<Reserva,String> coluna_modelo 		= (TableColumn<Reserva, String>) tabelaReservas.getColumns().get(4);
 		
+		coluna_reservas.setCellValueFactory(
+				cellData -> new SimpleStringProperty( "Reservado" ) ); // Falta dizer exatamente o estado da reserva
+		coluna_data_loc.setCellValueFactory(
+				cellData -> new SimpleStringProperty( cellData.getValue().getDataLocacao().toString() ) );
+		coluna_data_dev.setCellValueFactory(
+				cellData -> new SimpleStringProperty( cellData.getValue().getDataDevolucao().toString() ) );
+		coluna_grupo.setCellValueFactory(
+				cellData -> new SimpleStringProperty( cellData.getValue().getModeloReserva().getGrupoCarro().getGrupo() ) );
+		coluna_modelo.setCellValueFactory(
+				cellData -> new SimpleStringProperty( cellData.getValue().getModeloReserva().getModelo() ) );
+		
+		tabelaReservas.setItems( listaReservas );
+		coluna_data_loc.setSortType( TableColumn.SortType.ASCENDING );
+		tabelaReservas.getSortOrder().add( coluna_data_loc );
+		
+		/**
+		// Preenche a tabela de veiculos com todos os veiculos no BD
+		listaCarro = FXCollections.observableArrayList();
+		ArrayList<Carro> all_carros = (new CarroDAO()).findAll();
+		for (int i = 0; i < all_carros.size(); i++) {
+			listaCarro.add(all_carros.get(i));
+		}
+		Contexto.getInstancia().setListaVeiculos(listaCarro);
+
+		col_grupo.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getGrupoCarro().getGrupo()));
+		col_marca.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getMarca()));
+		col_modelo.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getModelo()));
+		col_placa.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPlaca()));
+		col_quilometragem.setCellValueFactory(
+				cellData -> new SimpleIntegerProperty(cellData.getValue().getQuilometragem()).asObject());
+		col_dataM.setCellValueFactory(
+				cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataManutencao()));
+		col_dataC.setCellValueFactory(
+				cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataCompra()));
+		col_filial.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilial().getNome()));
+		col_estado.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getEstadoCarro().getTipo()));
+
+		tabelaVeiculos.setItems(listaCarro);
+		col_grupo.setSortType(TableColumn.SortType.ASCENDING);
+		tabelaVeiculos.getSortOrder().add(col_grupo);
+		**/
 	}
 
 	void pesquisarCliente() throws IOException {
@@ -258,7 +319,7 @@ public class TelaPrincipalController {
 
 		if (cliente != null) {
 
-			showCliente(cliente);
+			carregaCliente(cliente);
 
 			System.out.println("cpf: " + cliente.getCpf());
 			System.out.println("passaporte: " + cliente.getPassaporte());
@@ -289,7 +350,7 @@ public class TelaPrincipalController {
 		if (cliente != null) {
 
 			// main.showTelaCliente();
-			showCliente(cliente);
+			carregaCliente(cliente);
 
 			System.out.println("cpf: " + Contexto.getInstancia().getCliente().getCpf());
 			System.out.println("passaporte: " + Contexto.getInstancia().getCliente().getPassaporte());
