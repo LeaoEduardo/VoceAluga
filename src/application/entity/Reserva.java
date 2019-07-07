@@ -88,4 +88,8 @@ public class Reserva {
 	public void setDataLocacao(LocalDate dataLocacao) {
 		this.dataLocacao = dataLocacao;
 	}
+
+	public String getEstadoReserva() {
+		return "Reservado";
+	}
 }

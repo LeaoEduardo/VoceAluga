@@ -179,14 +179,16 @@ public class TelaPrincipalController {
 				cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getMarca()));
 		col_modelo.setCellValueFactory(
 				cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getModelo()));
-		col_placa.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPlaca()));
+		col_placa.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getPlaca()));
 		col_quilometragem.setCellValueFactory(
 				cellData -> new SimpleIntegerProperty(cellData.getValue().getQuilometragem()).asObject());
 		col_dataM.setCellValueFactory(
 				cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataManutencao()));
 		col_dataC.setCellValueFactory(
 				cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataCompra()));
-		col_filial.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilial().getNome()));
+		col_filial.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getFilial().getNome()));
 		col_estado.setCellValueFactory(
 				cellData -> new SimpleStringProperty(cellData.getValue().getEstadoCarro().getTipo()));
 
@@ -235,7 +237,7 @@ public class TelaPrincipalController {
 				listaReservas.add(r);
 			}
 		}
-
+		this.tabelaReservas.getSelectionModel().getSelectedItem();
 		TableColumn<Reserva,String> coluna_reservas 	= (TableColumn<Reserva, String>) tabelaReservas.getColumns().get(0);
 		TableColumn<Reserva,String> coluna_data_loc 	= (TableColumn<Reserva, String>) tabelaReservas.getColumns().get(1);
 		TableColumn<Reserva,String> coluna_data_dev 	= (TableColumn<Reserva, String>) tabelaReservas.getColumns().get(2);
@@ -243,7 +245,7 @@ public class TelaPrincipalController {
 		TableColumn<Reserva,String> coluna_modelo 		= (TableColumn<Reserva, String>) tabelaReservas.getColumns().get(4);
 		
 		coluna_reservas.setCellValueFactory(
-				cellData -> new SimpleStringProperty( "Reservado" ) ); // Falta dizer exatamente o estado da reserva
+				cellData -> new SimpleStringProperty( cellData.getValue().getEstadoReserva() ) ); // Falta dizer exatamente o estado da reserva
 		coluna_data_loc.setCellValueFactory(
 				cellData -> new SimpleStringProperty( cellData.getValue().getDataLocacao().toString() ) );
 		coluna_data_dev.setCellValueFactory(
@@ -257,36 +259,6 @@ public class TelaPrincipalController {
 		coluna_data_loc.setSortType( TableColumn.SortType.ASCENDING );
 		tabelaReservas.getSortOrder().add( coluna_data_loc );
 		
-		/**
-		// Preenche a tabela de veiculos com todos os veiculos no BD
-		listaCarro = FXCollections.observableArrayList();
-		ArrayList<Carro> all_carros = (new CarroDAO()).findAll();
-		for (int i = 0; i < all_carros.size(); i++) {
-			listaCarro.add(all_carros.get(i));
-		}
-		Contexto.getInstancia().setListaVeiculos(listaCarro);
-
-		col_grupo.setCellValueFactory(
-				cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getGrupoCarro().getGrupo()));
-		col_marca.setCellValueFactory(
-				cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getMarca()));
-		col_modelo.setCellValueFactory(
-				cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getModelo()));
-		col_placa.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPlaca()));
-		col_quilometragem.setCellValueFactory(
-				cellData -> new SimpleIntegerProperty(cellData.getValue().getQuilometragem()).asObject());
-		col_dataM.setCellValueFactory(
-				cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataManutencao()));
-		col_dataC.setCellValueFactory(
-				cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataCompra()));
-		col_filial.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilial().getNome()));
-		col_estado.setCellValueFactory(
-				cellData -> new SimpleStringProperty(cellData.getValue().getEstadoCarro().getTipo()));
-
-		tabelaVeiculos.setItems(listaCarro);
-		col_grupo.setSortType(TableColumn.SortType.ASCENDING);
-		tabelaVeiculos.getSortOrder().add(col_grupo);
-		**/
 	}
 
 	void pesquisarCliente() throws IOException {
