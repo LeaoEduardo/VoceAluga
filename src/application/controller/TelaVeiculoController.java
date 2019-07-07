@@ -79,7 +79,7 @@ public class TelaVeiculoController {
 	void atualizarVeiculo(ActionEvent event) throws IOException {
 
 		Stage stage = new Stage();
-		Parent atualizarVeiculo = FXMLLoader.load(getClass().getResource("AtualizarVeiculo.fxml"));
+		Parent atualizarVeiculo = FXMLLoader.load(getClass().getResource("../AtualizarVeiculo.fxml"));
 		Scene scene = new Scene(atualizarVeiculo);
 
 		stage.setTitle("Atualizar registro de veiculo");
