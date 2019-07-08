@@ -68,7 +68,7 @@ public class AtualizarVeiculoController {
 
 	@FXML
 	void initialize() {
-
+		
 		ObservableList<String> estados = FXCollections.observableArrayList("Disponivel", "Alugado", "Em manutenção",
 				"Vendido");
 		cb_estado.setItems(estados);
@@ -84,12 +84,13 @@ public class AtualizarVeiculoController {
 		filial = Contexto.getInstancia().getVeiculo().getFilial().getNome();
 
 		cb_filial.setItems(Filial.getAllFilialNomes());
-
+		
+		Contexto.getInstancia().setListaMarcas(ModeloCarro.getAllMarcas());
 		ObservableList<String> listaMarcas = Contexto.getInstancia().getListaMarcas();
 		cb_marca.setItems(listaMarcas);
 		ReadOnlyObjectProperty<String> property = cb_marca.getSelectionModel().selectedItemProperty();
 		property.addListener((ObservableValue<? extends String> observable, String oldValue,
-				String newValue) -> atualizaModelos(newValue));
+				              String newValue) -> atualizaModelos(newValue));
 
 		tf_quilometragem.setTextFormatter(Contexto.getInstancia().getFormatador().Quilometragem());
 		tf_placa.setText(placa);
