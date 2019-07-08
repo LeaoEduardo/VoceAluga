@@ -1,10 +1,12 @@
 package application.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import application.Contexto;
+import application.Main;
 import application.dao.CarroDAO;
 import application.dao.GrupoCarroDAO;
 import application.dao.ModeloCarroDAO;
@@ -27,6 +29,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ReservarVeiculoController {
+	
+	private Main main = new Main();
 
 	@FXML
 	private Button cancel_button;
@@ -111,15 +115,25 @@ public class ReservarVeiculoController {
 	}
 
 	@FXML
-	void confirm_button_clicked(ActionEvent event) {
+	void confirm_button_clicked(ActionEvent event) throws IOException {
 		String grupo_carro_selecionado = car_group_choice_box.getValue();
 		String modelo_carro_selecionado = car_model_choice_box.getValue();
 		LocalDate data_locacao = rent_date_picker.getValue();
 		LocalDate data_devolucao = devolution_date_picker.getValue();
-		String rent_hour = rent_hour_text.getText() + "0";
-		String rent_minute = rent_hour_text.getText() + "0";
-		String devolution_hour = rent_hour_text.getText() + "0";
-		String devolution_minute = rent_hour_text.getText() + "0";
+		String rent_hour = rent_hour_text.getText();
+		String rent_minute = rent_minute_text.getText();
+		String devolution_hour = devolution_hour_text.getText();
+		String devolution_minute = devolution_minute_text.getText();
+		
+		if (rent_hour.equals(""))
+			rent_hour = "0";
+		if (rent_minute.equals(""))
+			rent_minute = "0";
+		if (devolution_hour.equals(""))
+			devolution_hour = "0";
+		if (devolution_minute.equals(""))
+			devolution_minute = "0";
+		
 		if (data_locacao == null || data_devolucao == null)
 			return;
 		LocalDateTime data_hora_locacao = data_locacao.atTime(Integer.valueOf(rent_hour), Integer.valueOf(rent_minute));
@@ -157,16 +171,16 @@ public class ReservarVeiculoController {
 
 		// Persiste a locação no database:
 		Reserva reserva = new Reserva();
-		reserva.setDataLocacao(data_locacao);
+		reserva.setDataLocacao(data_hora_locacao);
 		reserva.setIdCliente(Contexto.getInstancia().getCliente().getId());
 		reserva.setIdGrupo(grupo_do_carro.getId());
 		reserva.setIdModelo(id_modelo_carro_selecionado);
-		reserva.setDataDevolucao(data_hora_devolucao.toLocalDate());
+		reserva.setDataDevolucao(data_hora_devolucao);
 		ReservaDAO reserva_dao = new ReservaDAO();
 		reserva_dao.insert(reserva);
-
 		Stage stage = (Stage) rent_hour_text.getScene().getWindow();
 		stage.close();
+		Contexto.getInstancia().setVoltandoParaCliente(true);
+		main.showTelaPrincipal();
 	}
-
 }

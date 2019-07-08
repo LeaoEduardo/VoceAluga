@@ -13,7 +13,7 @@
    <children>
       <TabPane fx:id="telaPrincipalTabPane" layoutX="-7.0" layoutY="117.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="490.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="110.0">
         <tabs>
-          <Tab text="Reserva">
+          <Tab fx:id="abaReserva" text="Reserva">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="438.0" prefWidth="800.0">
                      <children>
@@ -170,7 +170,7 @@
             <Font name="Arial Black" size="46.0" />
          </font>
       </Label>
-      <ImageView fitHeight="48.0" fitWidth="58.0" layoutX="566.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="176.74353790283203">
+      <ImageView fitHeight="48.0" fitWidth="58.0" layoutX="579.9523468017578" layoutY="38.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="162.79119110107422">
          <image>
             <Image url="@../../car-icon-hi.png" />
          </image>

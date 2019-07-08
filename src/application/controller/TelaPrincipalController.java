@@ -65,6 +65,9 @@ public class TelaPrincipalController {
 
 	@FXML
 	private TabPane telaPrincipalTabPane;
+	
+	@FXML
+    private Tab abaReserva;
 
 	@FXML
 	private Tab abaVeiculos;
@@ -125,7 +128,7 @@ public class TelaPrincipalController {
 	private ObservableList<Carro> listaCarro = FXCollections.observableArrayList();
 
 	@FXML
-	void initialize() {
+	void initialize() throws IOException {
 
 		ObservableList<String> escolhas = FXCollections.observableArrayList("Por CPF", "Por passaporte");
 		cb_cpfPassaporte.setItems(escolhas);
@@ -151,6 +154,22 @@ public class TelaPrincipalController {
 			btn_cancelar_reserva.setDisable( tabelaReservas.getSelectionModel().getSelectedItem() == null );
 		});
 		
+		if (Contexto.getInstancia().getVoltandoParaCliente()) {
+			
+			telaPrincipalTabPane.getSelectionModel().select(abaReserva);
+			String cpf = Contexto.getInstancia().getCliente().getCpf();
+			if (cpf != null) {
+				cb_cpfPassaporte.getSelectionModel().select(0);
+				tf_cpfPassaporte.setText(Contexto.getInstancia().getCliente().getCpf());
+				pesquisaPorCpf(cpf);
+			}
+			else {
+				String passaporte = Contexto.getInstancia().getCliente().getPassaporte();
+				cb_cpfPassaporte.getSelectionModel().select(1);
+				tf_cpfPassaporte.setText(passaporte);
+				pesquisaPorPassaporte(passaporte);
+			}
+		}
 		
 		if (funcionario.getIdTipo() != 1) {
 
@@ -165,6 +184,10 @@ public class TelaPrincipalController {
 				if (newTab == abaVeiculos)
 					carregaVeiculos();
 			});
+			
+			ReadOnlyIntegerProperty veiculoProperty = tabelaVeiculos.getSelectionModel().selectedIndexProperty();
+			veiculoProperty.addListener((value, oldValue, newValue) -> tf_placa
+					.setText(tabelaVeiculos.getSelectionModel().getSelectedItem().getPlaca()));
 
 			if (Contexto.getInstancia().getVoltandoParaVeiculos()) {
 
@@ -246,6 +269,7 @@ public class TelaPrincipalController {
 		pesquisarCliente();
 	}
 
+	@SuppressWarnings("unchecked")
 	void carregaCliente(Cliente cliente) throws IOException {
 		tf_nome.setText(cliente.getNome());
 		tf_cnh.setText(cliente.getCnh());
@@ -335,7 +359,8 @@ public class TelaPrincipalController {
 		ArrayList<Cliente> todos_clientes = (new ClienteDAO()).findAll();
 		Cliente cliente = null;
 		for (int i = 0; i < todos_clientes.size(); i++) {
-			if (todos_clientes.get(i).getPassaporte() == passaporte) {
+			String passaporte2 = todos_clientes.get(i).getPassaporte();
+			if (passaporte2 != null && passaporte2.equals(passaporte)) {
 				cliente = todos_clientes.get(i);
 				break;
 			}
@@ -346,8 +371,8 @@ public class TelaPrincipalController {
 			// main.showTelaCliente();
 			carregaCliente(cliente);
 
-			System.out.println("cpf: " + Contexto.getInstancia().getCliente().getCpf());
-			System.out.println("passaporte: " + Contexto.getInstancia().getCliente().getPassaporte());
+			System.out.println("cpf: " + cliente.getCpf());
+			System.out.println("passaporte: " + cliente.getPassaporte());
 		}
 
 		else {
@@ -405,14 +430,15 @@ public class TelaPrincipalController {
 		ArrayList<Carro> todos_carros = (new CarroDAO()).findAll();
 		Carro carro = null;
 		for (int i = 0; i < todos_carros.size(); i++) {
-			if (todos_carros.get(i).getPlaca() == placa) {
+			if (todos_carros.get(i).getPlaca().equals(placa)) {
 				carro = todos_carros.get(i);
 				break;
 			}
 		}
 
 		if (carro != null) {
-
+			
+			Contexto.getInstancia().setVeiculo(carro);
 			main.showTelaVeiculo();
 
 			// Print de teste

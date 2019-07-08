@@ -231,8 +231,8 @@ CREATE TABLE `reservas` (
   `id_cliente` int(11) NOT NULL,
   `id_grupo` int(11) NOT NULL,
   `id_modelo` int(11) NOT NULL,
-  `dataLocacao` date NOT NULL,
-  `dataDevolucao` date NOT NULL
+  `dataLocacao` datetime NOT NULL,
+  `dataDevolucao` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

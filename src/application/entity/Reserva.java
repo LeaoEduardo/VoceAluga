@@ -1,6 +1,7 @@
 package application.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import application.dao.ModeloCarroDAO;
 import application.dao.GrupoCarroDAO;
@@ -11,13 +12,13 @@ public class Reserva {
 	private int idCliente;
 	private int idGrupo;
 	private int idModelo;
-	private LocalDate dataLocacao;
-	private LocalDate dataDevolucao;
+	private LocalDateTime dataLocacao;
+	private LocalDateTime dataDevolucao;
 
 	public Reserva() {
 	}
 
-	public Reserva(int idCliente, int idGrupo, int idModelo, LocalDate dataLocacao, LocalDate dataDevolucao) {
+	public Reserva(int idCliente, int idGrupo, int idModelo, LocalDateTime dataLocacao, LocalDateTime dataDevolucao) {
 		this.idGrupo = idGrupo;
 		this.idModelo = idModelo;
 		this.idCliente = idCliente;
@@ -49,7 +50,7 @@ public class Reserva {
 		return idCliente;
 	}
 
-	public LocalDate getDataLocacao() {
+	public LocalDateTime getDataLocacao() {
 		return dataLocacao;
 	}
 
@@ -69,11 +70,11 @@ public class Reserva {
 		this.idModelo = idModelo;
 	}
 
-	public LocalDate getDataDevolucao() {
+	public LocalDateTime getDataDevolucao() {
 		return dataDevolucao;
 	}
 
-	public void setDataDevolucao(LocalDate dataDevolucao) {
+	public void setDataDevolucao(LocalDateTime dataDevolucao) {
 		this.dataDevolucao = dataDevolucao;
 	}
 
@@ -85,7 +86,7 @@ public class Reserva {
 		this.idCliente = idCliente;
 	}
 
-	public void setDataLocacao(LocalDate dataLocacao) {
+	public void setDataLocacao(LocalDateTime dataLocacao) {
 		this.dataLocacao = dataLocacao;
 	}
 
