@@ -115,16 +115,25 @@ public class Carro {
 	// Métodos auxiliares
 	public ArrayList<Carro> getCarrosDisponiveis( Reserva reserva ){
 		CarroDAO carro_dao = new CarroDAO();
-		ArrayList<Carro> ret;
+		ArrayList<Carro> ret = new ArrayList<Carro>();;
 		ArrayList<Carro> carros_presentes = carro_dao.find("idFilial" , String.valueOf(Contexto.getInstancia().getFuncionario().getIdFilial())  );
+		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo", "Disponível").get(0).getId();
+		
+		// Caso uma reserva nao tenha sido especificada
 		if( reserva == null ) {
-			ret = carros_presentes;
-		} else {
-			ret = new ArrayList<Carro>();
+			for( Carro carro : carros_presentes ) {
+				if( carro.getIdEstado() == id_estado_disponivel ) {
+					ret.add(carro);
+				}
+			}
+		} 
+		
+		//Caso uma reserva tenha sido especificada
+		else {
 			for( Carro carro : carros_presentes ) {
 				ModeloCarro modelo = carro.getModeloCarro();
 				int id_grupo_carro = modelo.getIdGrupo();
-				if( id_grupo_carro <= reserva.getIdGrupo() ) {
+				if( id_grupo_carro <= reserva.getIdGrupo() && carro.getIdEstado() == id_estado_disponivel ) {
 					// Caso onde um modelo especifico tenha sido requisitado:
 					if( reserva.getIdModelo() != -1 && reserva.getIdModelo() != modelo.getId() ) {
 						continue;
