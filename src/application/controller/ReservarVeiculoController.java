@@ -171,11 +171,11 @@ public class ReservarVeiculoController {
 
 		// Persiste a locação no database:
 		Reserva reserva = new Reserva();
-		reserva.setDataLocacao(data_hora_locacao.toLocalDate());
+		reserva.setDataLocacao(data_hora_locacao);
 		reserva.setIdCliente(Contexto.getInstancia().getCliente().getId());
 		reserva.setIdGrupo(grupo_do_carro.getId());
 		reserva.setIdModelo(id_modelo_carro_selecionado);
-		reserva.setDataDevolucao(data_hora_devolucao.toLocalDate());
+		reserva.setDataDevolucao(data_hora_devolucao);
 		ReservaDAO reserva_dao = new ReservaDAO();
 		reserva_dao.insert(reserva);
 		Stage stage = (Stage) rent_hour_text.getScene().getWindow();
