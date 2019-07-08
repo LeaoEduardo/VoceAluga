@@ -36,9 +36,11 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
@@ -83,6 +85,9 @@ public class TelaPrincipalController {
 	@FXML
 	private TextField tf_placa;
 
+	@FXML
+	private Button	btn_cancelar_reserva;
+	
 	@FXML
 	private TableView<Reserva> tabelaReservas;
 
@@ -140,6 +145,13 @@ public class TelaPrincipalController {
 
 		clientePane.setVisible(clientePaneBool);
 
+		//Fazendo o botão de cancelar reserva ficar desativado quando nenhuma reserva estiver selecionada
+		btn_cancelar_reserva.setDisable( true );
+		tabelaReservas.addEventHandler( MouseEvent.ANY , event -> {
+			btn_cancelar_reserva.setDisable( tabelaReservas.getSelectionModel().getSelectedItem() == null );
+		});
+		
+		
 		if (funcionario.getIdTipo() != 1) {
 
 			TabPane tabPane = abaVeiculos.getTabPane();
@@ -209,6 +221,16 @@ public class TelaPrincipalController {
 		stage.show();
 	}
 
+	@FXML
+	void cancelarReserva(ActionEvent event) throws IOException {
+		Reserva reserva = this.tabelaReservas.getSelectionModel().getSelectedItem();
+		if( reserva != null ) {
+			ReservaDAO reserva_dao = new ReservaDAO();
+			reserva_dao.delete(reserva);
+			carregaCliente( reserva.getCliente() );
+		}
+	}
+	
 	@FXML
 	void maisInfoBotao(ActionEvent event) throws IOException {
 		main.showTelaCliente();
