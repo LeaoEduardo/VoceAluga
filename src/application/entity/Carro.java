@@ -1,6 +1,8 @@
 package application.entity;
 
 import java.time.LocalDate;
+
+import application.dao.CarroDAO;
 import application.dao.EstadoCarroDAO;
 import application.dao.FilialDAO;
 import application.dao.ModeloCarroDAO;
@@ -107,13 +109,15 @@ public class Carro {
 		this.idEstado = idEstado;
 	}
 	
-	public void confirmaDevolucao( Filial filial_devolvida ) {
+	public boolean confirmaDevolucao( Filial filial_devolvida ) {
 		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo","Disponível").get(0).getId();
 		if( this.idEstado == id_estado_disponivel ) {
 			System.out.println("WARNING: Carro devolvido já esta como 'Disponível'");
 		}
 		this.idEstado = id_estado_disponivel;
 		this.idFilial = filial_devolvida.getId();
+		CarroDAO carro_dao = new CarroDAO();
+		return carro_dao.update( this );
 	}
 	
 	
