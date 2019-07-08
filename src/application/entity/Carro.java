@@ -1,10 +1,14 @@
 package application.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
+import application.Contexto;
+import application.dao.CarroDAO;
 import application.dao.EstadoCarroDAO;
 import application.dao.FilialDAO;
 import application.dao.ModeloCarroDAO;
+import application.entity.Reserva;
 
 public class Carro {
 
@@ -108,4 +112,33 @@ public class Carro {
 		this.idEstado = idEstado;
 	}
 
+	// Métodos auxiliares
+	public ArrayList<Carro> getCarrosDisponiveis( Reserva reserva ){
+		CarroDAO carro_dao = new CarroDAO();
+		ArrayList<Carro> ret;
+		ArrayList<Carro> carros_presentes = carro_dao.find("idFilial" , String.valueOf(Contexto.getInstancia().getFuncionario().getIdFilial())  );
+		if( reserva == null ) {
+			ret = carros_presentes;
+		} else {
+			ret = new ArrayList<Carro>();
+			for( Carro carro : carros_presentes ) {
+				ModeloCarro modelo = carro.getModeloCarro();
+				int id_grupo_carro = modelo.getIdGrupo();
+				if( id_grupo_carro <= reserva.getIdGrupo() ) {
+					// Caso onde um modelo especifico tenha sido requisitado:
+					if( reserva.getIdModelo() != -1 && reserva.getIdModelo() != modelo.getId() ) {
+						continue;
+					}
+					ret.add(carro);
+				}
+			}
+		}
+			
+		return ret;
+	}
+	
+	
+	
+	
+	
 }
