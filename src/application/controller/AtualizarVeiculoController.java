@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import application.Contexto;
 import application.Main;
 import application.dao.CarroDAO;
+import application.dao.EstadoCarroDAO;
+import application.dao.FilialDAO;
 import application.dao.ModeloCarroDAO;
 import application.entity.Carro;
 import application.entity.Filial;
@@ -133,8 +135,8 @@ public class AtualizarVeiculoController {
 			Carro carro = Contexto.getInstancia().getVeiculo();
 			carro.setPlaca(placa);
 			carro.setIdModelo((new ModeloCarroDAO()).find("modelo", modelo).get(0).getId());
-			carro.setIdFilial((new ModeloCarroDAO()).find("nomeFilial", filial).get(0).getId());
-			carro.setIdEstado((new ModeloCarroDAO()).find("tipo", estado).get(0).getId());
+			carro.setIdFilial((new FilialDAO()).find("nomeFilial", filial).get(0).getId());
+			carro.setIdEstado((new EstadoCarroDAO()).find("tipo", estado).get(0).getId());
 			carro.setDataCompra(dataCompra);
 			carro.setDataManutencao(dataManutencao);
 			carro.setQuilometragem(quilometragem);
@@ -143,8 +145,7 @@ public class AtualizarVeiculoController {
 
 			if (atualizou) {
 
-				Carro veiculo = new Carro(placa, quilometragem, 0, 0, 0, dataCompra, dataManutencao);
-				Contexto.getInstancia().setVeiculo(veiculo);
+				Contexto.getInstancia().setVeiculo(carro);
 
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setHeaderText("Cadastro alterado");
