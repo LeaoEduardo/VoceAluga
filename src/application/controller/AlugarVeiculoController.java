@@ -24,6 +24,18 @@ public class AlugarVeiculoController {
 
     @FXML
     private DatePicker dp_dataDevolucao;
+    
+    @FXML
+    private TextField tf_nomeCartao;
+    
+    @FXML
+    private DatePicker dp_validadeCartao;
+    
+    @FXML
+    private TextField tf_codSegCartao;
+    
+    @FXML
+    private TextField tf_numCartao;
 
     @FXML
     private Label lb_modelo;
@@ -83,7 +95,8 @@ public class AlugarVeiculoController {
     @FXML
     void confirmar(ActionEvent event) throws IOException {
     	
-    	if ( dp_dataDevolucao.getValue() != null ) {
+    	if ( dp_dataDevolucao.getValue() != null && dp_validadeCartao.getValue() != null && 
+    		!tf_numCartao.getText().equals("") && !tf_nomeCartao.getText().equals("") && !tf_codSegCartao.getText().equals("") ) {
     	
 	    	LocalDate dataLocacao = dp_dataLocacao.getValue();
 			LocalDate dataDevolucao = dp_dataDevolucao.getValue();
@@ -91,6 +104,10 @@ public class AlugarVeiculoController {
 			String minutoLocacao = tf_minutoLocacao.getText();
 			String horaDevolucao = tf_horaDevolucao.getText();
 			String minutoDevolucao = tf_minutoDevolucao.getText();
+			String numeroCartao = tf_numCartao.getText();
+			String nomeCartao = tf_nomeCartao.getText();
+			String codSegCartao = tf_codSegCartao.getText();
+			LocalDate validadeCartao = dp_validadeCartao.getValue();
 			
 			Carro carroAlugado = Contexto.getInstancia().getVeiculo();
 			Cliente cliente = Contexto.getInstancia().getCliente();
@@ -109,7 +126,7 @@ public class AlugarVeiculoController {
 			LocalDateTime dataHoraDevolucao = dataDevolucao.atTime(Integer.valueOf(horaDevolucao), 
 					Integer.valueOf(minutoDevolucao));
 	    	
-	    	boolean alugou = carroAlugado.confirmaLocacao(cliente, dataHoraLocacao , dataHoraDevolucao );
+	    	boolean alugou = carroAlugado.confirmaLocacao(cliente, dataHoraLocacao , dataHoraDevolucao);
 	    	
 	    	if (alugou) {
 	
@@ -138,7 +155,7 @@ public class AlugarVeiculoController {
     		Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Erro");
 			alert.setHeaderText("Erro no aluguel");
-			alert.setContentText("Os campos de data devem ser preenchidos!");
+			alert.setContentText("Todos os campos devem ser preenchidos!");
 			alert.showAndWait();
     	}
     }
