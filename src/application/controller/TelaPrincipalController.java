@@ -314,7 +314,7 @@ public class TelaPrincipalController {
 	void reservarVeiculo(ActionEvent event) throws IOException {
 		// Abre a janela de reservar veículos
 		Stage stage = new Stage();
-		Parent reservaVeiculo = FXMLLoader.load(getClass().getResource("../ReservarVeiculo.fxml"));
+		Parent reservaVeiculo = FXMLLoader.load(getClass().getResource("ReservarVeiculo.fxml"));
 		Scene scene = new Scene(reservaVeiculo);
 
 		stage.setTitle("Reserva de veículo");
@@ -494,7 +494,7 @@ public class TelaPrincipalController {
 
 		// Abre a janela de cadastro de novo cliente
 		Stage stage = new Stage();
-		Parent novoCliente = FXMLLoader.load(getClass().getResource("../NovoCliente.fxml"));
+		Parent novoCliente = FXMLLoader.load(getClass().getResource("NovoCliente.fxml"));
 		Scene scene = new Scene(novoCliente);
 
 		stage.setTitle("Cadastro de cliente");
@@ -528,7 +528,7 @@ public class TelaPrincipalController {
 			System.out.println(escolhido.getQuilometragem());
 			
 			Stage stage = new Stage();
-			Parent alugarVeiculo = FXMLLoader.load(getClass().getResource("../AlugarVeiculo.fxml"));
+			Parent alugarVeiculo = FXMLLoader.load(getClass().getResource("AlugarVeiculo.fxml"));
 			Scene scene = new Scene(alugarVeiculo);
 	
 			stage.setTitle("Aluguel de veículo");
@@ -542,7 +542,7 @@ public class TelaPrincipalController {
 
 		// Abre a janela de cadastro de novo funcionário
 		Stage stage = new Stage();
-		Parent novoFuncionario = FXMLLoader.load(getClass().getResource("../CadastroFuncionario.fxml"));
+		Parent novoFuncionario = FXMLLoader.load(getClass().getResource("CadastroFuncionario.fxml"));
 		Scene scene = new Scene(novoFuncionario);
 
 		stage.setTitle("Cadastro de funcionário");
@@ -598,7 +598,7 @@ public class TelaPrincipalController {
 	void cadastrarVeiculo(ActionEvent event) throws IOException {
 
 		Stage stage = new Stage();
-		Parent cadastroVeiculo = FXMLLoader.load(getClass().getResource("../CadastroVeiculo.fxml"));
+		Parent cadastroVeiculo = FXMLLoader.load(getClass().getResource("CadastroVeiculo.fxml"));
 		Scene scene = new Scene(cadastroVeiculo);
 
 		stage.setTitle("Cadastro de veículo");
@@ -610,7 +610,7 @@ public class TelaPrincipalController {
 	void cadastrarModelo(ActionEvent event) throws IOException {
 
 		Stage stage = new Stage();
-		Parent cadastroModelo = FXMLLoader.load(getClass().getResource("../CadastroModelo.fxml"));
+		Parent cadastroModelo = FXMLLoader.load(getClass().getResource("CadastroModelo.fxml"));
 		Scene scene = new Scene(cadastroModelo);
 
 		stage.setTitle("Cadastro de modelo de veículo");

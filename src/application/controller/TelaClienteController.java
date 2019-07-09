@@ -104,7 +104,7 @@ public class TelaClienteController {
 
 		// Abre a janela de cadastro de novo cliente
 		Stage stage = new Stage();
-		Parent atualizarCliente = FXMLLoader.load(getClass().getResource("../AtualizarCliente.fxml"));
+		Parent atualizarCliente = FXMLLoader.load(getClass().getResource("AtualizarCliente.fxml"));
 		Scene scene = new Scene(atualizarCliente);
 
 		stage.setTitle("Atualizar registro de cliente");

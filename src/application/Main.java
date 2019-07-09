@@ -28,7 +28,7 @@ public class Main extends Application {
 	public void showLoginFuncionario() throws IOException {
 
 		// Carrega o login de funcionario.
-		Parent loginFuncionario = FXMLLoader.load(getClass().getResource("LoginFuncionario.fxml"));
+		Parent loginFuncionario = FXMLLoader.load(getClass().getResource("controller/LoginFuncionario.fxml"));
 		Scene scene = new Scene(loginFuncionario);
 		primaryStage.setScene(scene);
 	}
@@ -36,7 +36,7 @@ public class Main extends Application {
 	public void showTelaPrincipal() throws IOException {
 
 		// Carrega o menu principal funcionario
-		Parent telaPrincipal = FXMLLoader.load(getClass().getResource("TelaPrincipal.fxml"));
+		Parent telaPrincipal = FXMLLoader.load(getClass().getResource("controller/TelaPrincipal.fxml"));
 		Scene scene = new Scene(telaPrincipal);
 		primaryStage.setScene(scene);
 	}
