@@ -1,8 +1,6 @@
 package application.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import application.dao.CarroDAO;
 import application.dao.ClienteDAO;
@@ -16,16 +14,18 @@ public class Locacao {
 	private LocalDateTime 	dataInicial;
 	private LocalDateTime 	dataFinal;
 	private boolean		devolvido;
-	
+	private int nota = 0;
+
 	public Locacao() {
 	}
 
-	public Locacao(int idCliente, int idCarro, LocalDateTime dataInicial, LocalDateTime dataFinal , boolean devolvido ) {
+	public Locacao(int idCliente, int idCarro, LocalDateTime dataInicial, LocalDateTime dataFinal , boolean devolvido, int nota ) {
 		this.idCarro = idCarro;
 		this.idCliente = idCliente;
 		this.dataFinal = dataFinal;
 		this.dataInicial = dataInicial;
 		this.devolvido = devolvido;
+		this.nota = nota;
 	}
 
 	public Carro getCarro() {
@@ -48,6 +48,10 @@ public class Locacao {
 		return idCarro;
 	}
 
+	public int getNota() {
+		return nota;
+	}
+
 	public LocalDateTime getDataInicial() {
 		return dataInicial;
 	}
@@ -68,6 +72,10 @@ public class Locacao {
 		this.idCarro = idCarro;
 	}
 
+	public void setNota(int nota) {
+		this.nota = nota;
+	}
+
 	public void setDataInicial(LocalDateTime dataInicial) {
 		this.dataInicial = dataInicial;
 	}
@@ -83,8 +91,8 @@ public class Locacao {
 	public void setDevolvido(boolean devolvido) {
 		this.devolvido = devolvido;
 	}
-	
-	// --- 
+
+	// ---
 	public boolean confirmaDevolucao( Filial filial_devolvida ) {
 		Carro carro = getCarro();
 		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo","Disponível").get(0).getId();
@@ -94,7 +102,7 @@ public class Locacao {
 		carro.setIdEstado(id_estado_disponivel);
 		carro.setIdFilial(filial_devolvida.getId());
 		(new CarroDAO()).update( carro );
-		
+
 		setDevolvido(true);
 		setDataFinal( LocalDateTime.now() );
 		return (new LocacaoDAO()).update(this);

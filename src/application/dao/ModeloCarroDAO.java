@@ -11,7 +11,7 @@ public class ModeloCarroDAO extends DAO<ModeloCarro> {
 	}
 
 	protected PreparedStatement createInsertStatement(Connection con, ModeloCarro modelo_carro) throws SQLException {
-		String sql = "INSERT INTO modeloCarro (marca,modelo,idGrupo) values (?,?,?);";
+		String sql = "INSERT INTO " + table_name + " (marca,modelo,idGrupo) values (?,?,?);";
 		PreparedStatement statement = con.prepareStatement(sql);
 		statement.setString(1, modelo_carro.getMarca());
 		statement.setString(2, modelo_carro.getModelo());

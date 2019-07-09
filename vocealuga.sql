@@ -179,7 +179,8 @@ CREATE TABLE `locacoes` (
   `id_carro` int(11) NOT NULL,
   `dataInicial` datetime NOT NULL,
   `dataFinal` datetime NOT NULL,
-  `devolvido` boolean NOT NULL DEFAULT false
+  `devolvido` tinyint(1) NOT NULL DEFAULT 0,
+  `nota` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -224,7 +225,28 @@ INSERT INTO `modeloCarro` (`id`, `marca`, `modelo`, `idGrupo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `reservas`
+-- Estrutura da tabela `precos`
+--
+
+CREATE TABLE `precos` (
+  `id` int(11) NOT NULL,
+  `id_grupo` int(11) NOT NULL,
+  `valor` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `precos`
+--
+
+INSERT INTO `precos` (`id`, `id_grupo`, `valor`) VALUES
+(1, 1, 100.99),
+(2, 2, 200.98),
+(3, 3, 300.97);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `reservas`
 --
 
 CREATE TABLE `reservas` (
@@ -308,7 +330,8 @@ ALTER TABLE `grupoCarro`
 --
 ALTER TABLE `locacoes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_Id_Carro` (`id_cliente`);
+  ADD KEY `fk_Id_Carro` (`id_cliente`),
+  ADD KEY `fk_Id_Carro_Locacao` (`id_carro`);
 
 --
 -- Indices de la tabla `manutencao`
@@ -325,7 +348,14 @@ ALTER TABLE `modeloCarro`
   ADD KEY `FK_grupo` (`idGrupo`);
 
 --
--- Indices de la tabla `reservas`
+-- Índices para tabela `precos`
+--
+ALTER TABLE `precos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_grupo_preco` (`id_grupo`);
+
+--
+-- Índices para tabela `reservas`
 --
 ALTER TABLE `reservas`
   ADD PRIMARY KEY (`id`),
@@ -394,11 +424,17 @@ ALTER TABLE `manutencao`
 --
 -- AUTO_INCREMENT de la tabla `modeloCarro`
 --
-ALTER TABLE `modeloCarro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `modelocarro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de la tabla `reservas`
+-- AUTO_INCREMENT de tabela `precos`
+--
+ALTER TABLE `precos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de tabela `reservas`
 --
 ALTER TABLE `reservas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -427,7 +463,13 @@ ALTER TABLE `manutencao`
   ADD CONSTRAINT `pk_Id_Carro` FOREIGN KEY (`id_carro`) REFERENCES `carro` (`id`);
 
 --
--- Filtros para la tabla `reservas`
+-- Limitadores para a tabela `precos`
+--
+ALTER TABLE `precos`
+  ADD CONSTRAINT `id_grupo_preco` FOREIGN KEY (`id_grupo`) REFERENCES `grupocarro` (`id`);
+
+--
+-- Limitadores para a tabela `reservas`
 --
 ALTER TABLE `reservas`
   ADD CONSTRAINT `fk_Id_Cliente_Reserva` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`),
