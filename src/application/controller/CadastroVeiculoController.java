@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import application.Contexto;
 import application.Main;
 import application.dao.CarroDAO;
+import application.dao.ClienteDAO;
 import application.dao.EstadoCarroDAO;
 import application.dao.FilialDAO;
 import application.dao.ModeloCarroDAO;
 import application.entity.Carro;
+import application.entity.Cliente;
 import application.entity.EstadoCarro;
 import application.entity.Filial;
 import application.entity.ModeloCarro;
@@ -90,55 +92,58 @@ public class CadastroVeiculoController {
 		String nome_filial = cb_filial.getSelectionModel().getSelectedItem();
 		String nome_estado = "Dispon√≠vel";
 		String nome_modelo = cb_modelo.getSelectionModel().getSelectedItem();
+		
+		Filial filial = (new FilialDAO()).find("nomeFilial", nome_filial).get(0);
+		EstadoCarro estado_carro = (new EstadoCarroDAO()).find("tipo", nome_estado).get(0);
+		ModeloCarro modelo_carro = (new ModeloCarroDAO()).find("modelo", nome_modelo).get(0);
+		Carro carro = new Carro();
+		carro.setQuilometragem(Integer.parseInt(tf_quilometragem.getText()));
+		carro.setIdFilial(filial.getId());
+		carro.setPlaca(tf_placa.getText());
+		carro.setIdEstado(estado_carro.getId());
+		carro.setDataCompra(dp_dataCompra.getValue());
+		carro.setDataManutencao(dp_dataManutencao.getValue());
+		carro.setIdModelo(modelo_carro.getId());
+		
+		String res = "";
+		res = criarVeiculo(carro,res);
 
 		if (tf_placa.getText().equals("") || cb_marca.getSelectionModel().isEmpty()
 				|| cb_modelo.getSelectionModel().isEmpty() || dp_dataCompra.getValue() == null
-				|| dp_dataManutencao.getValue() == null || cb_filial.getSelectionModel().isEmpty()) {
-
+				|| dp_dataManutencao.getValue() == null || cb_filial.getSelectionModel().isEmpty())
+		if (!res.equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Erro");
 			alert.setHeaderText("Erro no cadastro.");
-			alert.setContentText("Todos os campos devem ser preenchidos!");
+			alert.setContentText(res);
 			alert.showAndWait();
 		}
 
-		else {
-			Filial filial = (new FilialDAO()).find("nomeFilial", nome_filial).get(0);
-			EstadoCarro estado_carro = (new EstadoCarroDAO()).find("tipo", nome_estado).get(0);
-			ModeloCarro modelo_carro = (new ModeloCarroDAO()).find("modelo", nome_modelo).get(0);
-
-			Carro carro = new Carro();
-			carro.setQuilometragem(Integer.parseInt(tf_quilometragem.getText()));
-			carro.setIdFilial(filial.getId());
-			carro.setPlaca(tf_placa.getText());
-			carro.setIdEstado(estado_carro.getId());
-			carro.setDataCompra(dp_dataCompra.getValue());
-			carro.setDataManutencao(dp_dataManutencao.getValue());
-			carro.setIdModelo(modelo_carro.getId());
-
-			boolean cadastrou = carro_dao.insert(carro);
-
-			if (cadastrou) {
-
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setHeaderText("Cadastro efetuado");
-				alert.setContentText("Ve√≠culo cadastrado com sucesso.");
-				alert.showAndWait();
-				Stage stage = (Stage) botaoCadastrarVeiculo.getScene().getWindow();
-				stage.close();
-				Contexto.getInstancia().setVoltandoParaVeiculos(true);
-				main.showTelaPrincipal();
-			}
-
-			else {
-
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Erro");
-				alert.setHeaderText("Erro no cadastro.");
-				alert.setContentText("Dados inconsistentes!");
-				alert.showAndWait();
-			}
+		else {			
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setHeaderText("Cadastro efetuado");
+			alert.setContentText("Ve√≠culo cadastrado com sucesso.");
+			alert.showAndWait();
+			Stage stage = (Stage) botaoCadastrarVeiculo.getScene().getWindow();
+			stage.close();
+			Contexto.getInstancia().setVoltandoParaVeiculos(true);
+			main.showTelaPrincipal();
 		}
+	}
+	
+	public String criarVeiculo(Carro carro,String res) {
+		//"Todos os campos devem ser preenchidos!"
+		if(carro.getPlaca() == null ||carro.getPlaca().trim().isEmpty()) return res = "Falta a Placa";
+		if(carro.getIdModelo() == 0) return res = "Falta o Modelo";
+		if(carro.getDataCompra() == null) return res = "Falta a Data de Compra";
+		if(carro.getDataManutencao() == null) return res = "Falta a Data de ManutenÁ„o";
+		if(carro.getFilial() == null) return res = "Falta a Filial";
+		
+		boolean cadastrou = (new CarroDAO()).insert(carro);
+		if(cadastrou)
+			return "";
+		else
+			return "Erro Inesperado";
 	}
 
 	@FXML
