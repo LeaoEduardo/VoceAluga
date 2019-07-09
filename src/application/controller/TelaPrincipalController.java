@@ -3,7 +3,6 @@ package application.controller;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import application.Contexto;
 import application.FormatadorTexto;
 import application.Main;
@@ -88,9 +87,6 @@ public class TelaPrincipalController {
 
 	@FXML
 	private Tab abaFuncionarios;
-	
-	@FXML
-	private Tab abaConsultas;
 
 	@FXML
 	private AnchorPane clientePane;

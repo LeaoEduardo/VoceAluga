@@ -31,7 +31,13 @@ public class ConfirmarPagamentoController {
 
     @FXML
     private ChoiceBox<String> cb_metodoPagamento;
-
+    
+    @FXML
+    private ChoiceBox<String> cb_estadoVeiculo;
+    
+    @FXML
+    private TextField tf_custosAdicionais;
+    
     @FXML
     private TextField tf_codSegCartao;
 
@@ -50,6 +56,8 @@ public class ConfirmarPagamentoController {
     	ObservableList<String> escolhas = FXCollections.observableArrayList("Cartao cadastrado", "Novo cartao", "Dinheiro");
     	cb_metodoPagamento.setItems(escolhas);
     	cb_metodoPagamento.getSelectionModel().selectFirst();
+    	ObservableList<String> escolhasEstado = FXCollections.observableArrayList("Excelente", "Bom", "Razoável", "Ruim");
+    	cb_estadoVeiculo.setItems(escolhasEstado);
     	tf_numCartao.setDisable(true);
     	tf_nomeCartao.setDisable(true);
     	dp_validadeCartao.setDisable(true);
@@ -75,12 +83,15 @@ public class ConfirmarPagamentoController {
     @FXML
     void confirmar(ActionEvent event) throws IOException {
     	
+    	String estadoVeiculo = cb_estadoVeiculo.getSelectionModel().toString();
+    	int custosAdicionais = Integer.parseInt(tf_custosAdicionais.getText());
+    	
+    	Locacao loc = Contexto.getInstancia().getLocacao();
+    	
     	if ( cb_metodoPagamento.getSelectionModel().getSelectedIndex() == 1 ) {
     		
     		if ( !tf_numCartao.getText().equals("") && !tf_nomeCartao.getText().equals("") && dp_validadeCartao.getValue() != null && 
-    				!tf_codSegCartao.getText().equals("") ) {
-    			
-    			Locacao loc = Contexto.getInstancia().getLocacao();
+    				!tf_codSegCartao.getText().equals("") && !cb_estadoVeiculo.getValue().equals("") ) {
     			
     			if( loc.confirmaDevolucao( Contexto.getInstancia().getFuncionario().getFilial() ) ) {
     				
@@ -113,9 +124,7 @@ public class ConfirmarPagamentoController {
     		}
     	}
     	
-    	else {
-    	
-    		Locacao loc = Contexto.getInstancia().getLocacao();
+    	else if ( !cb_estadoVeiculo.getValue().equals("") ) {
 			
 			if( loc.confirmaDevolucao( Contexto.getInstancia().getFuncionario().getFilial() ) ) {
 				
@@ -136,6 +145,15 @@ public class ConfirmarPagamentoController {
 				Stage stage = (Stage) botaoCancelar.getScene().getWindow();
 				stage.close();
 			}
+    	}
+    	
+    	else {
+    		
+    		Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Erro");
+			alert.setHeaderText("Erro no pagamento");
+			alert.setContentText("Estado de devolucao nao preenchido!");
+			alert.showAndWait();
     	}
     }
     

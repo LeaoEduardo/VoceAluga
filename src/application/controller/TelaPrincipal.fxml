@@ -207,11 +207,6 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab fx:id="abaConsultas" text="Consultas Gerais">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
         </tabs>
       </TabPane>
       <GridPane layoutX="19.0" layoutY="7.0" prefHeight="90.0" prefWidth="300.0" AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="7.0">
