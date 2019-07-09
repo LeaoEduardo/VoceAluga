@@ -7,7 +7,7 @@ import org.junit.Test;
 import application.controller.CadastroVeiculoController;
 import application.controller.CadastroModeloController;
 import application.dao.ClienteDAO;
-import application.entity.Cliente;
+import application.entity.Carro;
 
 public class TesteCarro {
 
@@ -17,10 +17,12 @@ public class TesteCarro {
 	public void testeCriarCarroFail(){
 		String res = "";
 		Carro carro = new Carro();
-		carro.setNome("Daniel Jimenez");
-		carro.setNacionalidade("Colombiano");
-		carro.setTelefone("5281473");
-		carro.setCnh("");
+		carro.setPlaca("ABC123");
+		carro.setIdModelo(1);
+		carro.setDataCompra(LocalDate.parse("1993-11-29"));
+		carro.setDataManutencao(LocalDate.parse("1993-11-29"));
+		carro.setIdFilial(1);
+		
 		carro.setPassaporte("18254888183");
 		carro.setDataNasc(LocalDate.parse("1993-11-29"));
 		carro.setDataCnh(LocalDate.parse("1993-11-29"));		
