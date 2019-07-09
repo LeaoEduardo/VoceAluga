@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import application.Contexto;
 import application.Main;
 import application.dao.CarroDAO;
+import application.dao.ClienteDAO;
 import application.dao.GrupoCarroDAO;
 import application.dao.ModeloCarroDAO;
 import application.dao.ReservaDAO;
@@ -21,11 +22,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class ReservarVeiculoController {
@@ -134,15 +137,23 @@ public class ReservarVeiculoController {
 		if (devolution_minute.equals(""))
 			devolution_minute = "0";
 		
-		if (data_locacao == null || data_devolucao == null)
+		if (data_locacao == null || data_devolucao == null) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Erro");
+			alert.setHeaderText("Erro na reserva.");
+			alert.setContentText("Datas invalidas");
+			alert.showAndWait();
 			return;
+		}
+
 		LocalDateTime data_hora_locacao = data_locacao.atTime(Integer.valueOf(rent_hour), Integer.valueOf(rent_minute));
 		LocalDateTime data_hora_devolucao = data_devolucao.atTime(Integer.valueOf(devolution_hour),
 				Integer.valueOf(devolution_minute));
+		
 		GrupoCarro grupo_do_carro = (new GrupoCarroDAO()).find("grupo", grupo_carro_selecionado).get(0);
 
 		// id_modelo_carro ou é -1 (tanto faz) ou selecionado (>=1)
-		int id_modelo_carro_selecionado = -1;
+		int id_modelo_carro_selecionado = 0;
 		if (car_model_choice_box.isDisabled() == false && modelo_carro_selecionado.length() > 0) {
 			ArrayList<ModeloCarro> modelos = (new ModeloCarroDAO()).find("modelo", modelo_carro_selecionado);
 			if (modelos.size() > 0) {
@@ -155,32 +166,54 @@ public class ReservarVeiculoController {
 				id_modelo_carro_selecionado = modelos_possiveis.get(0).getId();
 			}
 		}
-		if (id_modelo_carro_selecionado == -1) {
-			return;
-		}
-
-		ArrayList<Carro> carros_possiveis = (new CarroDAO()).find("idModelo",
-				String.valueOf(id_modelo_carro_selecionado));
-		Carro carro_escolhido = null;
-
-		// To nem ai pro modelo escolhido, pego o primeiro disponivel
-		if (carros_possiveis.size() == 0) {
-			return;
-		}
-		carro_escolhido = carros_possiveis.get(0);
-
-		// Persiste a locação no database:
 		Reserva reserva = new Reserva();
 		reserva.setDataLocacao(data_hora_locacao);
 		reserva.setIdCliente(Contexto.getInstancia().getCliente().getId());
 		reserva.setIdGrupo(grupo_do_carro.getId());
 		reserva.setIdModelo(id_modelo_carro_selecionado);
 		reserva.setDataDevolucao(data_hora_devolucao);
-		ReservaDAO reserva_dao = new ReservaDAO();
-		reserva_dao.insert(reserva);
-		Stage stage = (Stage) rent_hour_text.getScene().getWindow();
-		stage.close();
-		Contexto.getInstancia().setVoltandoParaCliente(true);
-		main.showTelaPrincipal();
+		
+		String res = "";
+		res = criarReserva(reserva,res);
+		
+		if (res.equals("")) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setHeaderText("Reserva");
+			alert.setContentText("Veiculo reservado com sucesso.");
+			alert.showAndWait();
+			Stage stage = (Stage) rent_hour_text.getScene().getWindow();
+			stage.close();
+			Contexto.getInstancia().setVoltandoParaCliente(true);
+			main.showTelaPrincipal();
+		}
+		else {
+			// Se algum campo estiver vazio
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Erro");
+			alert.setHeaderText("Erro na reserva.");
+			alert.setContentText(res);
+			alert.showAndWait();
+		}
+		
+	}
+	
+	public String criarReserva(Reserva reserva, String res) {
+		if (reserva.getIdModelo() == 0) return res = "Falta o Modelo";
+		if (reserva.getIdGrupo() == 0) return res = "Falta o Grupo";
+
+		ArrayList<Carro> carros_possiveis = (new CarroDAO()).find("idModelo",
+				String.valueOf(reserva.getIdModelo()));
+		Carro carro_escolhido = null;
+
+		// To nem ai pro modelo escolhido, pego o primeiro disponivel
+		if (carros_possiveis.size() == 0) return res = "Não tem carros disponiveis";
+		carro_escolhido = carros_possiveis.get(0);
+
+		// Persiste a locação no database:
+		boolean criou = (new ReservaDAO()).insert(reserva);
+		if(criou)
+			return "";
+		else
+			return "Dados inconsistentes";
 	}
 }

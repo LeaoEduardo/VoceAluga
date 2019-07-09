@@ -7,7 +7,7 @@ import application.entity.ModeloCarro;
 public class ModeloCarroDAO extends DAO<ModeloCarro> {
 
 	{
-		table_name = "modeloCarro";
+		table_name = "modelocarro";
 	}
 
 	protected PreparedStatement createInsertStatement(Connection con, ModeloCarro modelo_carro) throws SQLException {

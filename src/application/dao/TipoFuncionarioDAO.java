@@ -6,7 +6,7 @@ import application.entity.TipoFuncionario;
 public class TipoFuncionarioDAO extends DAO<TipoFuncionario> {
 
 	{
-		table_name = "tipoFuncionario";
+		table_name = "tipofuncionario";
 	}
 
 	protected TipoFuncionario getEntityFromResultSet(ResultSet result) {

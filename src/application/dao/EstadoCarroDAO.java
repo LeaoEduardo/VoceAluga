@@ -6,7 +6,7 @@ import application.entity.EstadoCarro;
 public class EstadoCarroDAO extends DAO<EstadoCarro> {
 
 	{
-		table_name = "estadoCarro";
+		table_name = "estadocarro";
 	}
 
 	protected EstadoCarro getEntityFromResultSet(ResultSet result) {

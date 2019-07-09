@@ -113,10 +113,10 @@ public class Carro {
 	}
 	
 	public boolean confirmaLocacao( Cliente cliente , LocalDateTime dataHoraLocacao , LocalDateTime dataHoraDevolucao ) {
-		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo","Dispon�vel").get(0).getId();
+		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo","Disponível").get(0).getId();
 		int id_estado_alugado = (new EstadoCarroDAO()).find("tipo","Alugado").get(0).getId();
 		if( this.idEstado != id_estado_disponivel ) {
-			System.out.println("WARNING: Carro alugado não está 'Dispon�vel' no banco de dados");
+			System.out.println("WARNING: Carro alugado não está 'Disponível' no banco de dados");
 			return false;
 		}
 		this.idEstado = id_estado_alugado;
