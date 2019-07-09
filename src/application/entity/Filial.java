@@ -28,7 +28,7 @@ public class Filial {
 
 	public ArrayList<Carro> getCarrosDisponiveis( Reserva reserva ){
 		CarroDAO carro_dao = new CarroDAO();
-		ArrayList<Carro> ret = new ArrayList<Carro>();;
+		ArrayList<Carro> ret = new ArrayList<Carro>();
 		ArrayList<Carro> carros_presentes = carro_dao.find("idFilial" , String.valueOf( this.id )  );
 		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo", "Disponível").get(0).getId();
 		

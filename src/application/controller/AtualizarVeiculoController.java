@@ -160,7 +160,7 @@ public class AtualizarVeiculoController {
 
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Erro");
-				alert.setHeaderText("Erro no cadastro.");
+				alert.setHeaderText("Erro no cadastro");
 				alert.setContentText("Dados inconsistentes!");
 				alert.showAndWait();
 			}
