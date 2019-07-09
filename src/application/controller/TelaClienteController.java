@@ -143,30 +143,6 @@ public class TelaClienteController {
 	}
 
 	@FXML
-	void cancelarReserva(ActionEvent event) {
-
-		// Sera feito no Sprint de aluguel
-	}
-
-	@FXML
-	void historico(ActionEvent event) {
-
-		// Sera feito no Sprint de aluguel
-	}
-
-	@FXML
-	void contratempos(ActionEvent event) {
-
-		// Sera feito no Sprint de aluguel
-	}
-
-	@FXML
-	void apoliceSeguros(ActionEvent event) {
-
-		// Sera feito no Sprint de aluguel
-	}
-
-	@FXML
 	void voltar(ActionEvent event) throws IOException {
 		main.showTelaPrincipal();
 	}
