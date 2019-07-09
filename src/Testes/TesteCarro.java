@@ -21,31 +21,9 @@ public class TesteCarro {
 		carro.setIdModelo(1);
 		carro.setDataCompra(LocalDate.parse("1993-11-29"));
 		carro.setDataManutencao(LocalDate.parse("1993-11-29"));
-		carro.setIdFilial(1);
-		
-		carro.setPassaporte("18254888183");
-		carro.setDataNasc(LocalDate.parse("1993-11-29"));
-		carro.setDataCnh(LocalDate.parse("1993-11-29"));		
-		res = nvc.criarCliente(cl,res);
+		carro.setIdFilial(1);		
+		res = cv.criarVeiculo(carro,res);
 		System.out.println(res);
 		Assert.assertTrue(res.equals("Falta o CNH"));
-	}
-	
-	@Test
-	public void testeCriarClienteSucess(){
-		String res = "";
-		Cliente cl = new Cliente();
-		cl.setNome("Daniel Jimenez");
-		cl.setNacionalidade("Colombiano");
-		cl.setTelefone("5281473");
-		cl.setCnh("1");
-		cl.setPassaporte("18254888183");
-		cl.setDataNasc(LocalDate.parse("1993-11-29"));
-		cl.setDataCnh(LocalDate.parse("1993-11-29"));		
-		res = nvc.criarCliente(cl,res);
-		System.out.println(res);
-		if(res.isEmpty())
-			(new ClienteDAO()).delete(cl);
-		Assert.assertTrue(res.isEmpty());
 	}
 }

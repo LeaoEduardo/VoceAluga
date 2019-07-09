@@ -88,29 +88,39 @@ public class CadastroVeiculoController {
 	@FXML
 	void cadastrarVeiculo(ActionEvent event) throws IOException {
 
-		CarroDAO carro_dao = new CarroDAO();
+		Carro carro = new Carro();
 		String nome_filial = cb_filial.getSelectionModel().getSelectedItem();
 		String nome_estado = "Dispon√≠vel";
 		String nome_modelo = cb_modelo.getSelectionModel().getSelectedItem();
 		
-		Filial filial = (new FilialDAO()).find("nomeFilial", nome_filial).get(0);
+		Filial filial = null;
 		EstadoCarro estado_carro = (new EstadoCarroDAO()).find("tipo", nome_estado).get(0);
-		ModeloCarro modelo_carro = (new ModeloCarroDAO()).find("modelo", nome_modelo).get(0);
-		Carro carro = new Carro();
-		carro.setQuilometragem(Integer.parseInt(tf_quilometragem.getText()));
-		carro.setIdFilial(filial.getId());
+		ModeloCarro modelo_carro = null;
+		if(!cb_filial.getSelectionModel().isEmpty()) {
+			filial = (new FilialDAO()).find("nomeFilial", nome_filial).get(0);
+			carro.setIdFilial(filial.getId());
+		}
+		else
+			carro.setIdFilial(0);
+		if(!cb_modelo.getSelectionModel().isEmpty()) {
+			modelo_carro = (new ModeloCarroDAO()).find("modelo", nome_modelo).get(0);
+			carro.setIdModelo(modelo_carro.getId());
+		}
+		else
+			carro.setIdModelo(0);
+		
+		if(tf_quilometragem.getText().isEmpty())
+			carro.setQuilometragem(-1);
+		else
+			carro.setQuilometragem(Integer.parseInt(tf_quilometragem.getText()));
 		carro.setPlaca(tf_placa.getText());
 		carro.setIdEstado(estado_carro.getId());
 		carro.setDataCompra(dp_dataCompra.getValue());
 		carro.setDataManutencao(dp_dataManutencao.getValue());
-		carro.setIdModelo(modelo_carro.getId());
 		
 		String res = "";
 		res = criarVeiculo(carro,res);
 
-		if (tf_placa.getText().equals("") || cb_marca.getSelectionModel().isEmpty()
-				|| cb_modelo.getSelectionModel().isEmpty() || dp_dataCompra.getValue() == null
-				|| dp_dataManutencao.getValue() == null || cb_filial.getSelectionModel().isEmpty())
 		if (!res.equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Erro");
@@ -133,11 +143,13 @@ public class CadastroVeiculoController {
 	
 	public String criarVeiculo(Carro carro,String res) {
 		//"Todos os campos devem ser preenchidos!"
-		if(carro.getPlaca() == null ||carro.getPlaca().trim().isEmpty()) return res = "Falta a Placa";
+		if(carro.getPlaca() == null || carro.getPlaca().trim().isEmpty()) return res = "Falta a Placa";
 		if(carro.getIdModelo() == 0) return res = "Falta o Modelo";
 		if(carro.getDataCompra() == null) return res = "Falta a Data de Compra";
-		if(carro.getDataManutencao() == null) return res = "Falta a Data de ManutenÁ„o";
-		if(carro.getFilial() == null) return res = "Falta a Filial";
+		if(carro.getDataManutencao() == null) return res = "Falta a Data de Manuten√ß√£o";
+		if(carro.getIdFilial() == 0) return res = "Falta a Filial";
+		if(carro.getIdEstado() == 0) return res = "Falta o Estado";
+		if(carro.getQuilometragem() == -1) return res = "Falta a Quilometragem";
 		
 		boolean cadastrou = (new CarroDAO()).insert(carro);
 		if(cadastrou)
