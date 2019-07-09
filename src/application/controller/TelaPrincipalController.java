@@ -62,6 +62,12 @@ public class TelaPrincipalController {
 
 	@FXML
 	private ChoiceBox<String> cb_cpfPassaporte;
+	
+	@FXML
+	private TextField tf_cpfPassaporteL;
+
+	@FXML
+	private ChoiceBox<String> cb_cpfPassaporteL;
 
 	@FXML
 	private TabPane telaPrincipalTabPane;
@@ -69,21 +75,40 @@ public class TelaPrincipalController {
 	@FXML
     private Tab abaReserva;
 
+    @FXML
+    private Tab abaLocacao;
+	
+	@FXML
+    private Tab abaDevolucao;
+
 	@FXML
 	private Tab abaVeiculos;
 
 	@FXML
 	private Tab abaFuncionarios;
+	
+	@FXML
+	private Tab abaConsultas;
 
 	@FXML
 	private AnchorPane clientePane;
 	boolean clientePaneBool = false;
+	
+	@FXML
+	private AnchorPane locacaoPane;
+	boolean locacaoPaneBool = false;
 
 	@FXML
 	private Text tf_nome;
 
 	@FXML
 	private Text tf_cnh;
+	
+	@FXML
+	private Text tf_nomeL;
+
+	@FXML
+	private Text tf_cnhL;
 
 	@FXML
 	private TextField tf_placa;
@@ -117,15 +142,40 @@ public class TelaPrincipalController {
 
 	@FXML
 	private TableColumn<Carro, LocalDate> col_dataC;
-
+	
 	@FXML
 	private TableColumn<Carro, String> col_filial;
 
 	@FXML
 	private TableColumn<Carro, String> col_estado;
+	
+	@FXML
+	private TableView<Carro> tabelaVeiculosL;
 
+	@FXML
+	private TableColumn<Carro, String> col_grupoL;
+
+	@FXML
+	private TableColumn<Carro, String> col_marcaL;
+
+	@FXML
+	private TableColumn<Carro, String> col_modeloL;
+
+	@FXML
+	private TableColumn<Carro, String> col_placaL;
+
+	@FXML
+	private TableColumn<Carro, Integer> col_quilometragemL;
+
+	@FXML
+	private TableColumn<Carro, LocalDate> col_dataML;
+
+	@FXML
+	private TableColumn<Carro, LocalDate> col_dataCL;
+	
 
 	private ObservableList<Carro> listaCarro = FXCollections.observableArrayList();
+	private ObservableList<Carro> listaCarrosDisponiveis = FXCollections.observableArrayList();
 
 	@FXML
 	void initialize() throws IOException {
@@ -137,6 +187,13 @@ public class TelaPrincipalController {
 		property.addListener((value, oldValue, newValue) -> tf_cpfPassaporte
 				.setTextFormatter(formatador.CpfPassaporte((Integer) newValue, tf_cpfPassaporte)));
 		cb_cpfPassaporte.getSelectionModel().selectFirst();
+		
+		cb_cpfPassaporteL.setItems(escolhas);
+		ReadOnlyIntegerProperty propertyL = cb_cpfPassaporteL.getSelectionModel().selectedIndexProperty();
+		FormatadorTexto formatadorL = Contexto.getInstancia().getFormatador();
+		propertyL.addListener((value, oldValue, newValue) -> tf_cpfPassaporteL
+				.setTextFormatter(formatadorL.CpfPassaporte((Integer) newValue, tf_cpfPassaporteL)));
+		cb_cpfPassaporteL.getSelectionModel().selectFirst();
 
 		Funcionario funcionario = Contexto.getInstancia().getFuncionario();
 		TipoFuncionario tipo_funcionario = (new TipoFuncionarioDAO()).find(funcionario.getIdTipo());
@@ -147,6 +204,7 @@ public class TelaPrincipalController {
 		tf_filial.setText(filial.getNome());
 
 		clientePane.setVisible(clientePaneBool);
+		locacaoPane.setVisible(locacaoPaneBool);
 
 		//Fazendo o botão de cancelar reserva ficar desativado quando nenhuma reserva estiver selecionada
 		btn_cancelar_reserva.setDisable( true );
@@ -170,30 +228,20 @@ public class TelaPrincipalController {
 				pesquisaPorPassaporte(passaporte);
 			}
 		}
-		
-		if (funcionario.getIdTipo() != 1) {
 
-			TabPane tabPane = abaVeiculos.getTabPane();
-			tabPane.getTabs().remove(abaVeiculos);
-			tabPane.getTabs().remove(abaFuncionarios);
-		}
+		telaPrincipalTabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+			if (newTab == abaVeiculos)
+				carregaVeiculos();
+		});
 
-		else {
+		ReadOnlyIntegerProperty veiculoProperty = tabelaVeiculos.getSelectionModel().selectedIndexProperty();
+		veiculoProperty.addListener((value, oldValue, newValue) -> tf_placa
+				.setText(tabelaVeiculos.getSelectionModel().getSelectedItem().getPlaca()));
 
-			telaPrincipalTabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-				if (newTab == abaVeiculos)
-					carregaVeiculos();
-			});
-			
-			ReadOnlyIntegerProperty veiculoProperty = tabelaVeiculos.getSelectionModel().selectedIndexProperty();
-			veiculoProperty.addListener((value, oldValue, newValue) -> tf_placa
-					.setText(tabelaVeiculos.getSelectionModel().getSelectedItem().getPlaca()));
+		if (Contexto.getInstancia().getVoltandoParaVeiculos()) {
 
-			if (Contexto.getInstancia().getVoltandoParaVeiculos()) {
-
-				telaPrincipalTabPane.getSelectionModel().select(abaVeiculos);
-				Contexto.getInstancia().setVoltandoParaVeiculos(false);
-			}
+			telaPrincipalTabPane.getSelectionModel().select(abaVeiculos);
+			Contexto.getInstancia().setVoltandoParaVeiculos(false);
 		}
 	}
 
@@ -229,7 +277,37 @@ public class TelaPrincipalController {
 
 		tabelaVeiculos.setItems(listaCarro);
 		col_grupo.setSortType(TableColumn.SortType.ASCENDING);
+		col_estado.setSortType(TableColumn.SortType.ASCENDING);
 		tabelaVeiculos.getSortOrder().add(col_grupo);
+	}
+	
+	void carregaVeiculosLocacao() {
+		
+		listaCarrosDisponiveis = FXCollections.observableArrayList();
+		ArrayList<Carro> carrosDisponiveis = Contexto.getInstancia().getFuncionario().getFilial().getCarrosDisponiveis(null);
+		for (int i = 0; i < carrosDisponiveis.size(); i++) {
+			listaCarrosDisponiveis.add(carrosDisponiveis.get(i));
+		}
+		
+		col_grupoL.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getGrupoCarro().getGrupo()));
+		col_marcaL.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getMarca()));
+		col_modeloL.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getModeloCarro().getModelo()));
+		col_placaL.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getPlaca()));
+		col_quilometragemL.setCellValueFactory(
+				cellData -> new SimpleIntegerProperty(cellData.getValue().getQuilometragem()).asObject());
+		col_dataML.setCellValueFactory(
+				cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataManutencao()));
+		col_dataCL.setCellValueFactory(
+				cellData -> new SimpleObjectProperty<LocalDate>(cellData.getValue().getDataCompra()));
+		
+		tabelaVeiculosL.setItems(listaCarrosDisponiveis);
+		col_grupoL.setSortType(TableColumn.SortType.ASCENDING);
+		tabelaVeiculosL.getSortOrder().add(col_grupoL);
+		
 	}
 
 	@FXML
@@ -306,16 +384,35 @@ public class TelaPrincipalController {
 		tabelaReservas.getSortOrder().add( coluna_data_loc );
 		
 	}
+	
+	void carregaClienteLocacao(Cliente cliente) throws IOException {
+		
+		tf_nomeL.setText(cliente.getNome());
+		tf_cnhL.setText(cliente.getCnh());
+		locacaoPane.setVisible(locacaoPaneBool = true);
+		carregaVeiculosLocacao();
+	}
 
 	void pesquisarCliente() throws IOException {
 		Cliente cliente = null;
-		if (cb_cpfPassaporte.getSelectionModel().getSelectedIndex() == 0) {
-			String cpf = tf_cpfPassaporte.getText();
+		
+		if (telaPrincipalTabPane.getSelectionModel().getSelectedItem() == abaReserva) {
+			
+			if (cb_cpfPassaporte.getSelectionModel().getSelectedIndex() == 0) {
+				String cpf = tf_cpfPassaporte.getText();
+				cliente = pesquisaPorCpf(cpf);
+			} else {
+				String passaporte = tf_cpfPassaporte.getText();
+				cliente = pesquisaPorPassaporte(passaporte);
+			}
+		}
+		else if (cb_cpfPassaporteL.getSelectionModel().getSelectedIndex() == 0) {
+			String cpf = tf_cpfPassaporteL.getText();
 			cliente = pesquisaPorCpf(cpf);
 		} else {
-			String passaporte = tf_cpfPassaporte.getText();
+			String passaporte = tf_cpfPassaporteL.getText();
 			cliente = pesquisaPorPassaporte(passaporte);
-		}
+		}	
 		if (cliente != null) {
 			Contexto.getInstancia().setCliente(cliente);
 		}
@@ -336,8 +433,11 @@ public class TelaPrincipalController {
 		}
 
 		if (cliente != null) {
-
-			carregaCliente(cliente);
+			
+			if (telaPrincipalTabPane.getSelectionModel().getSelectedItem() == abaReserva)
+				carregaCliente(cliente);
+			else
+				carregaClienteLocacao(cliente);
 
 			System.out.println("cpf: " + cliente.getCpf());
 			System.out.println("passaporte: " + cliente.getPassaporte());
@@ -369,7 +469,10 @@ public class TelaPrincipalController {
 		if (cliente != null) {
 
 			// main.showTelaCliente();
-			carregaCliente(cliente);
+			if (telaPrincipalTabPane.getSelectionModel().getSelectedItem() == abaReserva)
+				carregaCliente(cliente);
+			else
+				carregaClienteLocacao(cliente);
 
 			System.out.println("cpf: " + cliente.getCpf());
 			System.out.println("passaporte: " + cliente.getPassaporte());
@@ -398,6 +501,41 @@ public class TelaPrincipalController {
 		stage.setScene(scene);
 		stage.show();
 	}
+	
+	@FXML
+    void alugarVeiculo(ActionEvent event) throws IOException {
+		
+		Carro escolhido = tabelaVeiculosL.getSelectionModel().getSelectedItem();
+		
+		if ( escolhido == null ) {
+			
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Erro");
+			alert.setHeaderText("Nenhum veiculo selecionado.");
+			alert.setContentText("Selecione um veiculo.");
+			alert.showAndWait();
+		}
+		
+		else {
+		
+			Contexto.getInstancia().setVeiculo(escolhido);
+			
+			// Prints de teste
+			System.out.println(escolhido.getModeloCarro().getGrupoCarro().getGrupo());
+			System.out.println(escolhido.getPlaca());
+			System.out.println(escolhido.getModeloCarro().getMarca());
+			System.out.println(escolhido.getModeloCarro().getModelo());
+			System.out.println(escolhido.getQuilometragem());
+			
+			Stage stage = new Stage();
+			Parent alugarVeiculo = FXMLLoader.load(getClass().getResource("../AlugarVeiculo.fxml"));
+			Scene scene = new Scene(alugarVeiculo);
+	
+			stage.setTitle("Aluguel de veículo");
+			stage.setScene(scene);
+			stage.show();
+		}
+    }
 
 	@FXML
 	void cadastrarFuncionario(ActionEvent event) throws IOException {
@@ -478,19 +616,6 @@ public class TelaPrincipalController {
 		stage.setTitle("Cadastro de modelo de veículo");
 		stage.setScene(scene);
 		stage.show();
-	}
-
-	@FXML
-	void ativarLocacao(ActionEvent event) throws IOException {
-
-		// Sera feito no Sprint de aluguel
-	}
-
-	@FXML
-	void consultasGerais(ActionEvent event) throws IOException {
-
-		// Aqui serao feitas as consultas gerais, e talvez o acesso ao financeiro da
-		// empresa
 	}
 
 	@FXML
