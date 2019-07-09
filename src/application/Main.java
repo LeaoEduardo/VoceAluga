@@ -44,7 +44,7 @@ public class Main extends Application {
 	public void showTelaCliente() throws IOException {
 
 		// Carrega a tela do cliente
-		Parent telaCliente = FXMLLoader.load(getClass().getResource("TelaCliente.fxml"));
+		Parent telaCliente = FXMLLoader.load(getClass().getResource("controller/TelaCliente.fxml"));
 		Scene scene = new Scene(telaCliente);
 		primaryStage.setScene(scene);
 	}
@@ -52,7 +52,7 @@ public class Main extends Application {
 	public void showTelaVeiculo() throws IOException {
 
 		// Carrega a tela do veiculo
-		Parent telaVeiculo = FXMLLoader.load(getClass().getResource("TelaVeiculo.fxml"));
+		Parent telaVeiculo = FXMLLoader.load(getClass().getResource("controller/TelaVeiculo.fxml"));
 		Scene scene = new Scene(telaVeiculo);
 		primaryStage.setScene(scene);
 	}

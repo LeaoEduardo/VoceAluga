@@ -37,8 +37,28 @@ public class AbaLocacoesController {
     @FXML
     private TableColumn<Locacao, String> col_modelo;
     
+    private String nome_filial_selecionado;
+    
     @FXML
     void initialize() {
+    	ObservableList<String> nome_filiais = FXCollections.observableArrayList();
+    	Filial filial_contexto = Contexto.getInstancia().getFuncionario().getFilial();
+    	nome_filiais.add("Todas filiais");
+    	nome_filiais.add("Minha filial(" + filial_contexto.getNome() + ")");
+    	ArrayList<Filial> todas_filiais = (new FilialDAO()).findAll();
+    	for( Filial filial : todas_filiais ) {
+    		if( filial.getId() != filial_contexto.getId() ) {
+    			nome_filiais.add( filial.getNome() );
+    		}
+    	}
+    	filial_escolhida.setItems(nome_filiais);
+    	filial_escolhida.getSelectionModel().selectedItemProperty().addListener( 
+    			(value,old_value,new_value) -> {
+    				nome_filial_selecionado = new_value;
+    				atualizaTabela(null); // aqui dentro ele não percebeu a alteração no choicebox ainda...
+    			}
+    	);
+    	filial_escolhida.getSelectionModel().clearAndSelect(0);
     }
 
     @FXML
@@ -58,11 +78,20 @@ public class AbaLocacoesController {
     	ArrayList<Locacao> todas_locacoes = (new LocacaoDAO()).findAll();
     	boolean incluir_passadas = cb_incluir_locacoes_passadas.isSelected();
     	Filial filial = null;
+    	
+    	System.out.println("INDEX SELECIONADO:");
+    	System.out.println( filial_escolhida.getSelectionModel().getSelectedIndex() );
+    	
     	if( filial_escolhida.getSelectionModel().getSelectedIndex() > 0 ) {
-    		String nome_filial = filial_escolhida.getSelectionModel().getSelectedItem();
-        	ArrayList<Filial> result = (new FilialDAO()).find("nomeFilial", nome_filial);
-        	if( result.size() > 0 ) filial = result.get(0);
+    		// Opção "Minha filial"
+        	if( filial_escolhida.getSelectionModel().getSelectedIndex() == 1 ) {
+        		filial = Contexto.getInstancia().getFuncionario().getFilial();
+        	}else {
+            	ArrayList<Filial> result = (new FilialDAO()).find("nomeFilial", nome_filial_selecionado);
+            	if( result.size() > 0 ) filial = result.get(0);
+        	}
     	}
+    	
     	for( Locacao loc : todas_locacoes ) {
     		if( incluir_passadas == false && loc.isDevolvido() ) {
     			continue;
