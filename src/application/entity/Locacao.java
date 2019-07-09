@@ -9,17 +9,19 @@ public class Locacao {
 	private int id = -1;
 	private int idCliente;
 	private int idCarro;
-	private LocalDate dataInicial;
-	private LocalDate dataFinal;
-
+	private LocalDate 	dataInicial;
+	private LocalDate 	dataFinal;
+	private boolean		devolvido;
+	
 	public Locacao() {
 	}
 
-	public Locacao(int idCliente, int idCarro, LocalDate dataInicial, LocalDate dataFinal) {
+	public Locacao(int idCliente, int idCarro, LocalDate dataInicial, LocalDate dataFinal , boolean devolvido ) {
 		this.idCarro = idCarro;
 		this.idCliente = idCliente;
 		this.dataFinal = dataFinal;
 		this.dataInicial = dataInicial;
+		this.devolvido = devolvido;
 	}
 
 	public Carro getCarro() {
@@ -68,5 +70,13 @@ public class Locacao {
 
 	public void setDataFinal(LocalDate dataFinal) {
 		this.dataFinal = dataFinal;
+	}
+
+	public boolean isDevolvido() {
+		return devolvido;
+	}
+
+	public void setDevolvido(boolean devolvido) {
+		this.devolvido = devolvido;
 	}
 }
