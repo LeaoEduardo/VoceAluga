@@ -151,6 +151,8 @@ public class CadastroVeiculoController {
 		if(carro.getIdEstado() == 0) return res = "Falta o Estado";
 		if(carro.getQuilometragem() == -1) return res = "Falta a Quilometragem";
 		
+		if((new CarroDAO()).find("placa", carro.getPlaca()).size() > 0) return res = "Carro ja existe";
+				
 		boolean cadastrou = (new CarroDAO()).insert(carro);
 		if(cadastrou)
 			return "";

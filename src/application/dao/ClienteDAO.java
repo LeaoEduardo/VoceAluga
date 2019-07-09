@@ -54,7 +54,6 @@ public class ClienteDAO extends DAO<Cliente> {
 		if(entity.getPassaporte() != null)
 			return "DELETE FROM " + table_name + " WHERE passaporte = " + String.valueOf(entity.getPassaporte());
 		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf(entity.getId());
-		
 	}
 
 	protected Cliente getEntityFromResultSet(ResultSet result) {

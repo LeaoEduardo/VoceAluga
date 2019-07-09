@@ -47,6 +47,8 @@ public class CarroDAO extends DAO<Carro> {
 	}
 
 	protected String createDeleteStatement(Carro entity) {
+		if(entity.getPlaca() != null)
+			return "DELETE FROM " + table_name + " WHERE placa = \"" + String.valueOf(entity.getPlaca()) + "\"" ;
 		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf(entity.getId());
 	}
 
