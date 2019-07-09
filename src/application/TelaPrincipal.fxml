@@ -80,7 +80,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="abaLocacao" text="Locação">
+            <Tab fx:id="abaLocacao" text="Retirar veículo">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="438.0" prefWidth="800.0">
                      <children>
@@ -161,10 +161,14 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="abaDevolucao" text="Devolução">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
+            <Tab fx:id="abaDevolucao" text="Devolução de veículo">
+               <content>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <fx:include source="AbaLocacoes.fxml" />
+                     </children>
+                  </StackPane>
+               </content>
             </Tab>
             <Tab fx:id="abaFuncionarios" text="Funcionários">
               <content>

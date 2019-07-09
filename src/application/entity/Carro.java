@@ -111,38 +111,6 @@ public class Carro {
 		this.idEstado = idEstado;
 	}
 	
-	// ------
-	public boolean confirmaDevolucao( Filial filial_devolvida ) {
-		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo","Disponível").get(0).getId();
-		if( this.idEstado == id_estado_disponivel ) {
-			System.out.println("WARNING: Carro devolvido já esta como 'Disponível'");
-		}
-		this.idEstado = id_estado_disponivel;
-		this.idFilial = filial_devolvida.getId();
-		
-		// Encontra a locação correspondente! Aqui dá um pouco de trabalho pq o método da classe DAO
-		// só serve pra filtrar uma propriedade e precisamos filtrar 2 propriedades
-		// (procurar uma locacao q não foi devolvida ainda e q seja desse carro)
-		Locacao locacao = null;
-		LocacaoDAO locacao_dao = new LocacaoDAO();
-		ArrayList<Locacao> locacoes = locacao_dao.find("id_carro", String.valueOf( this.id ) );
-		for( Locacao locacao_candidata : locacoes ) {
-			if( locacao_candidata.isDevolvido() == false ) {
-				locacao = locacao_candidata;
-				break;
-			}
-		}
-		if( locacao == null ) {
-			System.err.println("Não existe uma locacao para este carro!");
-			return false;
-		} else {
-			locacao.setDevolvido(true);
-			locacao.setDataFinal( LocalDate.now() );
-			locacao_dao.update(locacao);
-		}
-		
-		return (new CarroDAO()).update( this );
-	}
 	public boolean confirmaLocacao( Cliente cliente , LocalDate data_locacao , LocalDate data_devolucao ) {
 		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo","Disponível").get(0).getId();
 		int id_estado_alugado = (new EstadoCarroDAO()).find("tipo","Alugado").get(0).getId();

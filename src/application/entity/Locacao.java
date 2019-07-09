@@ -1,9 +1,12 @@
 package application.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import application.dao.CarroDAO;
 import application.dao.ClienteDAO;
+import application.dao.EstadoCarroDAO;
+import application.dao.LocacaoDAO;
 
 public class Locacao {
 	private int id = -1;
@@ -78,5 +81,21 @@ public class Locacao {
 
 	public void setDevolvido(boolean devolvido) {
 		this.devolvido = devolvido;
+	}
+	
+	// --- 
+	public boolean confirmaDevolucao( Filial filial_devolvida ) {
+		Carro carro = getCarro();
+		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo","Disponível").get(0).getId();
+		if( carro.getIdEstado() == id_estado_disponivel ) {
+			System.out.println("WARNING: Carro devolvido já esta como 'Disponível'");
+		}
+		carro.setIdEstado(id_estado_disponivel);
+		carro.setIdFilial(filial_devolvida.getId());
+		(new CarroDAO()).update( carro );
+		
+		setDevolvido(true);
+		setDataFinal( LocalDate.now() );
+		return (new LocacaoDAO()).update(this);
 	}
 }
