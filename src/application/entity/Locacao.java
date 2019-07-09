@@ -15,17 +15,19 @@ public class Locacao {
 	private LocalDateTime 	dataFinal;
 	private boolean		devolvido;
 	private int nota = 0;
+	private int custo = 0;
 
 	public Locacao() {
 	}
 
-	public Locacao(int idCliente, int idCarro, LocalDateTime dataInicial, LocalDateTime dataFinal , boolean devolvido, int nota ) {
+	public Locacao(int idCliente, int idCarro, LocalDateTime dataInicial, LocalDateTime dataFinal , boolean devolvido, int nota, int custo ) {
 		this.idCarro = idCarro;
 		this.idCliente = idCliente;
 		this.dataFinal = dataFinal;
 		this.dataInicial = dataInicial;
 		this.devolvido = devolvido;
 		this.nota = nota;
+		this.custo = custo;
 	}
 
 	public Carro getCarro() {
@@ -52,6 +54,10 @@ public class Locacao {
 		return nota;
 	}
 
+	public int getCusto() {
+		return custo;
+	}
+
 	public LocalDateTime getDataInicial() {
 		return dataInicial;
 	}
@@ -74,6 +80,10 @@ public class Locacao {
 
 	public void setNota(int nota) {
 		this.nota = nota;
+	}
+
+	public void setCusto(int custo) {
+		this.custo = custo;
 	}
 
 	public void setDataInicial(LocalDateTime dataInicial) {
