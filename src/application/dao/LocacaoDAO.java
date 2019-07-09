@@ -13,7 +13,7 @@ public class LocacaoDAO extends DAO<Locacao> {
 	}
 
 	protected PreparedStatement createInsertStatement(Connection con, Locacao locacao) throws SQLException {
-		String sql = "INSERT INTO locacoes " + " (id_cliente,id_carro,dataInicial,dataFinal,devolvido,nota,custo) " + " values (?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO locacoes " + " (id_cliente,id_carro,dataInicial,dataFinal,devolvido,nota,custo,fidelidade) " + " values (?,?,?,?,?,?,?,?)";
 
 		PreparedStatement statement = con.prepareStatement(sql);
 		statement = con.prepareStatement(sql);
@@ -26,6 +26,7 @@ public class LocacaoDAO extends DAO<Locacao> {
 		statement.setBoolean(5 ,  locacao.isDevolvido() );
 		statement.setInt(6, locacao.getNota());
 		statement.setInt(7, locacao.getCusto());
+		statement.setBoolean(8, locacao.getFidelidade());
 
 		return statement;
 	}
@@ -33,7 +34,7 @@ public class LocacaoDAO extends DAO<Locacao> {
 	protected PreparedStatement createUpdateStatement(Connection con, Locacao locacao) throws SQLException {
 		String sql =
 				"UPDATE locacoes "
-						+ " SET id_cliente=?,id_carro=?,dataInicial=?,dataFinal=?,devolvido=?,nota=?,custo=? "
+						+ " SET id_cliente=?,id_carro=?,dataInicial=?,dataFinal=?,devolvido=?,nota=?,custo=?,fidelidade=? "
 						+ " WHERE id=? ";
 
 		PreparedStatement statement = con.prepareStatement(sql);
@@ -47,7 +48,8 @@ public class LocacaoDAO extends DAO<Locacao> {
 		statement.setBoolean(5, locacao.isDevolvido() );
 		statement.setInt(6, locacao.getNota() );
 		statement.setInt(7, locacao.getCusto() );
-		statement.setInt(8, locacao.getId() );
+		statement.setBoolean(8, locacao.getFidelidade());
+		statement.setInt(9, locacao.getId() );
 
 		return statement;
 	}
@@ -66,6 +68,7 @@ public class LocacaoDAO extends DAO<Locacao> {
 			ret.setDevolvido(result.getBoolean("devolvido"));
 			ret.setNota(result.getInt("nota"));
 			ret.setCusto(result.getInt("custo"));
+			ret.setFidelidade(result.getBoolean("fidelidade"));
 			ret.setDataInicial(	LocalDateTime.parse( result.getString("dataInicial") , formatter )  );
 			ret.setDataFinal(	LocalDateTime.parse( result.getString("dataFinal") , formatter )  );
 		} catch (Exception e) {

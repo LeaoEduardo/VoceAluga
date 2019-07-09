@@ -16,11 +16,12 @@ public class Locacao {
 	private boolean		devolvido;
 	private int nota = 0;
 	private int custo = 0;
+	private boolean fidelidade = false; //se o pagamento fi feito com programa de fidelidade
 
 	public Locacao() {
 	}
 
-	public Locacao(int idCliente, int idCarro, LocalDateTime dataInicial, LocalDateTime dataFinal , boolean devolvido, int nota, int custo ) {
+	public Locacao(int idCliente, int idCarro, LocalDateTime dataInicial, LocalDateTime dataFinal , boolean devolvido, int nota, int custo, boolean fidelidade ) {
 		this.idCarro = idCarro;
 		this.idCliente = idCliente;
 		this.dataFinal = dataFinal;
@@ -28,6 +29,7 @@ public class Locacao {
 		this.devolvido = devolvido;
 		this.nota = nota;
 		this.custo = custo;
+		this.fidelidade = fidelidade;
 	}
 
 	public Carro getCarro() {
@@ -58,6 +60,10 @@ public class Locacao {
 		return custo;
 	}
 
+	public boolean getFidelidade() {
+		return fidelidade;
+	}
+
 	public LocalDateTime getDataInicial() {
 		return dataInicial;
 	}
@@ -84,6 +90,10 @@ public class Locacao {
 
 	public void setCusto(int custo) {
 		this.custo = custo;
+	}
+
+	public void setFidelidade(boolean fidelidade) {
+		this.fidelidade = fidelidade;
 	}
 
 	public void setDataInicial(LocalDateTime dataInicial) {
