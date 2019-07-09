@@ -30,8 +30,8 @@ public class GrupoCarro {
 		this.grupo = grupo;
 	}
 
-	public Precos getPreco(int id_grupo) {
-		return (new PrecosDAO()).find("id_grupo",Integer.toString(id_grupo)).get(0);
+	public Precos getPreco() {
+		return (new PrecosDAO()).find("id_grupo",Integer.toString(id)).get(0);
 	}
 
 }

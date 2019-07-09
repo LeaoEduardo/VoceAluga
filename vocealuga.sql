@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09-Jul-2019 às 22:06
+-- Tempo de geração: 09-Jul-2019 às 23:16
 -- Versão do servidor: 10.3.16-MariaDB
 -- versão do PHP: 7.3.7
 
@@ -44,7 +44,7 @@ CREATE TABLE `carro` (
 --
 
 INSERT INTO `carro` (`id`, `placa`, `dataManutencao`, `dataCompra`, `quilometragem`, `idModelo`, `idFilial`, `idEstado`) VALUES
-(1, 'ABC1234', '2019-04-21', '2019-04-21', 0, 2, 1, 3),
+(1, 'ABC1234', '2019-04-13', '2019-04-13', 0, 2, 1, 3),
 (2, 'ABD1234', '2019-04-15', '2019-05-10', 123, 3, 1, 1),
 (3, 'ABE1234', '2019-07-07', '2019-06-06', 200, 5, 1, 3),
 (4, 'ABF1234', '2019-06-25', '2019-06-25', 300, 1, 2, 3);
@@ -181,8 +181,19 @@ CREATE TABLE `locacoes` (
   `dataFinal` datetime NOT NULL,
   `devolvido` tinyint(1) NOT NULL DEFAULT 0,
   `nota` int(11) NOT NULL,
-  `custo` int(11) NOT NULL
+  `custo` int(11) NOT NULL,
+  `fidelidade` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `locacoes`
+--
+
+INSERT INTO `locacoes` (`id`, `id_cliente`, `id_carro`, `dataInicial`, `dataFinal`, `devolvido`, `nota`, `custo`, `fidelidade`) VALUES
+(1, 1, 1, '2019-07-09 18:01:00', '2019-07-09 18:05:59', 1, 0, 0, 0),
+(2, 1, 1, '2019-07-09 18:06:00', '2019-07-09 18:10:25', 1, 0, 0, 0),
+(3, 1, 1, '2019-07-09 18:10:00', '2019-07-09 18:11:10', 1, 0, 0, 0),
+(4, 1, 1, '2019-07-09 18:15:00', '2019-07-09 18:15:53', 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -414,7 +425,7 @@ ALTER TABLE `grupocarro`
 -- AUTO_INCREMENT de tabela `locacoes`
 --
 ALTER TABLE `locacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `manutencao`
