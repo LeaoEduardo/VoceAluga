@@ -49,7 +49,12 @@ public class ClienteDAO extends DAO<Cliente> {
 	}
 
 	protected String createDeleteStatement(Cliente entity) {
+		if(entity.getCpf() != null)
+			return "DELETE FROM " + table_name + " WHERE CPF = " + String.valueOf(entity.getCpf());
+		if(entity.getPassaporte() != null)
+			return "DELETE FROM " + table_name + " WHERE passaporte = " + String.valueOf(entity.getPassaporte());
 		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf(entity.getId());
+		
 	}
 
 	protected Cliente getEntityFromResultSet(ResultSet result) {

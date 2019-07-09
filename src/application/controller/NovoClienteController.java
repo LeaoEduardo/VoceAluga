@@ -70,46 +70,56 @@ public class NovoClienteController {
 		else {
 			cliente.setPassaporte(tf_cpfPassaporte.getText());
 		}
+		cliente.setDataNasc(tf_dataNasc.getValue());
+		cliente.setDataCnh(tf_validadeCNH.getValue());
 
-		// Se algum campo estiver vazio
-		if (cliente.getNome().equals("") || tf_cpfPassaporte.getText().equals("") || tf_dataNasc.getValue() == null
-				|| cliente.getNacionalidade().equals("") || cliente.getTelefone().equals("")
-				|| cliente.getCnh().equals("") || tf_validadeCNH.getValue() == null) {
+		String res = "";
+		res = criarCliente(cliente,res);
+		// Se estiver tudo certo
+		if (res.equals("")) {
+			// Prints de teste
+			System.out.println("nome: " + cliente.getNome());
+			System.out.println("cpf: " + cliente.getCpf());
+			System.out.println("passaporte: " + cliente.getPassaporte());
+			System.out.println("dataNasc: " + cliente.getDataNasc().toString());
+			System.out.println("nacionalidade: " + cliente.getNacionalidade());
+			System.out.println("telefone: " + cliente.getTelefone());
+			System.out.println("cnh: " + cliente.getCnh());
+			System.out.println("validadeCNH: " + cliente.getDataCnh().toString());
 
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setHeaderText("Cadastro efetuado");
+			alert.setContentText("Cliente cadastrado com sucesso.");
+			alert.showAndWait();
+			Stage stage = (Stage) botaoCadastrarCliente.getScene().getWindow();
+			stage.close();
+		}
+		else {
+			// Se algum campo estiver vazio
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Erro");
 			alert.setHeaderText("Erro no cadastro.");
-			alert.setContentText("Todos os campos devem ser preenchidos!");
+			alert.setContentText(res);
 			alert.showAndWait();
 		}
-
-		// Se estiver tudo certo
-		else {
-
-			cliente.setDataNasc(tf_dataNasc.getValue());
-			cliente.setDataCnh(tf_validadeCNH.getValue());
-
-			boolean cadastrou = (new ClienteDAO()).insert(cliente);
-
-			if (cadastrou) {
-				// Prints de teste
-				System.out.println("nome: " + cliente.getNome());
-				System.out.println("cpf: " + cliente.getCpf());
-				System.out.println("passaporte: " + cliente.getPassaporte());
-				System.out.println("dataNasc: " + cliente.getDataNasc().toString());
-				System.out.println("nacionalidade: " + cliente.getNacionalidade());
-				System.out.println("telefone: " + cliente.getTelefone());
-				System.out.println("cnh: " + cliente.getCnh());
-				System.out.println("validadeCNH: " + cliente.getDataCnh().toString());
-
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setHeaderText("Cadastro efetuado");
-				alert.setContentText("Cliente cadastrado com sucesso.");
-				alert.showAndWait();
-				Stage stage = (Stage) botaoCadastrarCliente.getScene().getWindow();
-				stage.close();
-			}
-		}
+	}
+	
+	public String criarCliente(Cliente cliente,String res) {
+		//"Todos os campos devem ser preenchidos!"
+		if(cliente.getNome() == null || cliente.getNome().trim().isEmpty()) return res = "Falta o Nome";
+		if((cliente.getPassaporte() == null || cliente.getPassaporte().trim().isEmpty()) && 
+				(cliente.getCpf() == null || cliente.getCpf().trim().isEmpty())) return res = "Falta o Passaporte ou o Cpf";
+		if(cliente.getDataNasc() == null) return res = "Falta a Data de Nascimento";
+		if(cliente.getNacionalidade() == null || cliente.getNacionalidade().trim().isEmpty()) return res = "Falta o Nacionalidade";
+		if(cliente.getTelefone() == null || cliente.getTelefone().trim().isEmpty()) return res = "Falta o Telefone";
+		if(cliente.getCnh() == null || cliente.getCnh().trim().isEmpty()) return res = "Falta o CNH";
+		if(cliente.getDataCnh() == null) return res = "Falta a Data do CNH";
+		
+		boolean cadastrou = (new ClienteDAO()).insert(cliente);
+		if(cadastrou)
+			return "";
+		else
+			return "Erro Inesperado";
 	}
 
 	@FXML
