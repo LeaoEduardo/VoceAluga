@@ -113,7 +113,7 @@ public class Locacao {
 	}
 
 	// ---
-	public boolean confirmaDevolucao( Filial filial_devolvida ) {
+	public boolean confirmaDevolucao( Filial filial_devolvida, int nota, int custo, boolean fidelidade ) {
 		Carro carro = getCarro();
 		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo","Disponível").get(0).getId();
 		if( carro.getIdEstado() == id_estado_disponivel ) {
@@ -124,6 +124,9 @@ public class Locacao {
 		(new CarroDAO()).update( carro );
 
 		setDevolvido(true);
+		setNota(nota);
+		setCusto(custo);
+		setFidelidade(fidelidade);
 		setDataFinal( LocalDateTime.now() );
 		return (new LocacaoDAO()).update(this);
 	}

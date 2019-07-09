@@ -414,27 +414,7 @@ public class TelaPrincipalController {
 		tf_nomeL.setText(cliente.getNome());
 		tf_cnhL.setText(cliente.getCnh());
 		locacaoPane.setVisible(locacaoPaneBool = true);
-		ArrayList<Locacao> locacao_dao = (new LocacaoDAO()).find("id_cliente", Integer.toString(cliente.getId()));
-		boolean ReservaExist = false;  
-		if(locacao_dao.size() > 0) {
-			for (int i = 0; i < locacao_dao.size(); i++) {
-				if(!locacao_dao.get(i).isDevolvido()) {
-					ReservaExist = true;
-					break;
-				}
-					
-			}
-		}
-		if(!ReservaExist) {
-			carregaVeiculosLocacao();
-		}
-		else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Erro");
-			alert.setHeaderText("Cliente.");
-			alert.setContentText("Cliente ja tem um carro alugado");
-			alert.showAndWait();
-		}
+		carregaVeiculosLocacao();
 	}
 
 	void pesquisarCliente() throws IOException {
@@ -551,33 +531,51 @@ public class TelaPrincipalController {
 		
 		Carro escolhido = tabelaVeiculosL.getSelectionModel().getSelectedItem();
 		
-		if ( escolhido == null ) {
-			
+		ArrayList<Locacao> locacao_dao = (new LocacaoDAO()).find("id_cliente", 
+				Integer.toString(Contexto.getInstancia().getCliente().getId()));
+		boolean ReservaExist = false;  
+		if(locacao_dao.size() > 0) {
+			for (int i = 0; i < locacao_dao.size(); i++) {
+				if(!locacao_dao.get(i).isDevolvido()) {
+					ReservaExist = true;
+					break;
+				}
+					
+			}
+		}
+		if(!ReservaExist) {
+			if ( escolhido == null ) {				
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Erro");
+				alert.setHeaderText("Nenhum veiculo selecionado.");
+				alert.setContentText("Selecione um veiculo.");
+				alert.showAndWait();
+			}			
+			else {			
+				Contexto.getInstancia().setVeiculo(escolhido);
+				
+				// Prints de teste
+				System.out.println(escolhido.getModeloCarro().getGrupoCarro().getGrupo());
+				System.out.println(escolhido.getPlaca());
+				System.out.println(escolhido.getModeloCarro().getMarca());
+				System.out.println(escolhido.getModeloCarro().getModelo());
+				System.out.println(escolhido.getQuilometragem());
+				
+				Stage stage = new Stage();
+				Parent alugarVeiculo = FXMLLoader.load(getClass().getResource("AlugarVeiculo.fxml"));
+				Scene scene = new Scene(alugarVeiculo);
+		
+				stage.setTitle("Aluguel de veículo");
+				stage.setScene(scene);
+				stage.show();
+			}
+		}
+		else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Erro");
-			alert.setHeaderText("Nenhum veiculo selecionado.");
-			alert.setContentText("Selecione um veiculo.");
+			alert.setHeaderText("Cliente.");
+			alert.setContentText("Cliente ja tem um carro alugado");
 			alert.showAndWait();
-		}
-		
-		else {
-		
-			Contexto.getInstancia().setVeiculo(escolhido);
-			
-			// Prints de teste
-			System.out.println(escolhido.getModeloCarro().getGrupoCarro().getGrupo());
-			System.out.println(escolhido.getPlaca());
-			System.out.println(escolhido.getModeloCarro().getMarca());
-			System.out.println(escolhido.getModeloCarro().getModelo());
-			System.out.println(escolhido.getQuilometragem());
-			
-			Stage stage = new Stage();
-			Parent alugarVeiculo = FXMLLoader.load(getClass().getResource("AlugarVeiculo.fxml"));
-			Scene scene = new Scene(alugarVeiculo);
-	
-			stage.setTitle("Aluguel de veículo");
-			stage.setScene(scene);
-			stage.show();
 		}
     }
 

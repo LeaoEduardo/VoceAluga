@@ -60,17 +60,18 @@ public class ConfirmarPagamentoController {
     	ObservableList<String> escolhas = FXCollections.observableArrayList("Cartao cadastrado", "Novo cartao", "Dinheiro", "Pontos de fidelidade");
     	cb_metodoPagamento.setItems(escolhas);
     	cb_metodoPagamento.getSelectionModel().selectFirst();
-    	ObservableList<String> escolhasEstado = FXCollections.observableArrayList("Excelente", "Bom", "Razoável", "Ruim");
+    	ObservableList<String> escolhasEstado = FXCollections.observableArrayList("Excelente", "Bom", "Razoï¿½vel", "Ruim");
     	cb_estadoVeiculo.setItems(escolhasEstado);
+    	cb_estadoVeiculo.getSelectionModel().selectFirst();
     	tf_numCartao.setDisable(true);
     	tf_nomeCartao.setDisable(true);
     	dp_validadeCartao.setDisable(true);
     	tf_codSegCartao.setDisable(true);
 
-    	Double custo = calculaCusto();
+    	int custo = calculaCusto();
     	System.out.println("calculo do custo = " + custo);
     	//String custoLocacao = custo.toString().format("%.2f");
-    	String custoLocacao = String.format("%.2f", custo);
+    	String custoLocacao = Integer.toString(custo);
     	lb_valorPagamento.setText("R$ " + custoLocacao);
 
     	ReadOnlyIntegerProperty selectProperty = cb_metodoPagamento.getSelectionModel().selectedIndexProperty();
@@ -90,8 +91,8 @@ public class ConfirmarPagamentoController {
 		});
     }
 
-    double calculaCusto() {
-		//preço por dia * num dias
+    int calculaCusto() {
+		//preï¿½o por dia * num dias
     	Locacao locacao = Contexto.getInstancia().getLocacao();
 		//int dias = locacao.getDataFinal() - locacao.getDataInicial();
 		int dias = (int) Duration.between(locacao.getDataInicial(), locacao.getDataFinal()).toDays();
@@ -99,7 +100,7 @@ public class ConfirmarPagamentoController {
 		System.out.println("dias alugado: " + dias );
 		double total = dias * locacao.getCarro().getModeloCarro().getGrupoCarro().getPreco().getValor();
 
-		return total;
+		return (int) Math.round(total);
 	}
 
 
@@ -107,8 +108,10 @@ public class ConfirmarPagamentoController {
     void confirmar(ActionEvent event) throws IOException {
 
     	String estadoVeiculo = cb_estadoVeiculo.getSelectionModel().toString();
-    	int custosAdicionais = Integer.parseInt(tf_custosAdicionais.getText());
-
+    	int custosAdicionais = 0;
+    	if (!tf_custosAdicionais.getText().equals(""))
+    		custosAdicionais = Integer.parseInt(tf_custosAdicionais.getText());
+    	
     	Locacao loc = Contexto.getInstancia().getLocacao();
 
     	if ( cb_metodoPagamento.getSelectionModel().getSelectedIndex() == 1 ) {
@@ -116,7 +119,9 @@ public class ConfirmarPagamentoController {
     		if ( !tf_numCartao.getText().equals("") && !tf_nomeCartao.getText().equals("") && dp_validadeCartao.getValue() != null &&
     				!tf_codSegCartao.getText().equals("") && !cb_estadoVeiculo.getValue().equals("") ) {
 
-    			if( loc.confirmaDevolucao( Contexto.getInstancia().getFuncionario().getFilial() ) ) {
+    			if( loc.confirmaDevolucao( Contexto.getInstancia().getFuncionario().getFilial() , 
+    					4-cb_estadoVeiculo.getSelectionModel().getSelectedIndex(),
+    					calculaCusto() + custosAdicionais,false) ) {
 
     				Alert alert = new Alert(AlertType.INFORMATION);
         			alert.setHeaderText("Pagamento efetuado");
@@ -149,7 +154,9 @@ public class ConfirmarPagamentoController {
 
     	else if ( !cb_estadoVeiculo.getValue().equals("") ) {
 
-			if( loc.confirmaDevolucao( Contexto.getInstancia().getFuncionario().getFilial() ) ) {
+			if( loc.confirmaDevolucao( Contexto.getInstancia().getFuncionario().getFilial() , 
+					4-cb_estadoVeiculo.getSelectionModel().getSelectedIndex(),
+					calculaCusto() + custosAdicionais,false) ) {
 
 				Alert alert = new Alert(AlertType.INFORMATION);
     			alert.setHeaderText("Pagamento efetuado");
