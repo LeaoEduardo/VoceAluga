@@ -10,10 +10,12 @@ import application.Main;
 import application.dao.CarroDAO;
 import application.dao.ClienteDAO;
 import application.dao.FilialDAO;
+import application.dao.LocacaoDAO;
 import application.dao.ReservaDAO;
 import application.dao.TipoFuncionarioDAO;
 import application.entity.Filial;
 import application.entity.Funcionario;
+import application.entity.Locacao;
 import application.entity.Reserva;
 import application.entity.TipoFuncionario;
 import application.entity.Carro;
@@ -409,7 +411,27 @@ public class TelaPrincipalController {
 		tf_nomeL.setText(cliente.getNome());
 		tf_cnhL.setText(cliente.getCnh());
 		locacaoPane.setVisible(locacaoPaneBool = true);
-		carregaVeiculosLocacao();
+		ArrayList<Locacao> locacao_dao = (new LocacaoDAO()).find("id_cliente", Integer.toString(cliente.getId()));
+		boolean ReservaExist = false;  
+		if(locacao_dao.size() > 0) {
+			for (int i = 0; i < locacao_dao.size(); i++) {
+				if(!locacao_dao.get(i).isDevolvido()) {
+					ReservaExist = true;
+					break;
+				}
+					
+			}
+		}
+		if(!ReservaExist) {
+			carregaVeiculosLocacao();
+		}
+		else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Erro");
+			alert.setHeaderText("Cliente.");
+			alert.setContentText("Cliente ja tem um carro alugado");
+			alert.showAndWait();
+		}
 	}
 
 	void pesquisarCliente() throws IOException {
