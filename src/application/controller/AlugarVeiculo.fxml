@@ -36,7 +36,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label prefHeight="15.0" prefWidth="134.0" text="Grupo do veículo:" GridPane.rowIndex="4">
+            <Label prefHeight="20.0" prefWidth="214.0" text="Grupo do veículo:" GridPane.rowIndex="4">
                <font>
                   <Font size="14.0" />
                </font>
@@ -44,7 +44,7 @@
                   <Insets left="8.0" />
                </GridPane.margin>
             </Label>
-            <Label layoutX="18.0" layoutY="19.0" prefHeight="18.0" prefWidth="148.0" text="Modelo do veículo:" GridPane.rowIndex="3">
+            <Label layoutX="18.0" layoutY="19.0" prefHeight="20.0" prefWidth="246.0" text="Modelo do veículo:" GridPane.rowIndex="3">
                <padding>
                   <Insets left="8.0" />
                </padding>
@@ -52,7 +52,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="10.0" layoutY="97.0" prefHeight="15.0" prefWidth="134.0" text="Marca do veículo:" GridPane.rowIndex="2">
+            <Label layoutX="10.0" layoutY="97.0" prefHeight="20.0" prefWidth="313.0" text="Marca do veículo:" GridPane.rowIndex="2">
                <font>
                   <Font size="14.0" />
                </font>
@@ -76,7 +76,7 @@
                   <Insets left="8.0" />
                </padding>
             </Label>
-            <Label prefHeight="15.0" prefWidth="134.0" text="Nome do cliente:">
+            <Label prefHeight="20.0" prefWidth="269.0" text="Nome do cliente:">
                <font>
                   <Font size="14.0" />
                </font>
@@ -92,7 +92,7 @@
                   <Insets left="8.0" />
                </padding>
             </Label>
-            <Label layoutX="10.0" layoutY="18.0" prefHeight="15.0" prefWidth="134.0" text="Placa do veículo:" GridPane.rowIndex="1">
+            <Label layoutX="10.0" layoutY="18.0" prefHeight="20.0" prefWidth="297.0" text="Placa do veículo:" GridPane.rowIndex="1">
                <font>
                   <Font size="14.0" />
                </font>
@@ -116,7 +116,7 @@
                   <Insets left="8.0" />
                </padding>
             </Label>
-            <Label layoutX="10.0" layoutY="82.0" prefHeight="18.0" prefWidth="148.0" text="No. cartao de crédito:" GridPane.rowIndex="5">
+            <Label layoutX="10.0" layoutY="82.0" prefHeight="20.0" prefWidth="237.0" text="No. cartao de crédito:" GridPane.rowIndex="5">
                <font>
                   <Font size="14.0" />
                </font>
@@ -124,7 +124,7 @@
                   <Insets left="8.0" />
                </padding>
             </Label>
-            <Label layoutX="10.0" layoutY="130.0" prefHeight="18.0" prefWidth="148.0" text="Validade do cartao:" GridPane.rowIndex="7">
+            <Label layoutX="10.0" layoutY="130.0" prefHeight="20.0" prefWidth="194.0" text="Validade do cartao:" GridPane.rowIndex="7">
                <font>
                   <Font size="14.0" />
                </font>
@@ -132,7 +132,7 @@
                   <Insets left="8.0" />
                </padding>
             </Label>
-            <Label layoutX="10.0" layoutY="156.0" prefHeight="18.0" prefWidth="148.0" text="Nome no cartao:" GridPane.rowIndex="6">
+            <Label layoutX="10.0" layoutY="156.0" prefHeight="20.0" prefWidth="290.0" text="Nome no cartao:" GridPane.rowIndex="6">
                <font>
                   <Font size="14.0" />
                </font>
@@ -140,7 +140,7 @@
                   <Insets left="8.0" />
                </padding>
             </Label>
-            <Label layoutX="10.0" layoutY="138.0" prefHeight="18.0" prefWidth="148.0" text="Código de seguranca:" GridPane.rowIndex="8">
+            <Label layoutX="10.0" layoutY="138.0" prefHeight="20.0" prefWidth="286.0" text="Código de seguranca:" GridPane.rowIndex="8">
                <font>
                   <Font size="14.0" />
                </font>

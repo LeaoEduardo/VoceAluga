@@ -49,11 +49,14 @@ public class ConfirmarPagamentoController {
     
     @FXML
     private Label lb_valorPagamento;
+    
+    @FXML
+    private Label lb_Pontos;
 
     @FXML
     void initialize() {
     	
-    	ObservableList<String> escolhas = FXCollections.observableArrayList("Cartao cadastrado", "Novo cartao", "Dinheiro");
+    	ObservableList<String> escolhas = FXCollections.observableArrayList("Cartao cadastrado", "Novo cartao", "Dinheiro", "Pontos de fidelidade");
     	cb_metodoPagamento.setItems(escolhas);
     	cb_metodoPagamento.getSelectionModel().selectFirst();
     	ObservableList<String> escolhasEstado = FXCollections.observableArrayList("Excelente", "Bom", "Razoável", "Ruim");
