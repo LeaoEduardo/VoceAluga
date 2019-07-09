@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.controller.TelaClienteController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.TelaClienteController">
   <children>
     <Text layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tela do Cliente" AnchorPane.leftAnchor="288.36" AnchorPane.rightAnchor="263.27">
       <font>
@@ -15,9 +15,9 @@
       </font>
     </Text>
     <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#voltar" prefHeight="31.0" prefWidth="119.0" text="Voltar" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-    <ImageView fitHeight="40.0" fitWidth="46.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="506.0" AnchorPane.rightAnchor="248.0">
+    <ImageView fitHeight="40.0" fitWidth="46.0" layoutX="532.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="532.0" AnchorPane.rightAnchor="235.42267990112305">
       <image>
-        <Image url="@../../car-icon-hi.png" />
+        <Image url="@../../../car-icon-hi.png" />
       </image>
     </ImageView>
     <GridPane layoutY="120.0" prefHeight="362.0" prefWidth="650.0" AnchorPane.leftAnchor="91.0" AnchorPane.rightAnchor="59.0">

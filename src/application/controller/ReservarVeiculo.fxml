@@ -16,7 +16,7 @@
       </Label>
       <ImageView fitHeight="72.0" fitWidth="96.0" layoutX="296.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="33.11531066894531" AnchorPane.topAnchor="24.0">
          <image>
-            <Image url="@../../car-icon-hi.png" />
+            <Image url="@../../../car-icon-hi.png" />
          </image>
       </ImageView>
       <GridPane layoutX="20.0" layoutY="114.0" prefHeight="102.0" prefWidth="304.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">

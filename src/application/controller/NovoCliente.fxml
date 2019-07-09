@@ -55,7 +55,7 @@
       </GridPane>
       <ImageView fitHeight="31.0" fitWidth="30.0" layoutX="294.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../car-icon-hi.png" />
+            <Image url="@../../../car-icon-hi.png" />
          </image>
       </ImageView>
    </children>

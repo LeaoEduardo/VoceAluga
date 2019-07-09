@@ -60,7 +60,7 @@ public class ConfirmarPagamentoController {
     	ObservableList<String> escolhas = FXCollections.observableArrayList("Cartao cadastrado", "Novo cartao", "Dinheiro", "Pontos de fidelidade");
     	cb_metodoPagamento.setItems(escolhas);
     	cb_metodoPagamento.getSelectionModel().selectFirst();
-    	ObservableList<String> escolhasEstado = FXCollections.observableArrayList("Excelente", "Bom", "Razo�vel", "Ruim");
+    	ObservableList<String> escolhasEstado = FXCollections.observableArrayList("Excelente", "Bom", "Razoavel", "Ruim");
     	cb_estadoVeiculo.setItems(escolhasEstado);
     	cb_estadoVeiculo.getSelectionModel().selectFirst();
     	tf_numCartao.setDisable(true);
@@ -70,7 +70,6 @@ public class ConfirmarPagamentoController {
 
     	int custo = calculaCusto();
     	System.out.println("calculo do custo = " + custo);
-    	//String custoLocacao = custo.toString().format("%.2f");
     	String custoLocacao = Integer.toString(custo);
     	lb_valorPagamento.setText("R$ " + custoLocacao);
 
@@ -92,7 +91,7 @@ public class ConfirmarPagamentoController {
     }
 
     int calculaCusto() {
-		//pre�o por dia * num dias
+		//preco por dia * num dias
     	Locacao locacao = Contexto.getInstancia().getLocacao();
 		//int dias = locacao.getDataFinal() - locacao.getDataInicial();
 		int dias = (int) Duration.between(locacao.getDataInicial(), locacao.getDataFinal()).toDays();

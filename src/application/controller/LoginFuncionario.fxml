@@ -42,7 +42,7 @@
       </Label>
       <ImageView fitHeight="78.0" fitWidth="97.0" layoutX="352.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="413.0" AnchorPane.leftAnchor="352.0" AnchorPane.rightAnchor="354.958251953125" AnchorPane.topAnchor="109.0">
          <image>
-            <Image url="@../../car-icon-hi.png" />
+            <Image url="@../../../car-icon-hi.png" />
          </image>
       </ImageView>
    </children>

@@ -244,7 +244,7 @@
       </Label>
       <ImageView fitHeight="48.0" fitWidth="58.0" layoutX="579.9523468017578" layoutY="38.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="162.79119110107422">
          <image>
-            <Image url="@../../car-icon-hi.png" />
+            <Image url="@../../../car-icon-hi.png" />
          </image>
       </ImageView>
       <Button layoutX="742.0" mnemonicParsing="false" onAction="#sair" prefHeight="21.0" prefWidth="58.0" text="Sair" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
