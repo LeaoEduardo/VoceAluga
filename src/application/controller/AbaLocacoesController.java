@@ -47,6 +47,7 @@ public class AbaLocacoesController {
     	if( loc != null && loc.isDevolvido() == false ) {
     		if( loc.confirmaDevolucao( Contexto.getInstancia().getFuncionario().getFilial() ) ) {
     			System.out.println("Devolucao confirmada");
+    			atualizaTabela(event);
     		}
     	}
     }

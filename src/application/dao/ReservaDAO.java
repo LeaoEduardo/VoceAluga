@@ -57,8 +57,8 @@ public class ReservaDAO extends DAO<Reserva> {
 			ret.setIdGrupo(result.getInt("id_grupo"));
 			ret.setIdModelo(result.getInt("id_modelo"));
 			ret.setIdCliente(result.getInt("id_cliente"));			
-			ret.setDataLocacao(LocalDateTime.parse(result.getString("dataLocacao"), formatter));
-			ret.setDataDevolucao(LocalDateTime.parse(result.getString("dataDevolucao"), formatter));
+			ret.setDataLocacao(		LocalDateTime.parse(result.getString("dataLocacao"), formatter)		);
+			ret.setDataDevolucao(	LocalDateTime.parse(result.getString("dataDevolucao"), formatter)	);
 		} catch (Exception e) {
 			ret = null;
 			e.printStackTrace();

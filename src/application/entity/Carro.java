@@ -1,6 +1,7 @@
 package application.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import application.dao.CarroDAO;
@@ -111,7 +112,7 @@ public class Carro {
 		this.idEstado = idEstado;
 	}
 	
-	public boolean confirmaLocacao( Cliente cliente , LocalDate data_locacao , LocalDate data_devolucao ) {
+	public boolean confirmaLocacao( Cliente cliente , LocalDateTime dataHoraLocacao , LocalDateTime dataHoraDevolucao ) {
 		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo","Disponível").get(0).getId();
 		int id_estado_alugado = (new EstadoCarroDAO()).find("tipo","Alugado").get(0).getId();
 		if( this.idEstado != id_estado_disponivel ) {
@@ -122,8 +123,8 @@ public class Carro {
 		
 		//Cria uma entidade locacao no BD:
 		Locacao nova_locacao = new Locacao();
-		nova_locacao.setDataInicial( data_locacao );
-		nova_locacao.setDataFinal( data_devolucao );
+		nova_locacao.setDataInicial( dataHoraLocacao );
+		nova_locacao.setDataFinal( dataHoraDevolucao );
 		nova_locacao.setIdCliente( cliente.getId() );
 		nova_locacao.setIdCarro( this.id );
 		nova_locacao.setDevolvido( false );

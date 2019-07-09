@@ -79,7 +79,7 @@ public class AlugarVeiculoController {
     @FXML
     void confirmar(ActionEvent event) {
     	
-    	if ( !(dp_dataDevolucao.getValue() == null) ) {
+    	if ( dp_dataDevolucao.getValue() != null ) {
     	
 	    	LocalDate dataLocacao = dp_dataLocacao.getValue();
 			LocalDate dataDevolucao = dp_dataDevolucao.getValue();
@@ -105,8 +105,7 @@ public class AlugarVeiculoController {
 			LocalDateTime dataHoraDevolucao = dataDevolucao.atTime(Integer.valueOf(horaDevolucao), 
 					Integer.valueOf(minutoDevolucao));
 	    	
-	    	// Aqui deve ser feito o registro da locacao no BD.
-	    	// O estado do carro deve ser mudado para alugado tambem.
+	    	carroAlugado.confirmaLocacao(cliente, dataHoraLocacao , dataHoraDevolucao );
 	    	
 	    	//boolean alugou = ...
 	    	

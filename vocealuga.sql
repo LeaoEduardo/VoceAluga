@@ -177,8 +177,8 @@ CREATE TABLE `locacoes` (
   `id` int(11) NOT NULL,
   `id_cliente` int(11) NOT NULL,
   `id_carro` int(11) NOT NULL,
-  `dataInicial` date NOT NULL,
-  `dataFinal` date NOT NULL,
+  `dataInicial` datetime NOT NULL,
+  `dataFinal` datetime NOT NULL,
   `devolvido` boolean NOT NULL DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

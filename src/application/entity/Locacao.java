@@ -1,6 +1,7 @@
 package application.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import application.dao.CarroDAO;
@@ -12,14 +13,14 @@ public class Locacao {
 	private int id = -1;
 	private int idCliente;
 	private int idCarro;
-	private LocalDate 	dataInicial;
-	private LocalDate 	dataFinal;
+	private LocalDateTime 	dataInicial;
+	private LocalDateTime 	dataFinal;
 	private boolean		devolvido;
 	
 	public Locacao() {
 	}
 
-	public Locacao(int idCliente, int idCarro, LocalDate dataInicial, LocalDate dataFinal , boolean devolvido ) {
+	public Locacao(int idCliente, int idCarro, LocalDateTime dataInicial, LocalDateTime dataFinal , boolean devolvido ) {
 		this.idCarro = idCarro;
 		this.idCliente = idCliente;
 		this.dataFinal = dataFinal;
@@ -47,11 +48,11 @@ public class Locacao {
 		return idCarro;
 	}
 
-	public LocalDate getDataInicial() {
+	public LocalDateTime getDataInicial() {
 		return dataInicial;
 	}
 
-	public LocalDate getDataFinal() {
+	public LocalDateTime getDataFinal() {
 		return dataFinal;
 	}
 
@@ -67,12 +68,12 @@ public class Locacao {
 		this.idCarro = idCarro;
 	}
 
-	public void setDataInicial(LocalDate dataInicial) {
+	public void setDataInicial(LocalDateTime dataInicial) {
 		this.dataInicial = dataInicial;
 	}
 
-	public void setDataFinal(LocalDate dataFinal) {
-		this.dataFinal = dataFinal;
+	public void setDataFinal(LocalDateTime dataHoraDevolucao) {
+		this.dataFinal = dataHoraDevolucao;
 	}
 
 	public boolean isDevolvido() {
@@ -95,7 +96,7 @@ public class Locacao {
 		(new CarroDAO()).update( carro );
 		
 		setDevolvido(true);
-		setDataFinal( LocalDate.now() );
+		setDataFinal( LocalDateTime.now() );
 		return (new LocacaoDAO()).update(this);
 	}
 }
