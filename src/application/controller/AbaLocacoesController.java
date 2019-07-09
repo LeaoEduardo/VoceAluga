@@ -36,6 +36,8 @@ public class AbaLocacoesController {
     private TableColumn<Locacao, String> col_placa;
     @FXML
     private TableColumn<Locacao, String> col_modelo;
+    @FXML
+    private TableColumn<Locacao, String> col_idCliente;
     
     private String nome_filial_selecionado;
     
@@ -79,6 +81,7 @@ public class AbaLocacoesController {
     	boolean incluir_passadas = cb_incluir_locacoes_passadas.isSelected();
     	Filial filial = null;
     	
+    	System.out.println(todas_locacoes);
     	System.out.println("INDEX SELECIONADO:");
     	System.out.println( filial_escolhida.getSelectionModel().getSelectedIndex() );
     	
@@ -108,6 +111,10 @@ public class AbaLocacoesController {
     	});
     	col_placa.setCellValueFactory( ( cell_data ) -> {
     		return new SimpleStringProperty( cell_data.getValue().getCarro().getPlaca() );
+    	});
+    	col_idCliente.setCellValueFactory( ( cell_data ) -> {
+    		return new SimpleStringProperty( cell_data.getValue().getCliente().getCpf() == null?
+    				cell_data.getValue().getCliente().getPassaporte():cell_data.getValue().getCliente().getCpf() );
     	});
     	col_modelo.setCellValueFactory( ( cell_data ) -> {
     		return new SimpleStringProperty( cell_data.getValue().getCarro().getModeloCarro().getModelo() );

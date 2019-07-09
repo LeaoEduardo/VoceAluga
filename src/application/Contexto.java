@@ -32,6 +32,7 @@ public class Contexto {
 	private ObservableList<String> listaFiliais;
 	private boolean voltandoParaVeiculos;
 	private boolean voltandoParaCliente;
+	private boolean voltandoParaLocacao;
 
 	public Funcionario getFuncionario() {
 		return funcionario;
@@ -71,6 +72,10 @@ public class Contexto {
 	
 	public boolean getVoltandoParaCliente() {
 		return voltandoParaCliente;
+	}
+	
+	public boolean getVoltandoParaLocacao() {
+		return voltandoParaLocacao;
 	}
 
 	public ObservableList<Reserva> getListaReservas() {
@@ -127,6 +132,10 @@ public class Contexto {
 	
 	public void setVoltandoParaCliente(boolean b) {
 		this.voltandoParaCliente = b;
+	}
+	
+	public void setVoltandoParaLocacao(boolean b) {
+		this.voltandoParaLocacao = b;
 	}
 
 	public void setListaReservas(ObservableList<Reserva> listaReservas) {

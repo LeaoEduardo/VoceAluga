@@ -1,9 +1,11 @@
 package application.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
 import application.Contexto;
+import application.Main;
 import application.entity.Carro;
 import application.entity.Cliente;
 import javafx.event.ActionEvent;
@@ -17,6 +19,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class AlugarVeiculoController {
+	
+	private Main main = new Main();
 
     @FXML
     private DatePicker dp_dataDevolucao;
@@ -77,7 +81,7 @@ public class AlugarVeiculoController {
     }
     
     @FXML
-    void confirmar(ActionEvent event) {
+    void confirmar(ActionEvent event) throws IOException {
     	
     	if ( dp_dataDevolucao.getValue() != null ) {
     	
@@ -105,11 +109,9 @@ public class AlugarVeiculoController {
 			LocalDateTime dataHoraDevolucao = dataDevolucao.atTime(Integer.valueOf(horaDevolucao), 
 					Integer.valueOf(minutoDevolucao));
 	    	
-	    	carroAlugado.confirmaLocacao(cliente, dataHoraLocacao , dataHoraDevolucao );
+	    	boolean alugou = carroAlugado.confirmaLocacao(cliente, dataHoraLocacao , dataHoraDevolucao );
 	    	
-	    	//boolean alugou = ...
-	    	
-	    	/* if (alugou) {
+	    	if (alugou) {
 	
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setHeaderText("Aluguel efetuado");
@@ -117,6 +119,8 @@ public class AlugarVeiculoController {
 				alert.showAndWait();
 				Stage stage = (Stage) botaoCancelar.getScene().getWindow();
 				stage.close();
+				Contexto.getInstancia().setVoltandoParaLocacao(true);
+				main.showTelaPrincipal();
 			}
 	
 			else {
@@ -126,7 +130,7 @@ public class AlugarVeiculoController {
 				alert.setHeaderText("Erro no aluguel");
 				alert.setContentText("Dados inconsistentes!");
 				alert.showAndWait();
-			}*/
+			}
     	}
     	
     	else {

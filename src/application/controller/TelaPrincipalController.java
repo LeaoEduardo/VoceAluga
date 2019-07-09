@@ -227,6 +227,25 @@ public class TelaPrincipalController {
 				tf_cpfPassaporte.setText(passaporte);
 				pesquisaPorPassaporte(passaporte);
 			}
+			Contexto.getInstancia().setVoltandoParaCliente(false);
+		}
+		
+		if (Contexto.getInstancia().getVoltandoParaLocacao()) {
+			
+			telaPrincipalTabPane.getSelectionModel().select(abaLocacao);
+			String cpf = Contexto.getInstancia().getCliente().getCpf();
+			if (cpf != null) {
+				cb_cpfPassaporteL.getSelectionModel().select(0);
+				tf_cpfPassaporteL.setText(Contexto.getInstancia().getCliente().getCpf());
+				pesquisaPorCpf(cpf);
+			}
+			else {
+				String passaporte = Contexto.getInstancia().getCliente().getPassaporte();
+				cb_cpfPassaporteL.getSelectionModel().select(1);
+				tf_cpfPassaporteL.setText(passaporte);
+				pesquisaPorPassaporte(passaporte);
+			}
+			Contexto.getInstancia().setVoltandoParaLocacao(false);
 		}
 
 		telaPrincipalTabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
