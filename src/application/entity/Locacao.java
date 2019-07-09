@@ -105,9 +105,9 @@ public class Locacao {
 	// ---
 	public boolean confirmaDevolucao( Filial filial_devolvida ) {
 		Carro carro = getCarro();
-		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo","Dispon√≠vel").get(0).getId();
+		int id_estado_disponivel = (new EstadoCarroDAO()).find("tipo","DisponÌvel").get(0).getId();
 		if( carro.getIdEstado() == id_estado_disponivel ) {
-			System.out.println("WARNING: Carro devolvido j√° esta como 'Dispon√≠vel'");
+			System.out.println("WARNING: Carro devolvido j· esta como 'DisponÌvel'");
 		}
 		carro.setIdEstado(id_estado_disponivel);
 		carro.setIdFilial(filial_devolvida.getId());

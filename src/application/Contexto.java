@@ -22,6 +22,7 @@ public class Contexto {
 	private Funcionario funcionario;
 	private Cliente cliente;
 	private Carro veiculo;
+	private Locacao locacao;
 	private FormatadorTexto formatador = new FormatadorTexto();
 	private ObservableList<Reserva> listaReservas;
 	private ObservableList<Manutencao> listaManutencoes;
@@ -33,6 +34,7 @@ public class Contexto {
 	private boolean voltandoParaVeiculos;
 	private boolean voltandoParaCliente;
 	private boolean voltandoParaLocacao;
+	private boolean voltandoParaDevolucao;
 
 	public Funcionario getFuncionario() {
 		return funcionario;
@@ -44,6 +46,10 @@ public class Contexto {
 
 	public Carro getVeiculo() {
 		return veiculo;
+	}
+	
+	public Locacao getLocacao() {
+		return locacao;
 	}
 
 	public FormatadorTexto getFormatador() {
@@ -77,7 +83,11 @@ public class Contexto {
 	public boolean getVoltandoParaLocacao() {
 		return voltandoParaLocacao;
 	}
-
+	
+	public boolean getVoltandoParaDevolucao() {
+		return voltandoParaDevolucao;
+	}
+	
 	public ObservableList<Reserva> getListaReservas() {
 		return listaReservas;
 	}
@@ -109,6 +119,10 @@ public class Contexto {
 		System.out.println("dataCompra: " + veiculo.getDataCompra());
 		System.out.println("dataManutencao: " + veiculo.getDataManutencao());
 	}
+	
+	public void setLocacao(Locacao locacao) {
+		this.locacao = locacao;
+	}
 
 	public void setListaVeiculos(ObservableList<Carro> listaVeiculos) {
 		this.listaVeiculos = listaVeiculos;
@@ -137,7 +151,11 @@ public class Contexto {
 	public void setVoltandoParaLocacao(boolean b) {
 		this.voltandoParaLocacao = b;
 	}
-
+	
+	public void setVoltandoParaDevolucao(boolean b) {
+		this.voltandoParaDevolucao = b;
+	}
+	
 	public void setListaReservas(ObservableList<Reserva> listaReservas) {
 		this.listaReservas = listaReservas;
 	}

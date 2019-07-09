@@ -264,6 +264,13 @@ public class TelaPrincipalController {
 			telaPrincipalTabPane.getSelectionModel().select(abaVeiculos);
 			Contexto.getInstancia().setVoltandoParaVeiculos(false);
 		}
+		
+		if (Contexto.getInstancia().getVoltandoParaDevolucao()) {
+			
+			telaPrincipalTabPane.getSelectionModel().select(abaDevolucao);
+			System.out.println("opsssss");
+			Contexto.getInstancia().setVoltandoParaDevolucao(false);
+		}
 	}
 
 	void carregaVeiculos() {

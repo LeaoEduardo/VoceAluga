@@ -1,8 +1,8 @@
 package application.controller;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
-
 import application.Contexto;
 import application.dao.FilialDAO;
 import application.dao.LocacaoDAO;
@@ -13,15 +13,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 
 public class AbaLocacoesController {
 
     @FXML
-    private CheckBox 			cb_incluir_locacoes_passadas;
+    private CheckBox cb_incluir_locacoes_passadas;
     @FXML
     private TableView<Locacao> 	tabela;
     @FXML
@@ -43,6 +47,7 @@ public class AbaLocacoesController {
     
     @FXML
     void initialize() {
+    	
     	ObservableList<String> nome_filiais = FXCollections.observableArrayList();
     	Filial filial_contexto = Contexto.getInstancia().getFuncionario().getFilial();
     	nome_filiais.add("Todas filiais");
@@ -64,13 +69,19 @@ public class AbaLocacoesController {
     }
 
     @FXML
-    void confirmarDevolucao(ActionEvent event) {
+    void confirmarDevolucao(ActionEvent event) throws IOException {
+    	
     	Locacao loc = tabela.getSelectionModel().getSelectedItem();
+    	
     	if( loc != null && loc.isDevolvido() == false ) {
-    		if( loc.confirmaDevolucao( Contexto.getInstancia().getFuncionario().getFilial() ) ) {
-    			System.out.println("Devolucao confirmada");
-    			atualizaTabela(event);
-    		}
+    		
+        	Contexto.getInstancia().setLocacao(loc);
+    		Stage stage = new Stage();
+    		Parent confirmarPagamento = FXMLLoader.load(getClass().getResource("ConfirmarPagamento.fxml"));
+    		Scene scene = new Scene(confirmarPagamento);
+    		stage.setTitle("Confirmacao de pagamento");
+    		stage.setScene(scene);
+    		stage.show();
     	}
     }
 
