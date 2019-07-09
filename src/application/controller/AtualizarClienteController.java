@@ -111,56 +111,59 @@ public class AtualizarClienteController {
 			cliente.setPassaporte(tf_cpfPassaporte.getText());
 		}
 
-		// Se algum campo estiver vazio
-		if (cliente.getNome().equals("") || tf_cpfPassaporte.getText().equals("") || tf_dataNasc.getValue() == null
-				|| cliente.getNacionalidade().equals("") || cliente.getTelefone().equals("")
-				|| cliente.getCnh().equals("") || tf_validadeCNH.getValue() == null) {
+		cliente.setDataNasc(tf_dataNasc.getValue());
+		cliente.setDataCnh(tf_validadeCNH.getValue());
 
+		String res = "";
+		res = atualizarCliente(cliente,res);
+
+		if (res.equals("")) {
+			// Prints de teste
+			System.out.println("nome: " + cliente.getNome());
+			System.out.println("cpf: " + cliente.getCpf());
+			System.out.println("passaporte: " + cliente.getPassaporte());
+			System.out.println("dataNasc: " + cliente.getDataNasc().toString());
+			System.out.println("nacionalidade: " + cliente.getNacionalidade());
+			System.out.println("telefone: " + cliente.getTelefone());
+			System.out.println("cnh: " + cliente.getCnh());
+			System.out.println("validadeCNH: " + cliente.getDataCnh().toString());
+
+			Contexto.getInstancia().setCliente(cliente);
+
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setHeaderText("Cadastro alterado");
+			alert.setContentText("Registro atualizado com sucesso.");
+			alert.showAndWait();
+			Stage stage = (Stage) botaoAtualizarCliente.getScene().getWindow();
+			stage.close();
+			main.showTelaCliente();
+		}
+		else {
+			// Se algum campo estiver vazio
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Erro");
 			alert.setHeaderText("Erro no cadastro.");
-			alert.setContentText("Todos os campos devem ser preenchidos!");
+			alert.setContentText(res);
 			alert.showAndWait();
 		}
+	}
 
-		// Se estiver tudo certo
-		else {
-
-			cliente.setDataNasc(tf_dataNasc.getValue());
-			cliente.setDataCnh(tf_validadeCNH.getValue());
-
-			boolean atualizou = cliente_dao.update(cliente);
-
-			if (atualizou) {
-				// Prints de teste
-				System.out.println("nome: " + cliente.getNome());
-				System.out.println("cpf: " + cliente.getCpf());
-				System.out.println("passaporte: " + cliente.getPassaporte());
-				System.out.println("dataNasc: " + cliente.getDataNasc().toString());
-				System.out.println("nacionalidade: " + cliente.getNacionalidade());
-				System.out.println("telefone: " + cliente.getTelefone());
-				System.out.println("cnh: " + cliente.getCnh());
-				System.out.println("validadeCNH: " + cliente.getDataCnh().toString());
-
-				Contexto.getInstancia().setCliente(cliente);
-
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setHeaderText("Cadastro alterado");
-				alert.setContentText("Registro atualizado com sucesso.");
-				alert.showAndWait();
-				Stage stage = (Stage) botaoAtualizarCliente.getScene().getWindow();
-				stage.close();
-				main.showTelaCliente();
-			}
-
-			else {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Erro");
-				alert.setHeaderText("Erro no cadastro.");
-				alert.setContentText("Dados inconsistentes!");
-				alert.showAndWait();
-			}
-		}
+	public String atualizarCliente(Cliente cliente,String res) {
+		//"Todos os campos devem ser preenchidos!"
+		if(cliente.getNome() == null || cliente.getNome().trim().isEmpty()) return res = "Falta o Nome";
+		if((cliente.getPassaporte() == null || cliente.getPassaporte().trim().isEmpty()) && 
+				(cliente.getCpf() == null || cliente.getCpf().trim().isEmpty())) return res = "Falta o Passaporte ou o Cpf";
+		if(cliente.getDataNasc() == null) return res = "Falta a Data de Nascimento";
+		if(cliente.getNacionalidade() == null || cliente.getNacionalidade().trim().isEmpty()) return res = "Falta o Nacionalidade";
+		if(cliente.getTelefone() == null || cliente.getTelefone().trim().isEmpty()) return res = "Falta o Telefone";
+		if(cliente.getCnh() == null || cliente.getCnh().trim().isEmpty()) return res = "Falta o CNH";
+		if(cliente.getDataCnh() == null) return res = "Falta a Data do CNH";
+		
+		boolean atualizou = (new ClienteDAO()).update(cliente);
+		if(atualizou)
+			return "";
+		else
+			return "Dados inconsistentes";
 	}
 
 	@FXML
