@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.controller.AbaLocacoesController">
+  <children>
+    <Button mnemonicParsing="false" onAction="#confirmarDevolucao" prefHeight="32.0" prefWidth="175.0" text="Confirmar devolução" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+    <CheckBox fx:id="cb_incluir_locacoes_passadas" mnemonicParsing="false" onAction="#atualizaTabela" text="Incluir locações passadas" AnchorPane.leftAnchor="384.0" AnchorPane.topAnchor="21.0" />
+    <Label text="Filial: " AnchorPane.leftAnchor="199.0" AnchorPane.topAnchor="20.0">
+      <font>
+        <Font size="18.0" />
+      </font>
+    </Label>
+    <TableView fx:id="tabela" prefHeight="385.0" prefWidth="772.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="58.0">
+      <columns>
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="104.0" text="ID Cliente" fx:id="col_idCliente" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="91.0" text="Devolvido" fx:id="col_devolvido" />
+        <TableColumn prefWidth="139.0" text="Placa do veículo" fx:id="col_placa" />
+        <TableColumn maxWidth="1.7976931348623157E308" prefWidth="152.0" text="Modelo do veículo" fx:id="col_modelo" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="129.0" text="Data de locação" fx:id="col_data_loc" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="155.0" text="Data de devolução" fx:id="col_data_dev" />
+      </columns>
+    </TableView>
+    <ChoiceBox fx:id="filial_escolhida" layoutX="253.0" layoutY="18.0" prefHeight="25.0" prefWidth="115.0" />
+  </children>
+</AnchorPane>

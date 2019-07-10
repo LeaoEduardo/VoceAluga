@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.TelaPrincipalController">
+   <children>
+      <TabPane fx:id="telaPrincipalTabPane" layoutX="-7.0" layoutY="117.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="490.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="110.0">
+        <tabs>
+          <Tab fx:id="abaReserva" text="Reserva">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="438.0" prefWidth="800.0">
+                     <children>
+                        <Button layoutX="376.0" layoutY="14.0" mnemonicParsing="false" onAction="#processaPesquisarBotao" prefHeight="31.0" prefWidth="166.0" text="Pesquisar cliente" />
+                        <TextField fx:id="tf_cpfPassaporte" layoutX="186.0" layoutY="17.0" onAction="#processaPesquisarEnter" promptText="12345678910" text="12345678910" />
+                        <Button layoutX="557.0" layoutY="14.0" mnemonicParsing="false" onAction="#novoCliente" prefHeight="31.0" prefWidth="166.0" text="Novo Cliente" />
+                        <ChoiceBox fx:id="cb_cpfPassaporte" layoutX="14.0" layoutY="14.0" prefHeight="31.0" prefWidth="158.0" />
+                        <AnchorPane fx:id="clientePane" prefHeight="382.0" prefWidth="780.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="65.0">
+                           <children>
+                              <GridPane gridLinesVisible="true" prefHeight="250.0" prefWidth="780.0" style="-fx-background-color: #ffffff00;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="112.0" minHeight="112.0" prefHeight="112.0" vgrow="ALWAYS" />
+                                    <RowConstraints maxHeight="314.0" minHeight="10.0" prefHeight="270.0" vgrow="ALWAYS" />
+                                </rowConstraints>
+                                 <children>
+                                    <TableView fx:id="tabelaReservas" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                      <columns>
+                                        <TableColumn fx:id="reservas_col_estado" prefWidth="127.0" text="Reserva" />
+                                        <TableColumn fx:id="reservas_col_data_loc" prefWidth="164.0" text="Data locaçao" />
+                                          <TableColumn fx:id="reservas_col_data_devol" prefWidth="204.0" text="Data devoluçao" />
+                                          <TableColumn fx:id="reservas_col_grupo" prefWidth="141.0" resizable="false" text="Grupo" />
+                                          <TableColumn fx:id="reservas_col_modelo" prefWidth="131.0" text="Modelo" />
+                                      </columns>
+                                    </TableView>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <Text fx:id="tf_nome" layoutX="70.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="70.0">
+                                             <font>
+                                                <Font name="System Bold" size="25.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fx:id="tf_cnh" layoutX="70.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CNH" AnchorPane.leftAnchor="70.0">
+                                             <font>
+                                                <Font name="System Bold" size="25.0" />
+                                             </font>
+                                          </Text>
+                                          <Text layoutX="21.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome:" AnchorPane.leftAnchor="21.0" />
+                                          <Text layoutX="21.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CNH:" AnchorPane.leftAnchor="21.0" />
+                                          <GridPane layoutX="454.0" layoutY="3.0" prefHeight="104.0" prefWidth="183.0" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Button fx:id="btn_criar_reserva" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#reservarVeiculo" prefHeight="31.0" text="Criar reserva" />
+                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#maisInfoBotao" prefHeight="31.0" text="Mais Informações" GridPane.rowIndex="2" />
+                                                <Button fx:id="btn_cancelar_reserva" layoutX="10.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cancelarReserva" prefHeight="31.0" text="Cancelar reserva" GridPane.rowIndex="1" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="abaLocacao" text="Retirar veículo">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="438.0" prefWidth="800.0">
+                     <children>
+                        <TextField fx:id="tf_cpfPassaporteL" layoutX="186.0" layoutY="17.0" onAction="#processaPesquisarEnter" promptText="12345678900" />
+                        <ChoiceBox fx:id="cb_cpfPassaporteL" layoutX="14.0" layoutY="14.0" prefHeight="31.0" prefWidth="158.0" />
+                        <AnchorPane fx:id="locacaoPane" prefHeight="382.0" prefWidth="780.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="65.0">
+                           <children>
+                              <GridPane gridLinesVisible="true" prefHeight="250.0" prefWidth="780.0" style="-fx-background-color: #ffffff00;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="112.0" minHeight="93.0" prefHeight="94.0" vgrow="ALWAYS" />
+                                    <RowConstraints maxHeight="314.0" minHeight="10.0" prefHeight="249.0" vgrow="ALWAYS" />
+                                    <RowConstraints maxHeight="314.0" minHeight="10.0" prefHeight="39.0" vgrow="ALWAYS" />
+                                 </rowConstraints>
+                                 <children>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <Text fx:id="tf_nomeL" layoutX="70.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" AnchorPane.leftAnchor="70.0">
+                                             <font>
+                                                <Font name="System Bold" size="25.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fx:id="tf_cnhL" layoutX="70.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CNH" AnchorPane.leftAnchor="70.0">
+                                             <font>
+                                                <Font name="System Bold" size="25.0" />
+                                             </font>
+                                          </Text>
+                                          <Text layoutX="21.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome:" AnchorPane.leftAnchor="21.0" />
+                                          <Text layoutX="21.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CNH:" AnchorPane.leftAnchor="21.0" />
+                                          <GridPane layoutX="454.0" layoutY="3.0" prefHeight="104.0" prefWidth="183.0" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#maisInfoBotao" prefHeight="31.0" text="Mais Informações" GridPane.rowIndex="1" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <GridPane GridPane.rowIndex="2">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="322.0" minWidth="10.0" prefWidth="163.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="447.0" minWidth="10.0" prefWidth="381.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.0" minWidth="10.0" prefWidth="156.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#alugarVeiculo" prefHeight="31.0" text="Alugar veículo" GridPane.columnIndex="2" />
+                                       </children>
+                                    </GridPane>
+                                    <TableView fx:id="tabelaVeiculosL" prefHeight="360.0" prefWidth="800.0" tableMenuButtonVisible="true" GridPane.rowIndex="1">
+                                       <columns>
+                                          <TableColumn fx:id="col_grupoL" prefWidth="66.0" text="Grupo" />
+                                          <TableColumn fx:id="col_marcaL" prefWidth="95.0" text="Marca" />
+                                          <TableColumn fx:id="col_modeloL" prefWidth="114.0" text="Modelo" />
+                                          <TableColumn fx:id="col_placaL" prefWidth="125.0" text="Placa" />
+                                          <TableColumn fx:id="col_quilometragemL" prefWidth="91.0" text="Km" />
+                                          <TableColumn fx:id="col_dataML" prefWidth="142.0" text="Data manutenção" />
+                                          <TableColumn fx:id="col_dataCL" prefWidth="138.0" text="Data da compra" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                        <Button layoutX="376.0" layoutY="14.0" mnemonicParsing="false" onAction="#processaPesquisarBotao" prefHeight="31.0" prefWidth="166.0" text="Pesquisar cliente" />
+                        <Button layoutX="557.0" layoutY="14.0" mnemonicParsing="false" onAction="#novoCliente" prefHeight="31.0" prefWidth="166.0" text="Novo Cliente" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="abaDevolucao" text="Devolução de veículo">
+               <content>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <fx:include source="AbaLocacoes.fxml" />
+                     </children>
+                  </StackPane>
+               </content>
+            </Tab>
+            <Tab fx:id="abaFuncionarios" text="Funcionários">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="380.0" layoutY="14.0" mnemonicParsing="false" onAction="#cadastrarFuncionario" prefHeight="25.0" prefWidth="164.0" text="Cadastrar funcionario" />
+                        <TextField layoutX="14.0" layoutY="14.0" promptText="XXX.XXX.XXX-XX" />
+                        <Button layoutX="205.0" layoutY="14.0" mnemonicParsing="false" text="Pesquisar funcionário" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="abaVeiculos" text="Veículos">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tabelaVeiculos" layoutY="44.0" prefHeight="360.0" prefWidth="800.0" tableMenuButtonVisible="true">
+                          <columns>
+                            <TableColumn fx:id="col_grupo" prefWidth="66.0" text="Grupo" />
+                              <TableColumn fx:id="col_marca" prefWidth="95.0" text="Marca" />
+                            <TableColumn fx:id="col_modelo" prefWidth="114.0" text="Modelo" />
+                              <TableColumn fx:id="col_placa" prefWidth="125.0" text="Placa" />
+                              <TableColumn fx:id="col_quilometragem" prefWidth="91.0" text="Km" />
+                              <TableColumn fx:id="col_dataM" prefWidth="142.0" text="Data manutenção" />
+                              <TableColumn fx:id="col_dataC" prefWidth="138.0" text="Data da compra" />
+                              <TableColumn fx:id="col_filial" prefWidth="163.0" text="Filial" />
+                              <TableColumn fx:id="col_estado" prefWidth="130.0" text="Estado" />
+                          </columns>
+                        </TableView>
+                        <Text layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Placa:" />
+                        <Button layoutX="14.0" layoutY="411.0" mnemonicParsing="false" onAction="#cadastrarVeiculo" prefHeight="34.0" prefWidth="152.0" text="Cadastrar Veículo" />
+                        <TextField fx:id="tf_placa" layoutX="64.0" layoutY="7.0" onAction="#pesquisarVeiculoEnter" promptText="ABC1234" />
+                        <Button layoutX="245.0" layoutY="7.0" mnemonicParsing="false" onAction="#pesquisarVeiculoBotao" prefHeight="25.0" prefWidth="139.0" text="Pesquisar veículo" />
+                        <Button layoutX="186.0" layoutY="411.0" mnemonicParsing="false" onAction="#cadastrarModelo" prefHeight="34.0" prefWidth="152.0" text="Cadastrar Modelo" />
+                        <Button layoutX="357.0" layoutY="411.0" mnemonicParsing="false" onAction="#enviarParaManutencao" prefHeight="34.0" prefWidth="189.0" text="Enviar para manutenção" />
+                        <Button layoutX="564.0" layoutY="411.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#maisInfoVeiculo" prefHeight="34.0" prefWidth="161.0" text="Mais Informações" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <GridPane layoutX="19.0" layoutY="7.0" prefHeight="90.0" prefWidth="300.0" AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="7.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Usuário:" />
+            <Label fx:id="tf_username" text="tf_username" GridPane.columnIndex="1">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Filial:" wrappingWidth="107.0" GridPane.rowIndex="2" />
+            <Label fx:id="tf_filial" text="tf_filial" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nível:" GridPane.rowIndex="1" />
+            <Label fx:id="tf_nivel" text="tf_nivel" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+         </children>
+      </GridPane>
+      <Label layoutX="441.0" layoutY="6.0" prefHeight="111.0" prefWidth="348.0" text="Você     Aluga" AnchorPane.rightAnchor="11.0">
+         <font>
+            <Font name="Arial Black" size="46.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="48.0" fitWidth="58.0" layoutX="579.9523468017578" layoutY="38.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="162.79119110107422">
+         <image>
+            <Image url="@../../../car-icon-hi.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="742.0" mnemonicParsing="false" onAction="#sair" prefHeight="21.0" prefWidth="58.0" text="Sair" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>

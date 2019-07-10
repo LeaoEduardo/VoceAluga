@@ -10,9 +10,9 @@ public class FuncionarioDAO extends DAO<Funcionario> {
 		table_name = "funcionario";
 	}
 
-	protected PreparedStatement createInsertStatement( Connection con , Funcionario funcionario) throws SQLException{
+	protected PreparedStatement createInsertStatement(Connection con, Funcionario funcionario) throws SQLException {
 		String sql = "INSERT INTO funcionario (nome,usuario,senha,idFilial,idTipo,ativo) values (?,?,?,?,?,?);";
-		PreparedStatement 	statement = con.prepareStatement(sql);
+		PreparedStatement statement = con.prepareStatement(sql);
 		statement.setString(1, funcionario.getNome());
 		statement.setString(2, funcionario.getUsuario());
 		statement.setString(3, funcionario.getSenha());
@@ -21,14 +21,13 @@ public class FuncionarioDAO extends DAO<Funcionario> {
 		statement.setBoolean(6, funcionario.isAtivo());
 		return statement;
 	}
-	
-	protected PreparedStatement createUpdateStatement( Connection con , Funcionario funcionario ) throws SQLException{
 
-		String sql = "UPDATE funcionario "
-				+ " SET nome=?,usuario=?,senha=?,idFilial=?,idTipo=?,ativo=? "
+	protected PreparedStatement createUpdateStatement(Connection con, Funcionario funcionario) throws SQLException {
+
+		String sql = "UPDATE funcionario " + " SET nome=?,usuario=?,senha=?,idFilial=?,idTipo=?,ativo=? "
 				+ " WHERE id=? ";
 		PreparedStatement statement = con.prepareStatement(sql);
-		
+
 		statement.setString(1, funcionario.getNome());
 		statement.setString(2, funcionario.getUsuario());
 		statement.setString(3, funcionario.getSenha());
@@ -39,11 +38,11 @@ public class FuncionarioDAO extends DAO<Funcionario> {
 		return statement;
 	}
 
-	protected String createDeleteStatement( Funcionario entity ) {
-		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf( entity.getId() );
+	protected String createDeleteStatement(Funcionario entity) {
+		return "DELETE FROM " + table_name + " WHERE id = " + String.valueOf(entity.getId());
 	}
-	
-	protected Funcionario getEntityFromResultSet( ResultSet result ) {
+
+	protected Funcionario getEntityFromResultSet(ResultSet result) {
 		Funcionario ret = new Funcionario();
 		try {
 			ret.setId(result.getInt("id"));
@@ -53,11 +52,11 @@ public class FuncionarioDAO extends DAO<Funcionario> {
 			ret.setUsuario(result.getString("usuario"));
 			ret.setSenha(result.getString("senha"));
 			ret.setAtivo(result.getBoolean("ativo"));
-		} catch (Exception e ) {
+		} catch (Exception e) {
 			ret = null;
 			e.printStackTrace();
 		}
 		return ret;
 	}
-	
+
 }
