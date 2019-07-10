@@ -264,7 +264,6 @@ public class TelaPrincipalController {
 		if (Contexto.getInstancia().getVoltandoParaDevolucao()) {
 			
 			telaPrincipalTabPane.getSelectionModel().select(abaDevolucao);
-			System.out.println("opsssss");
 			Contexto.getInstancia().setVoltandoParaDevolucao(false);
 		}
 	}
