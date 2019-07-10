@@ -187,7 +187,7 @@ public class ConfirmarPagamentoController {
     			alert.showAndWait();
     		}
     	}
-    	else if ( cb_metodoPagamento.getSelectionModel().getSelectedIndex() == 1 ) {
+    	else if ( cb_metodoPagamento.getSelectionModel().getSelectedIndex() == 3 ) {
     		if( loc.confirmaDevolucao( Contexto.getInstancia().getFuncionario().getFilial() , 
 					4-cb_estadoVeiculo.getSelectionModel().getSelectedIndex(),
 					calculaCusto() + custosAdicionais,true) ) {
