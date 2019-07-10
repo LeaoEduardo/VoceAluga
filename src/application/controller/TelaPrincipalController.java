@@ -604,9 +604,14 @@ public class TelaPrincipalController {
 	}
 
 	void pesquisarVeiculo() throws IOException {
-
-		String placa = tf_placa.getText();
-
+		
+		String placa;
+		
+		if (tabelaVeiculos.getSelectionModel().getSelectedItem() == null)
+			placa = tf_placa.getText();
+		else
+			placa = tabelaVeiculos.getSelectionModel().getSelectedItem().getPlaca();
+		
 		ArrayList<Carro> todos_carros = (new CarroDAO()).findAll();
 		Carro carro = null;
 		for (int i = 0; i < todos_carros.size(); i++) {
@@ -687,7 +692,6 @@ public class TelaPrincipalController {
 				alert.setHeaderText("Veiculo nao esta disponivel");
 				alert.setContentText("O estado atual do veiculo é: " + carro.getEstadoCarro().getTipo() + ".");
 				alert.showAndWait();
-				tf_cpfPassaporte.setText("");
 			}
 		}
 		
@@ -698,7 +702,26 @@ public class TelaPrincipalController {
 			alert.setHeaderText("Nenhum veiculo selecionado");
 			alert.setContentText("Por favor selecione um veiculo da lista.");
 			alert.showAndWait();
-			tf_cpfPassaporte.setText("");
+		}
+    }
+	
+	@FXML
+    void maisInfoVeiculo(ActionEvent event) throws IOException {
+		
+		Carro carro = tabelaVeiculos.getSelectionModel().getSelectedItem();
+		
+		if (carro != null) {
+			
+			pesquisarVeiculo();
+		}
+		
+		else {
+			
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Erro");
+			alert.setHeaderText("Nenhum veiculo selecionado");
+			alert.setContentText("Por favor selecione um veiculo da lista.");
+			alert.showAndWait();
 		}
     }
 

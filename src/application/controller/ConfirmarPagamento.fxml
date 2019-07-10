@@ -19,7 +19,7 @@
             <Image url="@../../../car-icon-hi.png" />
          </image>
       </ImageView>
-      <GridPane layoutX="20.0" layoutY="181.0" prefHeight="269.0" prefWidth="371.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+      <GridPane layoutX="20.0" layoutY="99.0" prefHeight="269.0" prefWidth="371.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="206.0" minWidth="10.0" prefWidth="193.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.0" minWidth="10.0" prefWidth="178.0" />
@@ -101,7 +101,7 @@
       </GridPane>
       <Button fx:id="botaoCancelar" layoutX="71.0" layoutY="483.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="45.0" prefWidth="98.0" text="Cancelar" />
       <Button layoutX="232.0" layoutY="483.0" mnemonicParsing="false" onAction="#confirmar" prefHeight="45.0" prefWidth="98.0" text="Confirmar" />
-      <Label layoutX="71.0" layoutY="83.0" prefHeight="30.0" prefWidth="168.0" text="Valor a pagar:">
+      <Label layoutX="42.0" layoutY="392.0" prefHeight="30.0" prefWidth="168.0" text="Valor a pagar:">
          <font>
             <Font size="20.0" />
          </font>
@@ -109,7 +109,7 @@
             <Insets left="8.0" />
          </padding>
       </Label>
-      <Label fx:id="lb_valorPagamento" layoutX="221.0" layoutY="83.0" prefHeight="30.0" prefWidth="160.0" text="R$500,00">
+      <Label fx:id="lb_valorPagamento" layoutX="236.0" layoutY="392.0" prefHeight="30.0" prefWidth="160.0" text="R$500,00">
          <font>
             <Font size="20.0" />
          </font>
@@ -117,15 +117,21 @@
             <Insets left="8.0" />
          </padding>
       </Label>
-      <Label layoutX="90.0" layoutY="130.0" prefHeight="30.0" prefWidth="160.0" text="Pontos acumulados:">
+      <Label layoutX="55.0" layoutY="429.0" prefHeight="30.0" prefWidth="178.0" text="Pontos acumulados:">
          <padding>
             <Insets left="8.0" />
          </padding>
+         <font>
+            <Font size="16.0" />
+         </font>
       </Label>
-      <Label fx:id="lb_pontos" layoutX="239.0" layoutY="131.0" prefHeight="30.0" prefWidth="98.0" text="100">
+      <Label fx:id="lb_pontos" layoutX="258.0" layoutY="429.0" prefHeight="30.0" prefWidth="98.0" text="100">
          <padding>
             <Insets left="8.0" />
          </padding>
+         <font>
+            <Font size="16.0" />
+         </font>
       </Label>
    </children>
 </AnchorPane>

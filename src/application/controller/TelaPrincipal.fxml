@@ -204,6 +204,7 @@
                         <Button layoutX="245.0" layoutY="7.0" mnemonicParsing="false" onAction="#pesquisarVeiculoBotao" prefHeight="25.0" prefWidth="139.0" text="Pesquisar veículo" />
                         <Button layoutX="186.0" layoutY="411.0" mnemonicParsing="false" onAction="#cadastrarModelo" prefHeight="34.0" prefWidth="152.0" text="Cadastrar Modelo" />
                         <Button layoutX="357.0" layoutY="411.0" mnemonicParsing="false" onAction="#enviarParaManutencao" prefHeight="34.0" prefWidth="189.0" text="Enviar para manutenção" />
+                        <Button layoutX="564.0" layoutY="411.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#maisInfoVeiculo" prefHeight="34.0" prefWidth="161.0" text="Mais Informações" />
                      </children>
                   </AnchorPane>
               </content>
