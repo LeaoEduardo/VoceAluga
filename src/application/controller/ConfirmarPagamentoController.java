@@ -2,9 +2,12 @@ package application.controller;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
 
 import application.Contexto;
 import application.Main;
+import application.dao.ClienteDAO;
+import application.dao.LocacaoDAO;
 import application.entity.Locacao;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
@@ -52,7 +55,7 @@ public class ConfirmarPagamentoController {
     private Label lb_valorPagamento;
 
     @FXML
-    private Label lb_Pontos;
+    private Label lb_pontos;
 
     @FXML
     void initialize() {
@@ -67,11 +70,15 @@ public class ConfirmarPagamentoController {
     	tf_nomeCartao.setDisable(true);
     	dp_validadeCartao.setDisable(true);
     	tf_codSegCartao.setDisable(true);
-
+    	
     	int custo = calculaCusto();
     	System.out.println("calculo do custo = " + custo);
     	String custoLocacao = Integer.toString(custo);
     	lb_valorPagamento.setText("R$ " + custoLocacao);
+    	
+    	int pontos = calculaFidelidade();
+    	System.out.println("pontos calculados: " + pontos);
+    	lb_pontos.setText(Integer.toString(pontos));
 
     	ReadOnlyIntegerProperty selectProperty = cb_metodoPagamento.getSelectionModel().selectedIndexProperty();
 		selectProperty.addListener((value, oldValue, newValue) -> {
@@ -93,7 +100,6 @@ public class ConfirmarPagamentoController {
     int calculaCusto() {
 		//preco por dia * num dias
     	Locacao locacao = Contexto.getInstancia().getLocacao();
-		//int dias = locacao.getDataFinal() - locacao.getDataInicial();
 		int dias = (int) Duration.between(locacao.getDataInicial(), locacao.getDataFinal()).toDays();
 		dias = dias + 1;
 		System.out.println("dias alugado: " + dias );
@@ -102,6 +108,37 @@ public class ConfirmarPagamentoController {
 		return (int) Math.round(total);
 	}
 
+    int calculaFidelidade() {
+    	int pontos = 0;
+    	int nLocacoesValidas = 0;
+    	//TODO: verificar se possui + de 3 locacoes no ultimo ano
+    	//TODO: verificar se a locacao esta na validade de 1 ano
+    	int id_cliente = Contexto.getInstancia().getLocacao().getIdCliente();
+    	System.out.println("Cliente no calculo de fidelidade: " + (new ClienteDAO()).find(id_cliente).getNome());
+    	ArrayList<Locacao> locacoes = (new LocacaoDAO()).find("id_cliente", Integer.toString(id_cliente));
+    	
+    	for(Locacao loc : locacoes) {
+    		if(loc.getDevolvido()) {
+	    		int dias = (int) Duration.between(loc.getDataInicial(), loc.getDataFinal()).toDays();
+	    		dias = dias + 1;
+	    		if(dias < 365) {
+	    			nLocacoesValidas += 1;
+		    		if(loc.getFidelidade()) {
+		    			pontos = pontos - (loc.getCusto() / 10);
+		    		}
+		    		else {
+		    			pontos = pontos + (loc.getCusto() / 10);
+		    		}
+	    		}
+    		}
+    	}
+    	
+    	if(nLocacoesValidas < 3) pontos = 0;
+    	    	
+    	System.out.println("Pontos do Cliente: " + pontos);
+    	
+    	return pontos;
+    }
 
     @FXML
     void confirmar(ActionEvent event) throws IOException {

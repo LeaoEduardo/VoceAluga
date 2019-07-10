@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 10, 2019 at 01:12 AM
--- Server version: 10.1.36-MariaDB
--- PHP Version: 5.6.38
+-- Tempo de geração: 10/07/2019 às 04:10
+-- Versão do servidor: 10.1.38-MariaDB
+-- Versão do PHP: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `vocealuga`
+-- Banco de dados: `vocealuga`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `carro`
+-- Estrutura para tabela `carro`
 --
 
 CREATE TABLE `carro` (
@@ -40,19 +40,19 @@ CREATE TABLE `carro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `carro`
+-- Despejando dados para a tabela `carro`
 --
 
 INSERT INTO `carro` (`id`, `placa`, `dataManutencao`, `dataCompra`, `quilometragem`, `idModelo`, `idFilial`, `idEstado`) VALUES
-(1, 'ABC1234', '2019-04-01', '2019-04-01', 0, 2, 1, 3),
+(1, 'ABC1234', '2019-03-24', '2019-03-24', 0, 2, 1, 3),
 (2, 'ABD1234', '2019-04-15', '2019-05-10', 123, 3, 1, 1),
-(3, 'ABE1234', '2019-07-07', '2019-06-06', 200, 5, 1, 3),
+(3, 'ABE1234', '2019-07-02', '2019-06-01', 200, 5, 1, 1),
 (4, 'ABF1234', '2019-06-25', '2019-06-25', 300, 1, 2, 3);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cliente`
+-- Estrutura para tabela `cliente`
 --
 
 CREATE TABLE `cliente` (
@@ -69,7 +69,7 @@ CREATE TABLE `cliente` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `cliente`
+-- Despejando dados para a tabela `cliente`
 --
 
 INSERT INTO `cliente` (`id`, `nome`, `CPF`, `passaporte`, `dataNascimento`, `nacionalidade`, `telefone`, `CNH`, `dataCNH`, `ativo`) VALUES
@@ -86,7 +86,7 @@ INSERT INTO `cliente` (`id`, `nome`, `CPF`, `passaporte`, `dataNascimento`, `nac
 -- --------------------------------------------------------
 
 --
--- Table structure for table `estadocarro`
+-- Estrutura para tabela `estadocarro`
 --
 
 CREATE TABLE `estadocarro` (
@@ -95,7 +95,7 @@ CREATE TABLE `estadocarro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `estadocarro`
+-- Despejando dados para a tabela `estadocarro`
 --
 
 INSERT INTO `estadocarro` (`id`, `tipo`) VALUES
@@ -107,7 +107,7 @@ INSERT INTO `estadocarro` (`id`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `filial`
+-- Estrutura para tabela `filial`
 --
 
 CREATE TABLE `filial` (
@@ -116,7 +116,7 @@ CREATE TABLE `filial` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `filial`
+-- Despejando dados para a tabela `filial`
 --
 
 INSERT INTO `filial` (`id`, `nomeFilial`) VALUES
@@ -126,7 +126,7 @@ INSERT INTO `filial` (`id`, `nomeFilial`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `funcionario`
+-- Estrutura para tabela `funcionario`
 --
 
 CREATE TABLE `funcionario` (
@@ -140,7 +140,7 @@ CREATE TABLE `funcionario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `funcionario`
+-- Despejando dados para a tabela `funcionario`
 --
 
 INSERT INTO `funcionario` (`id`, `nome`, `usuario`, `senha`, `idFilial`, `idTipo`, `ativo`) VALUES
@@ -150,7 +150,7 @@ INSERT INTO `funcionario` (`id`, `nome`, `usuario`, `senha`, `idFilial`, `idTipo
 -- --------------------------------------------------------
 
 --
--- Table structure for table `grupocarro`
+-- Estrutura para tabela `grupocarro`
 --
 
 CREATE TABLE `grupocarro` (
@@ -159,7 +159,7 @@ CREATE TABLE `grupocarro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `grupocarro`
+-- Despejando dados para a tabela `grupocarro`
 --
 
 INSERT INTO `grupocarro` (`id`, `grupo`) VALUES
@@ -170,7 +170,7 @@ INSERT INTO `grupocarro` (`id`, `grupo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `locacoes`
+-- Estrutura para tabela `locacoes`
 --
 
 CREATE TABLE `locacoes` (
@@ -181,12 +181,12 @@ CREATE TABLE `locacoes` (
   `dataFinal` datetime NOT NULL,
   `devolvido` tinyint(1) NOT NULL DEFAULT '0',
   `nota` int(11) NOT NULL,
-  `custo` int(11) NOT NULL,
+  `custo` float NOT NULL,
   `fidelidade` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `locacoes`
+-- Despejando dados para a tabela `locacoes`
 --
 
 INSERT INTO `locacoes` (`id`, `id_cliente`, `id_carro`, `dataInicial`, `dataFinal`, `devolvido`, `nota`, `custo`, `fidelidade`) VALUES
@@ -199,12 +199,18 @@ INSERT INTO `locacoes` (`id`, `id_cliente`, `id_carro`, `dataInicial`, `dataFina
 (12, 6, 1, '2019-07-09 19:51:00', '2019-07-09 20:00:43', 1, 0, 0, 0),
 (13, 6, 1, '2019-07-09 20:07:00', '2019-07-09 20:09:02', 1, 0, 1409, 0),
 (14, 6, 1, '2019-07-09 20:10:00', '2019-07-09 20:10:17', 1, 1, 3016, 0),
-(15, 6, 1, '2019-07-09 20:11:00', '2019-07-09 20:11:26', 1, 4, 3316, 0);
+(15, 6, 1, '2019-07-09 20:11:00', '2019-07-09 20:11:26', 1, 4, 3316, 0),
+(16, 1, 3, '2019-07-09 21:37:00', '2019-07-09 21:39:26', 1, 2, 402, 0),
+(17, 1, 1, '2019-07-09 21:58:00', '2019-07-09 22:11:57', 1, 4, 1809, 0),
+(18, 1, 1, '2019-07-09 22:12:00', '2019-07-09 22:13:15', 1, 4, 402, 0),
+(19, 1, 1, '2019-07-09 22:30:00', '2019-07-09 23:03:21', 1, 4, 402, 0),
+(20, 1, 1, '2019-07-09 23:03:00', '2019-07-09 23:04:15', 1, 4, 201, 0),
+(21, 1, 3, '2019-07-09 23:04:00', '2019-07-19 00:00:00', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `manutencao`
+-- Estrutura para tabela `manutencao`
 --
 
 CREATE TABLE `manutencao` (
@@ -215,10 +221,17 @@ CREATE TABLE `manutencao` (
   `orcamento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Despejando dados para a tabela `manutencao`
+--
+
+INSERT INTO `manutencao` (`id`, `id_carro`, `dataInicio`, `dataFim`, `orcamento`) VALUES
+(1, 3, '2019-07-09', '2019-07-18', 203);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `modelocarro`
+-- Estrutura para tabela `modelocarro`
 --
 
 CREATE TABLE `modelocarro` (
@@ -229,7 +242,7 @@ CREATE TABLE `modelocarro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `modelocarro`
+-- Despejando dados para a tabela `modelocarro`
 --
 
 INSERT INTO `modelocarro` (`id`, `marca`, `modelo`, `idGrupo`) VALUES
@@ -243,7 +256,7 @@ INSERT INTO `modelocarro` (`id`, `marca`, `modelo`, `idGrupo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `precos`
+-- Estrutura para tabela `precos`
 --
 
 CREATE TABLE `precos` (
@@ -253,7 +266,7 @@ CREATE TABLE `precos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `precos`
+-- Despejando dados para a tabela `precos`
 --
 
 INSERT INTO `precos` (`id`, `id_grupo`, `valor`) VALUES
@@ -264,7 +277,7 @@ INSERT INTO `precos` (`id`, `id_grupo`, `valor`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reservas`
+-- Estrutura para tabela `reservas`
 --
 
 CREATE TABLE `reservas` (
@@ -279,7 +292,7 @@ CREATE TABLE `reservas` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipofuncionario`
+-- Estrutura para tabela `tipofuncionario`
 --
 
 CREATE TABLE `tipofuncionario` (
@@ -288,7 +301,7 @@ CREATE TABLE `tipofuncionario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tipofuncionario`
+-- Despejando dados para a tabela `tipofuncionario`
 --
 
 INSERT INTO `tipofuncionario` (`id`, `nome`) VALUES
@@ -296,11 +309,11 @@ INSERT INTO `tipofuncionario` (`id`, `nome`) VALUES
 (2, 'Funcionario');
 
 --
--- Indexes for dumped tables
+-- Índices de tabelas apagadas
 --
 
 --
--- Indexes for table `carro`
+-- Índices de tabela `carro`
 --
 ALTER TABLE `carro`
   ADD PRIMARY KEY (`id`),
@@ -310,7 +323,7 @@ ALTER TABLE `carro`
   ADD KEY `FK_filial` (`idFilial`);
 
 --
--- Indexes for table `cliente`
+-- Índices de tabela `cliente`
 --
 ALTER TABLE `cliente`
   ADD PRIMARY KEY (`id`),
@@ -318,19 +331,19 @@ ALTER TABLE `cliente`
   ADD UNIQUE KEY `passaporte` (`passaporte`);
 
 --
--- Indexes for table `estadocarro`
+-- Índices de tabela `estadocarro`
 --
 ALTER TABLE `estadocarro`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `filial`
+-- Índices de tabela `filial`
 --
 ALTER TABLE `filial`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `funcionario`
+-- Índices de tabela `funcionario`
 --
 ALTER TABLE `funcionario`
   ADD PRIMARY KEY (`id`),
@@ -338,13 +351,13 @@ ALTER TABLE `funcionario`
   ADD KEY `FK_filial` (`idFilial`);
 
 --
--- Indexes for table `grupocarro`
+-- Índices de tabela `grupocarro`
 --
 ALTER TABLE `grupocarro`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `locacoes`
+-- Índices de tabela `locacoes`
 --
 ALTER TABLE `locacoes`
   ADD PRIMARY KEY (`id`),
@@ -352,28 +365,28 @@ ALTER TABLE `locacoes`
   ADD KEY `fk_Id_Carro_Locacao` (`id_carro`);
 
 --
--- Indexes for table `manutencao`
+-- Índices de tabela `manutencao`
 --
 ALTER TABLE `manutencao`
   ADD PRIMARY KEY (`id`),
   ADD KEY `pk_Id_Carro` (`id_carro`);
 
 --
--- Indexes for table `modelocarro`
+-- Índices de tabela `modelocarro`
 --
 ALTER TABLE `modelocarro`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_grupo` (`idGrupo`);
 
 --
--- Indexes for table `precos`
+-- Índices de tabela `precos`
 --
 ALTER TABLE `precos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_grupo_preco` (`id_grupo`);
 
 --
--- Indexes for table `reservas`
+-- Índices de tabela `reservas`
 --
 ALTER TABLE `reservas`
   ADD PRIMARY KEY (`id`),
@@ -382,112 +395,112 @@ ALTER TABLE `reservas`
   ADD KEY `fk_Id_Modelo` (`id_modelo`);
 
 --
--- Indexes for table `tipofuncionario`
+-- Índices de tabela `tipofuncionario`
 --
 ALTER TABLE `tipofuncionario`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de tabelas apagadas
 --
 
 --
--- AUTO_INCREMENT for table `carro`
+-- AUTO_INCREMENT de tabela `carro`
 --
 ALTER TABLE `carro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `cliente`
+-- AUTO_INCREMENT de tabela `cliente`
 --
 ALTER TABLE `cliente`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `estadocarro`
+-- AUTO_INCREMENT de tabela `estadocarro`
 --
 ALTER TABLE `estadocarro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `filial`
+-- AUTO_INCREMENT de tabela `filial`
 --
 ALTER TABLE `filial`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `funcionario`
+-- AUTO_INCREMENT de tabela `funcionario`
 --
 ALTER TABLE `funcionario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `grupocarro`
+-- AUTO_INCREMENT de tabela `grupocarro`
 --
 ALTER TABLE `grupocarro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `locacoes`
+-- AUTO_INCREMENT de tabela `locacoes`
 --
 ALTER TABLE `locacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- AUTO_INCREMENT for table `manutencao`
+-- AUTO_INCREMENT de tabela `manutencao`
 --
 ALTER TABLE `manutencao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `modelocarro`
+-- AUTO_INCREMENT de tabela `modelocarro`
 --
 ALTER TABLE `modelocarro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `precos`
+-- AUTO_INCREMENT de tabela `precos`
 --
 ALTER TABLE `precos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `reservas`
+-- AUTO_INCREMENT de tabela `reservas`
 --
 ALTER TABLE `reservas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tipofuncionario`
+-- AUTO_INCREMENT de tabela `tipofuncionario`
 --
 ALTER TABLE `tipofuncionario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints for dumped tables
+-- Restrições para dumps de tabelas
 --
 
 --
--- Constraints for table `locacoes`
+-- Restrições para tabelas `locacoes`
 --
 ALTER TABLE `locacoes`
   ADD CONSTRAINT `fk_Id_Carro_Locacao` FOREIGN KEY (`id_carro`) REFERENCES `carro` (`id`),
   ADD CONSTRAINT `fk_Id_Cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`);
 
 --
--- Constraints for table `manutencao`
+-- Restrições para tabelas `manutencao`
 --
 ALTER TABLE `manutencao`
   ADD CONSTRAINT `pk_Id_Carro` FOREIGN KEY (`id_carro`) REFERENCES `carro` (`id`);
 
 --
--- Constraints for table `precos`
+-- Restrições para tabelas `precos`
 --
 ALTER TABLE `precos`
   ADD CONSTRAINT `id_grupo_preco` FOREIGN KEY (`id_grupo`) REFERENCES `grupocarro` (`id`);
 
 --
--- Constraints for table `reservas`
+-- Restrições para tabelas `reservas`
 --
 ALTER TABLE `reservas`
   ADD CONSTRAINT `fk_Id_Cliente_Reserva` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id`),

@@ -55,6 +55,10 @@ public class Locacao {
 	public int getNota() {
 		return nota;
 	}
+	
+	public boolean getDevolvido() {
+		return devolvido;
+	}
 
 	public int getCusto() {
 		return custo;
