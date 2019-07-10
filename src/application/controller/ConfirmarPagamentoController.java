@@ -187,10 +187,30 @@ public class ConfirmarPagamentoController {
     			alert.showAndWait();
     		}
     	}
+    	else if ( cb_metodoPagamento.getSelectionModel().getSelectedIndex() == 1 ) {
+    		if( loc.confirmaDevolucao( Contexto.getInstancia().getFuncionario().getFilial() , 
+					4-cb_estadoVeiculo.getSelectionModel().getSelectedIndex(),
+					calculaCusto() + custosAdicionais,true) ) {
 
-    	else if ( !cb_estadoVeiculo.getValue().equals("") ) {
+				Alert alert = new Alert(AlertType.INFORMATION);
+    			alert.setHeaderText("Pagamento efetuado");
+    			alert.setContentText("Aluguel pago com sucesso.");
+    			alert.showAndWait();
+    			Stage stage = (Stage) botaoCancelar.getScene().getWindow();
+    			System.out.println("Devolucao confirmada");
+				Contexto.getInstancia().setVoltandoParaDevolucao(true);
+				stage.close();
+		    	main.showTelaPrincipal();
+	    	}
+    		else {
 
-			if( loc.confirmaDevolucao( Contexto.getInstancia().getFuncionario().getFilial() , 
+				System.out.println("Devolucao nao confirmada");
+				Stage stage = (Stage) botaoCancelar.getScene().getWindow();
+				stage.close();
+			}
+    	}
+    	else {
+    		if( loc.confirmaDevolucao( Contexto.getInstancia().getFuncionario().getFilial() , 
 					4-cb_estadoVeiculo.getSelectionModel().getSelectedIndex(),
 					calculaCusto() + custosAdicionais,false) ) {
 
@@ -204,22 +224,12 @@ public class ConfirmarPagamentoController {
 				stage.close();
 		    	main.showTelaPrincipal();
 	    	}
-
-			else {
+    		else {
 
 				System.out.println("Devolucao nao confirmada");
 				Stage stage = (Stage) botaoCancelar.getScene().getWindow();
 				stage.close();
 			}
-    	}
-
-    	else {
-
-    		Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Erro");
-			alert.setHeaderText("Erro no pagamento");
-			alert.setContentText("Estado de devolucao nao preenchido!");
-			alert.showAndWait();
     	}
     }
 
