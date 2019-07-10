@@ -659,6 +659,48 @@ public class TelaPrincipalController {
 		stage.setScene(scene);
 		stage.show();
 	}
+	
+	@FXML
+    void enviarParaManutencao(ActionEvent event) throws IOException {
+		
+		Carro carro = tabelaVeiculos.getSelectionModel().getSelectedItem();
+		
+		if (carro != null) {
+		
+			if (carro.getEstadoCarro().getId() == 3 ) {
+				
+				Contexto.getInstancia().setVeiculo(carro);
+				
+				Stage stage = new Stage();
+				Parent telaManutencao = FXMLLoader.load(getClass().getResource("TelaManutencao.fxml"));
+				Scene scene = new Scene(telaManutencao);
+	
+				stage.setTitle("Enviar veículo para oficina");
+				stage.setScene(scene);
+				stage.show();
+			}
+			
+			else {
+				
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Erro");
+				alert.setHeaderText("Veiculo nao esta disponivel");
+				alert.setContentText("O estado atual do veiculo é: " + carro.getEstadoCarro().getTipo() + ".");
+				alert.showAndWait();
+				tf_cpfPassaporte.setText("");
+			}
+		}
+		
+		else {
+			
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Erro");
+			alert.setHeaderText("Nenhum veiculo selecionado");
+			alert.setContentText("Por favor selecione um veiculo da lista.");
+			alert.showAndWait();
+			tf_cpfPassaporte.setText("");
+		}
+    }
 
 	@FXML
 	void sair(ActionEvent event) throws IOException {
